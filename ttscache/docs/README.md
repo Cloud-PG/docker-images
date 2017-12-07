@@ -24,7 +24,7 @@ make html
 make latexpdf
 ```
 
-## Update the docs from module source files:
+## Update the docs from module source files
 
 Use the following command to update the docs files from the source code:
 
