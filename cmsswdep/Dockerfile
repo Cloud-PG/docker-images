@@ -1,0 +1,72 @@
+FROM cloudpg/centos-7-grid
+LABEL maintainer="mirco.tracolli@pg.infn.it"
+LABEL Version=1.0
+
+# Required software is listed under slc7_amd64_platformSeeds at
+# http://cmsrep.cern.ch/cgi-bin/cmspkg/driver/cms/slc7_amd64_gcc530
+
+RUN yum --setopt=tsflags=nodocs -y update \
+    && yum --setopt=tsflags=nodocs -y install bash \
+        compat-libstdc++-33 \
+        coreutils \
+        e2fsprogs \
+        e2fsprogs-libs \
+        fontconfig \
+        freetype \
+        gcc \
+        glibc \
+        glibc-headers \
+        krb5-libs \
+        libICE \
+        libSM \
+        libX11 \
+        libX11-devel \
+        libXcursor \
+        libXext \
+        libXext-devel \
+        libXft \
+        libXft-devel \
+        libXi \
+        libXinerama \
+        libXmu \
+        libXpm \
+        libXpm-devel \
+        libXrandr \
+        libXrender \
+        libcom_err \
+        libidn \
+        mesa-libGL \
+        mesa-libGLU \
+        mesa-libGLU-devel \
+        ncurses \
+        ncurses-libs \
+        openssh-clients \
+        openssl \
+        perl \
+        perl-Carp \
+        perl-Data-Dumper \
+        perl-Digest-MD5 \
+        perl-Env \
+        perl-Exporter \
+        perl-ExtUtils-Embed \
+        perl-File-Path \
+        perl-File-Temp \
+        perl-Getopt-Long \
+        perl-PathTools \
+        perl-Socket \
+        perl-Storable \
+        perl-Switch \
+        perl-Test-Harness \
+        perl-Text-ParseWords \
+        perl-Thread-Queue \
+        perl-Time-Local \
+        perl-constant \
+        perl-libs \
+        readline \
+        redhat-lsb-core \
+        sssd-client \
+        tcl \
+        tcsh \
+        tk \
+        zsh \
+    && yum clean all
