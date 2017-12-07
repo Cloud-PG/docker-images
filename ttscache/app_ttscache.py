@@ -12,7 +12,7 @@ APP = Flask(__name__)
 
 @APP.route('/get_proxy', methods=['GET'])
 @APP.route('/cgi-bin/get_proxy', methods=['GET'])
-def certcache_get_proxy():
+def ttscache_get_proxy():
     """Get the proxy.
 
 
@@ -37,7 +37,7 @@ def certcache_get_proxy():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='/var/log/certcache/app.log',
+    logging.basicConfig(filename='/var/log/ttscache/app.log',
                         format='[%(asctime)s][%(levelname)s][%(filename)s@%(lineno)d]->[%(message)s]',
                         level=logging.DEBUG)
     APP.logger.setLevel(logging.DEBUG)

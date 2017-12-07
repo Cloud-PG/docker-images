@@ -7,11 +7,11 @@ RUN yum --setopt=tsflags=nodocs -y install python python-pip \
     && yum clean all \
     && pip install --upgrade pip \
     && pip install requests kazoo flask \
-    && mkdir -p /opt/certcache/ \
-    && mkdir -p /var/log/certcache/ \
-    && touch /var/log/certcache/app.log
-COPY ./proxy_config.json ./proxy.py ./cache.py ./app_ttscache.py /opt/certcache/
+    && mkdir -p /opt/ttscache/ \
+    && mkdir -p /var/log/ttscache/ \
+    && touch /var/log/ttscache/app.log
+COPY ./proxy_config.json ./proxy.py ./cache.py ./app_ttscache.py /opt/ttscache/
 
 EXPOSE 80
 
-CMD ["/usr/bin/python", "/opt/certcache/app_ttscache.py"]
+CMD ["/usr/bin/python", "/opt/ttscache/app_ttscache.py"]
