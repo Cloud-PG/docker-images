@@ -3,7 +3,8 @@ LABEL maintainer="mirco.tracolli@pg.infn.it"
 LABEL Version=1.0
 
 # GET_PROXY STUFF
-RUN yum --setopt=tsflags=nodocs -y install python python-pip \
+RUN yum --setopt=tsflags=nodocs -y update \
+    && yum --setopt=tsflags=nodocs -y install python python-pip \
     && yum clean all \
     && pip install --upgrade pip \
     && pip install requests kazoo flask \
