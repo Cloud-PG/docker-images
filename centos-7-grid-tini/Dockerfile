@@ -1,6 +1,6 @@
 # Stage to build tini
 # Reference: https://github.com/krallin/tini-images/blob/master/autogen/centos-7/Dockerfile
-FROM centos:7
+FROM centos:7 as TiniBuilder
 RUN TINI_VERSION="v0.13.2" \
     && TINI_REAL_VERSION="0.13.2" \
     && TINI_BUILD="/tmp/tini" \
@@ -54,7 +54,7 @@ RUN yum --setopt=tsflags=nodocs -y install epel-release yum-plugin-ovl \
     && yum clean all
 
 # Add tini from previous build stage
-COPY --from=0 /tmp/tini.rpm /tmp
+COPY --from=TiniBuilder /tmp/tini.rpm /tmp
 RUN yum --setopt=tsflags=nodocs -y install /tmp/tini.rpm \
     && rm /tmp/tini.rpm \
     && yum clean all \
