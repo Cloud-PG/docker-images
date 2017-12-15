@@ -20,9 +20,9 @@ RUN useradd -ms /bin/bash condor \
     && ln -s /usr/lib64/condor /usr/lib/condor \
     && ln -s /usr/libexec/condor /usr/lib/condor/libexec
 
-ADD condorconfig /etc/condor/
-ADD config.d /etc/condor/config.d/
-ADD dodas_bin  /usr/local/bin/
+COPY condorconfig/* /etc/condor/
+COPY config.d/* /etc/condor/config.d/
+COPY dodas_bin/*  /usr/local/bin/
 
 WORKDIR /root
 
