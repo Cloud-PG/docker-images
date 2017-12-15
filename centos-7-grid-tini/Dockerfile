@@ -26,7 +26,8 @@ RUN TINI_VERSION="v0.13.2" \
     && export SOURCE_DIR="${TINI_BUILD}" \
     && export BUILD_DIR="${TINI_BUILD}" \
     && export ARCH_NATIVE=1 \
-    && "${TINI_BUILD}/ci/run_build.sh"
+    && "${TINI_BUILD}/ci/run_build.sh" \
+    && mv "${TINI_BUILD}/tini_${TINI_REAL_VERSION}.rpm" "/tmp/tini.rpm"
 
 # Final Stage
 FROM centos:7
@@ -53,20 +54,27 @@ RUN yum --setopt=tsflags=nodocs -y install epel-release yum-plugin-ovl \
     && yum clean all
 
 # Add tini from previous build stage
-ENV TINI_REAL_VERSION="0.13.2"
-ENV TINI_BUILD="/tmp/tini"
-COPY --from=0 "${TINI_BUILD}/tini_${TINI_REAL_VERSION}.rpm" /tmp
-RUN yum install -y "/tmp/tini_${TINI_REAL_VERSION}.rpm" \
-    && rm "/tmp/tini_${TINI_REAL_VERSION}.rpm" \
+COPY --from=0 /tmp/tini.rpm /tmp
+RUN yum --setopt=tsflags=nodocs -y install /tmp/tini.rpm \
+    && rm /tmp/tini.rpm \
     && yum clean all \
     && echo "Symlinkng to /usr/local/bin" \
     && ln -s /usr/bin/tini /usr/local/bin/tini \
     && ln -s /usr/bin/tini-static /usr/local/bin/tini-static \
     && echo "Running Smoke Test" \
-    && /usr/bin/tini -- ls \
-    && /usr/bin/tini-static -- ls \
-    && /usr/local/bin/tini -- ls \
-    && /usr/local/bin/tini-static -- ls \
+    # Param -s is used to prevent warning:
+    #
+    #     [WARN  tini (12)] Tini is not running as PID 1 and 
+    #       isn't registered as a child subreaper.
+    #     Zombie processes will not be re-parented to Tini,
+    #       so zombie reaping won't work.
+    #     To fix the problem, use the -s option or set the environment
+    #       variable TINI_SUBREAPER to register Tini as a child subreaper, 
+    #       or run Tini as PID 1.
+    && /usr/bin/tini -s -- ls \
+    && /usr/bin/tini-static -s -- ls \
+    && /usr/local/bin/tini -s -- ls \
+    && /usr/local/bin/tini-static -s -- ls \
     && echo "Done"
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
