@@ -36,6 +36,12 @@ def ttscache_get_proxy():
             return response
 
 
+@APP.route('/health', methods=['GET'])
+def health():
+    """Check app health."""
+    return "OK", 200
+
+
 if __name__ == '__main__':
     logging.basicConfig(filename='/var/log/ttscache/app.log',
                         format='[%(asctime)s][%(levelname)s][%(filename)s@%(lineno)d]->[%(message)s]',
