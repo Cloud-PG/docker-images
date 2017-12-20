@@ -88,7 +88,7 @@ class ProxyManager(object):
         self.config.user = Container()
 
         # Configuration variables
-        self.config.access_t/.expiration_time = proxy_config.get(
+        self.config.local_cache.expiration_time = proxy_config.get(
             'local_cache_expiration_time')
         self.config.audience = proxy_config.get('audience')
 
