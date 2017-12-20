@@ -81,15 +81,15 @@ class ProxyManager(object):
 
         # Configuration containers
         self.config = Container()
-        self.config.access_token = Container()
+        self.config.local_cache = Container()
         self.config.lock_file = Container()
         self.config.tts = Container()
         self.config.iam = Container()
         self.config.user = Container()
 
         # Configuration variables
-        self.config.access_token.expiration_time = proxy_config.get(
-            'access_token_expiration_time')
+        self.config.access_t/.expiration_time = proxy_config.get(
+            'local_cache_expiration_time')
         self.config.audience = proxy_config.get('audience')
 
         self.config.lock_file.age = proxy_config.get('lock_file_age')
@@ -134,8 +134,8 @@ class ProxyManager(object):
             ctime = os.stat(self.config.tts.output_data).st_ctime
             since = time.time() - ctime
             logging.debug("Check expiration time: %s > %s",
-                          since, self.config.access_token.expiration_time)
-            if since > self.config.access_token.expiration_time:
+                          since, self.config.local_cache.expiration_time)
+            if since > self.config.local_cache.expiration_time:
                 logging.debug("Token about to expire. Get tts data...")
                 tts_data = self.get_tts_data(True)
             else:
