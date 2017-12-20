@@ -33,6 +33,8 @@ export X509_USER_PROXY=/root/gwms_proxy
 export X509_CERT_DIR=/etc/grid-security/certificates
 grid-proxy-info
 
+GATKEEPER=$CMS_LOCAL_SITE:8443
+
 if [ $? -eq 0 ]; then
     echo "proxy certificate is OK"
 
@@ -41,6 +43,8 @@ if [ $? -eq 0 ]; then
     sed -i -e "s/$str1/GLIDEIN_Site = \"$CMS_LOCAL_SITE\"/g" /etc/condor/config.d/99_DODAS_local
     str2=$(grep "GLIDEIN_CMSSite =" /etc/condor/config.d/99_DODAS_local)
     sed -i -e "s/$str2/GLIDEIN_CMSSite = \"$CMS_LOCAL_SITE\"/g" /etc/condor/config.d/99_DODAS_local
+    str3=$(grep "GLIDEIN_Gatekeeper =" /etc/condor/config.d/99_glidein)
+    sed -i -e "s/$str3/GLIDEIN_Gatekeeper = \"$GATKEEPER\"/g" /etc/condor/config.d/99_glidein
 
     export PATH=$PATH:/usr/libexec/condor
 
