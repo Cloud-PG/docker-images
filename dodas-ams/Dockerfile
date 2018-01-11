@@ -53,7 +53,7 @@ RUN yum --setopt=tsflags=nodocs -y update \
     && yum clean all \
     # PREPARE AMS USER
     && adduser $AMS_ADMIN -d $AMS_ADMIN_HOME \
-    && echo "$AMS_ADMIN:ams" | chpasswd \
+    && echo "$AMS_ADMIN:amspasswd" | chpasswd \
     && echo "$AMS_ADMIN ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$AMS_ADMIN  \
     && chmod 0440 "/etc/sudoers.d/$AMS_ADMIN" \
     && chown -R $AMS_ADMIN $AMS_ADMIN_HOME
@@ -98,10 +98,16 @@ COPY opt/healtcheck/submitter/service.py /opt/healtcheck/submitter/
 COPY etc/ssh/sshd_config /etc/ssh/
 COPY usr/local/sbin/run.sh /usr/local/sbin/
 
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+
 # Default workingdir
 WORKDIR /root
 
 # ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/sbin/run.sh"]
 
 # TEST ENTRYPOINT
-ENTRYPOINT ["/usr/bin/tini", "--", "bash"]
+ENTRYPOINT ["/usr/bin/tini", "--", "/usr/sbin/sshd", "-D"]
