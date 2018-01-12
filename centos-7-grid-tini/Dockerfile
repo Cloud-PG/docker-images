@@ -40,7 +40,7 @@ LABEL Version=1.0
 # Update system and install wget
 RUN echo "LC_ALL=C" >> /etc/environment \
     && echo "LANGUAGE=C" >> /etc/environment \
-    && yyum --setopt=tsflags=nodocs -y update \
+    && yum --setopt=tsflags=nodocs -y update \
     && yum --setopt=tsflags=nodocs -y install wget \
     && yum clean all
 
