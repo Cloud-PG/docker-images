@@ -17,3 +17,6 @@ RUN useradd -ms /bin/bash condor \
     && yum --setopt=tsflags=nodocs -y update \
     && yum --setopt=tsflags=nodocs -y install condor-all python-pip \
     && yum clean all
+
+# Root home
+WORKDIR /root
