@@ -3,6 +3,7 @@ FROM cloudpg/centos-7-grid-tini
 RUN yum --setopt=tsflags=nodocs -y update \
     && yum --setopt=tsflags=nodocs -y install openssh-server sudo \
     && yum clean all \
+    && mkdir /var/run/sshd \
     # Setup ssh keys
     && ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa \
     && ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa \
