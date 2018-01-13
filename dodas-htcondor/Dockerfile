@@ -20,3 +20,8 @@ RUN useradd -ms /bin/bash condor \
 
 # Root home
 WORKDIR /root
+
+RUN mkdir -p /usr/local/sbin/dodas
+COPY condor.sh /usr/local/sbin/dodas/
+
+ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/sbin/dodas/condor.sh"]
