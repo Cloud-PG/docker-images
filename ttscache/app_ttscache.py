@@ -35,6 +35,45 @@ def ttscache_get_proxy():
             response.headers['Content-Type'] = header.get('Content-Type')
             return response
 
+@APP.route('/get_cert', methods=['GET'])
+def ttscache_get_cert():
+    """
+    """
+    if request.method == 'GET':
+        logging.debug("GET request")
+        header, body = get_proxy(cert=True)
+        if 'filename' in header:
+            logging.debug("Send certificate file")
+            return send_file(
+                BytesIO(body),
+                attachment_filename=header.get('filename'),
+                mimetype=header.get('Content-Type')
+            )
+        else:
+            logging.debug("Send response")
+            response = make_response(body)
+            response.headers['Content-Type'] = header.get('Content-Type')
+            return response
+
+@APP.route('/get_key', methods=['GET'])
+def ttscache_get_key():
+    """
+    """
+    if request.method == 'GET':
+        logging.debug("GET request")
+        header, body = get_proxy(key=True)
+        if 'filename' in header:
+            logging.debug("Send certificate file")
+            return send_file(
+                BytesIO(body),
+                attachment_filename=header.get('filename'),
+                mimetype=header.get('Content-Type')
+            )
+        else:
+            logging.debug("Send response")
+            response = make_response(body)
+            response.headers['Content-Type'] = header.get('Content-Type')
+            return response
 
 @APP.route('/health', methods=['GET'])
 def health():

@@ -457,8 +457,69 @@ class ProxyManager(object):
         else:
             logging.error("Error occured in check_tts_data!")
 
+    def generate_certkeypair(self):
+        """return generater certkeypair."""
 
-def get():
+        if self.check_tts_data():
+            logging.debug("Generating cert and key for %s", self.exchanged_token)
+
+            # generate cert
+            command = "openssl x509 -in {} -out /tmp/tmp.cert.pem -outform PEM".format(
+                self.config.user.cert
+            )
+            with open(self.config.user.passwd) as my_stdin:
+                my_passwd = my_stdin.read()
+            proxy_init = subprocess.Popen(
+                command,
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                shell=True
+            )
+
+            logging.debug("Execute cert")
+            proxy_out, proxy_err = proxy_init.communicate(input=my_passwd)
+
+            logging.debug("Cert result: %s", proxy_init.returncode)
+            if proxy_init.returncode > 0:
+                logging.error("cert creation failed for token %s",
+                              self.exchanged_token)
+                logging.error("cert creation failed stdout %s", proxy_out)
+                logging.error("cert creation failed stderr %s", proxy_err)
+            else:
+                cert_proc = True
+
+            # generate keys
+            command = "openssl rsa -in {} -out /tmp/tmp.key.pem -passin pass:`cat {}`".format(
+                self.config.user.key, self.config.user.passwd
+            )
+            proxy_init = subprocess.Popen(
+                command,
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                shell=True
+            )
+
+            logging.debug("Execute key")
+            proxy_out, proxy_err = proxy_init.communicate(input=my_passwd)
+
+            logging.debug("Key result: %s", proxy_init.returncode)
+            if proxy_init.returncode > 0:
+                logging.error("cert creation failed for token %s",
+                              self.exchanged_token)
+                logging.error("cert creation failed stdout %s", proxy_out)
+                logging.error("cert creation failed stderr %s", proxy_err)
+            else:
+                key_proc = True
+
+            if cert_proc and key_proc:
+                return "/tmp/tmp.cert.pem", "/tmp/tmp.key.pem"
+        else:
+            logging.error("Error occured in check_tts_data!")
+
+
+def get(cert=False,key=False):
     """Execute the get_proxy routine."""
     logging.info("CALLING GET PROXY")
 
@@ -506,7 +567,14 @@ def get():
         raise Exception("Unknown CACHE MANAGER")
 
     proxy_manager = ProxyManager(environment, cache_manager)
-    proxy_file = proxy_manager.generate_proxy()
+    if not cert and not key:
+        proxy_file = proxy_manager.generate_proxy()
+    elif cert and not key:
+        proxy_file = proxy_manager.generate_certkeypair()[0]
+    elif not cert and key:
+        proxy_file = proxy_manager.generate_certkeypair()[1]
+    else:
+        raise Exception("Unknown options")
 
     if proxy_file is not None:
         header = {
