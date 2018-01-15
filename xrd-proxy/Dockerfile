@@ -15,4 +15,5 @@ RUN mkdir -p /data/xrd
 RUN chown -R xrootd:xrootd /data/xrd
 
 USER xrootd
+EXPOSE 1094
 ENTRYPOINT ["/usr/local/bin/entrypoint"]
