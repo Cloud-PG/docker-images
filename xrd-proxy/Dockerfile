@@ -4,6 +4,7 @@ LABEL Version=1.0
 
 RUN yum install -y xrootd-server 
 
+# xrootd:xrootd docker => 998:996 on localhost
 COPY xrd.conf /etc/xrootd/xrd.conf
 RUN chown -R xrootd:xrootd /etc/xrootd/
 
