@@ -4,10 +4,12 @@ LABEL Version=1.0
 
 RUN yum install -y xrootd-server 
 
-ADD xrd.conf /etc/xrootd/xrd.conf
+COPY xrd.conf /etc/xrootd/xrd.conf
 RUN chown -R xrootd:xrootd /etc/xrootd/
 
-ADD entrypoint.sh /usr/local/bin/entrypoint
+COPY entrypoint.sh /usr/local/bin/entrypoint
+RUN chmod +x /usr/local/bin/entrypoint
+RUN chown xrootd:xrootd  /usr/local/bin/entrypoint
 
 RUN mkdir -p /data/xrd
 RUN chown -R xrootd:xrootd /data/xrd
