@@ -1,3 +1,5 @@
+#!bin/bash
+
 if [ "$1" -eq "master" ];
 then
     echo "master"
