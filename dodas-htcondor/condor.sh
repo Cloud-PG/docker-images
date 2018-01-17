@@ -12,7 +12,7 @@ then
 elif [ "$1" == "collector" ];
 then
     echo "collector"
-elif [ "$1" == "wn" ];
+elif [ "$1" == "negotiator" ];
 then
-    echo "wn"
+    echo "negotiator"
 fi
