@@ -9,6 +9,7 @@ RUN yum --setopt=tsflags=nodocs -y update \
     && ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa \
     && ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa \
     && ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519 \
+    && sed -i -e 's/#ClientAliveInterval\ 0/ClientAliveInterval\ 600/g' /etc/ssh/sshd_config \
     # Create admin user
     && adduser admin \
     && echo 'admin:passwd' | chpasswd \
