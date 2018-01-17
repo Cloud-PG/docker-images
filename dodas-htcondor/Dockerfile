@@ -16,12 +16,15 @@ RUN useradd -ms /bin/bash condor \
     && rpm --import RPM-GPG-KEY-HTCondor \
     && yum --setopt=tsflags=nodocs -y update \
     && yum --setopt=tsflags=nodocs -y install condor-all python-pip \
-    && yum clean all
+    && yum clean all \
+    && pip install --upgrade pip \
+    && pip install j2cli
 
 # Root home
 WORKDIR /root
 
-RUN mkdir -p /usr/local/sbin/dodas
+RUN mkdir -p /usr/local/sbin/dodas/htc_config
 COPY condor.sh /usr/local/sbin/dodas/
+COPY ./config/* /usr/local/sbin/dodas/htc_config/
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/sbin/dodas/condor.sh"]
