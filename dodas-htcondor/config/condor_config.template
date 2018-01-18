@@ -86,3 +86,8 @@ DAEMON_LIST = {{ CONDOR_DAEMON_LIST }}
 # HTCondor error in Docker
 # https://lists.cs.wisc.edu/archive/htcondor-users/2016-December/msg00046.shtml
 DISCARD_SESSION_KEYRING_ON_STARTUP = false
+
+# Pool management
+# http://www.cl.cam.ac.uk/manuals/condor-V6_8_3-Manual/3_10Pool_Management.html
+HOSTALLOW_ADMINISTRATOR = $(CONDOR_HOST)
+HOSTALLOW_OWNER = $(FULL_HOSTNAME), $(HOSTALLOW_ADMINISTRATOR)
