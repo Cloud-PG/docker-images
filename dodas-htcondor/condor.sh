@@ -23,6 +23,6 @@ then
     j2 /opt/dodas/htc_config/condor_config.template /opt/dodas/htc_config/schedd_condor_config.json > /etc/condor/condor_config
     echo "==> Start condor"
     condor_master
-    echo "==> Start sshd"
+    echo "==> Start sshd on port $2"
     exec /usr/sbin/sshd -E /var/log/sshd.log -g 30 -p $2 -D
 fi
