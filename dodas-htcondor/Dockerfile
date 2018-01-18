@@ -1,4 +1,4 @@
-FROM cloudpg/centos-7-grid-tini
+FROM cloudpg/centos-7-grid-tini-sshd
 
 # condor_collector
 EXPOSE 9618
@@ -23,8 +23,9 @@ RUN useradd -ms /bin/bash condor \
 # Root home
 WORKDIR /root
 
-RUN mkdir -p /usr/local/sbin/dodas/htc_config
-COPY condor.sh /usr/local/sbin/dodas/
-COPY ./config/* /usr/local/sbin/dodas/htc_config/
+RUN mkdir -p /opt/dodas/htc_config
+COPY condor.sh /opt/dodas/
+COPY ./config/* /opt/dodas/htc_config/
+RUN ln -s /opt/dodas/condor.sh /usr/local/sbin/dodas_condor
 
-ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/sbin/dodas/condor.sh"]
+ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/sbin/dodas_condor"]
