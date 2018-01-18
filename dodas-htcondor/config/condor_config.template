@@ -76,12 +76,12 @@ SSH_TO_JOB_SSHD_CONFIG_TEMPLATE = /etc/condor/condor_ssh_to_job_sshd_config_temp
 
 ##  What machine is your central manager?
 
-CONDOR_HOST = $(FULL_HOSTNAME)
+CONDOR_HOST = {{ CONDOR_FULL_HOSTNAME }}
 
 ##  This macro determines what daemons the condor_master will start and keep its watchful eyes on.
 ##  The list is a comma or space separated list of subsystem names
 
-DAEMON_LIST = {{ config.DAEMON_LIST }}
+DAEMON_LIST = {{ CONDOR_DAEMON_LIST }}
 
 # HTCondor error in Docker
 # https://lists.cs.wisc.edu/archive/htcondor-users/2016-December/msg00046.shtml

@@ -1,5 +1,0 @@
-{
-    "config": {
-        "DAEMON_LIST": "MASTER, SCHEDD"
-    }
-}
