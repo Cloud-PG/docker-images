@@ -6,19 +6,15 @@ then
     export CONDOR_DAEMON_LIST="COLLECTOR, MASTER, NEGOTIATOR"
     j2 /opt/dodas/htc_config/condor_config.template > /etc/condor/condor_config
     echo "==> Start condor"
-    condor_master
-    echo "==> Start service"
-    python -m SimpleHTTPServer 5000
+    condor_master -f
 elif [ "$1" == "wn" ];
 then
     echo "==> Compile configuration file for worker node with env vars"
     export CONDOR_DAEMON_LIST="MASTER, STARTD"
     j2 /opt/dodas/htc_config/condor_config.template > /etc/condor/condor_config
     echo "==> Start condor"
-    condor_master
+    condor_master -f
     echo "==> Start service"
-    RAND_PORT=$(python -c "import time; print(int(time.time()) % 1000)")
-    python -m SimpleHTTPServer $RAND_PORT
 elif [ "$1" == "schedd" ];
 then
     echo "==> Compile configuration file for sheduler node with env vars"
@@ -33,7 +29,7 @@ then
     echo "==> Compile configuration file for sheduler node with env vars"
     j2 /opt/dodas/htc_config/condor_config.template > /etc/condor/condor_config
     echo "==> Start condor"
-    condor_master
+    condor_master -f
     echo "==> Start sshd on port $CONDOR_SCHEDD_SSH_PORT"
     exec /usr/sbin/sshd -E /var/log/sshd.log -g 30 -p $CONDOR_SCHEDD_SSH_PORT -D
 else
