@@ -8,10 +8,12 @@ pss.cachelib libXrdFileCache.so
 ## Tell the proxy where the data is coming from (arbitrary).
 #
 pss.origin 127.0.0.1:1194
+all.manager 127.0.0.1:1213
 
 ## Tell the server where the disk cache resides (arbitrary).
 #
 oss.localroot /data/xrd
+xrd.protocol http:8000 libXrdHttp.so
 
 pfc.ram       3g
 
@@ -21,3 +23,4 @@ pfc.prefetch    8
 #
 #oss.localroot /data/xrd-file-cache
 #pfc.hdfsmode  hdfsbsize 64m
+

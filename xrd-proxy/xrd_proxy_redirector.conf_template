@@ -1,0 +1,7 @@
+all.export /
+
+pss.origin 127.0.0.1:1194
+
+all.manager 127.0.0.1:1213
+
+all.role proxy manager

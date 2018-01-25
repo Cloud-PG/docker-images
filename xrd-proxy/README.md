@@ -1,0 +1,3 @@
+# HOW TO
+
+`git clone ...`
