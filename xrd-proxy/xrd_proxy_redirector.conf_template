@@ -2,6 +2,8 @@ all.export /
 
 pss.origin 127.0.0.1:1194
 
-all.manager 127.0.0.1:1213
+all.manager 0.0.0.0:1213
 
-all.role proxy manager
+all.role manager
+xrd.port 1213
+xrd.protocol http:8888 libXrdHttp.so
