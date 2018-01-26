@@ -10,10 +10,10 @@ EXPOSE 5651-5654
 ENV CONDOR_DAEMON_LIST="COLLECTOR, MASTER, NEGOTIATOR, SCHEDD, STARTD"
 ENV CONDOR_FULL_HOSTNAME="\$(FULL_HOSTNAME)"
 ENV CONDOR_SCHEDD_SSH_PORT=31042
-ENV SEC_DAEMON_AUTHENTICATION_METHODS=FS_REMOTE
-ENV SEC_CLIENT_AUTHENTICATION_METHODS=FS_REMOTE
-ENV SEC_NEGOTIATOR_AUTHENTICATION_METHODS=FS_REMOTE
-ENV SEC_ADVERTISE_STARTD_AUTHENTICATION_METHODS=FS_REMOTE
+ENV SEC_DAEMON_AUTHENTICATION_METHODS=CLAIMTOBE
+ENV SEC_CLIENT_AUTHENTICATION_METHODS=CLAIMTOBE
+ENV SEC_NEGOTIATOR_AUTHENTICATION_METHODS=CLAIMTOBE
+ENV SEC_ADVERTISE_STARTD_AUTHENTICATION_METHODS=CLAIMTOBE
 
 WORKDIR /etc/yum.repos.d
 
@@ -70,10 +70,6 @@ RUN mkdir -p /opt/dodas/htc_config \
     && mkdir -p /opt/dodas/fs_remote_dir
 COPY condor.sh /opt/dodas/
 COPY ./config/* /opt/dodas/htc_config/
-RUN ln -s /opt/dodas/condor.sh /usr/local/sbin/dodas_condor \
-    && groupadd condor_user \
-    && usermod -aG condor_user admin \
-    && chgrp -R condor_user /opt/dodas/fs_remote_dir \
-    && chmod g+rwx /opt/dodas/fs_remote_dir
+RUN ln -s /opt/dodas/condor.sh /usr/local/sbin/dodas_condor
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/sbin/dodas_condor"]
