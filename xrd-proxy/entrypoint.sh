@@ -18,6 +18,18 @@ if [[ -n "$1" ]]; then
 
     elif [[ "$1" -eq "redirector" ]]; then
         cp /etc/xrootd/xrd_redirector.conf  /etc/xrootd/xrd.conf
+        if [[ "$2" -eq "-cmsd_redirector_port" && -n "$3" ]]; then
+            sed -i -e "s/rdtr_port_cmsd/$3/" /etc/xrootd/xrd.conf
+        fi
+        if [[ "$4" -eq "-xrd_redirector_port" && -n "$5" ]]; then
+            sed -i -e "s/rdtr_port_xrd/$5/" /etc/xrootd/xrd.conf
+        fi
+        if [[ "$6" -eq "-redirector_global" && -n "$7" ]]; then
+            sed -i -e "s/rdtr_global_port/$7/" /etc/xrootd/xrd.conf
+        fi
+        if [[ "$6" -eq "-redirector_global_port" && -n "$7" ]]; then
+            sed -i -e "s/rdtr_global/$7/" /etc/xrootd/xrd.conf
+        fi 
     else 
         echo "no Valid options"
     fi
