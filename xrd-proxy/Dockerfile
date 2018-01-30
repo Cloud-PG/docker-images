@@ -5,7 +5,8 @@ LABEL Version=1.0
 RUN yum install -y xrootd-server 
 
 # xrootd:xrootd docker => 998:996 on localhost
-COPY xrd.conf /etc/xrootd/xrd.conf
+COPY xrd_cache.conf /etc/xrootd/xrd_cache.conf
+COPY xrd_redirector.conf /etc/xrootd/xrd_redirector.conf
 RUN chown -R xrootd:xrootd /etc/xrootd/
 
 COPY entrypoint.sh /usr/local/bin/entrypoint

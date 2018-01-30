@@ -1,4 +1,0 @@
-
-# origin mode
-oss.localroot /data/xrd
-xrd.protocol http:8000 libXrdHttp.so
