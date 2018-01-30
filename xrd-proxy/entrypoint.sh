@@ -3,13 +3,10 @@
 echo $@
 
 if [[ -n "$1" ]]; then
-    echo "HIIII"
     if [[ "$1" -eq "proxy" ]]; then
-    echo "HIIII"
 
         cp /etc/xrootd/xrd_cache.conf  /etc/xrootd/xrd.conf
         if [[ "$2" -eq "-redirector_url" && -n "$3" ]]; then
-    echo "HIIII"
             sed -i -e "s/rdtr_cache/$3/" /etc/xrootd/xrd.conf
         fi
         if [[ "$4" -eq "-cmsd_redirector_port" && -n "$5" ]]; then
