@@ -25,7 +25,7 @@ if [[ -n "$1" ]]; then
             sed -i -e "s/rdtr_port_xrd/$5/" /etc/xrootd/xrd.conf
         fi
         if [[ "$6" == "-redirector_global" && -n "$7" ]]; then
-            sed -i -e "s/rdtr_global:/$7/" /etc/xrootd/xrd.conf
+            sed -i -e "s/rdtr_global:/$7:/" /etc/xrootd/xrd.conf
         fi
         if [[ "$8" == "-redirector_global_port" && -n "$9" ]]; then
             sed -i -e "s/rdtr_global_port/$9/" /etc/xrootd/xrd.conf
