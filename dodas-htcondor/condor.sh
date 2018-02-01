@@ -11,6 +11,7 @@ elif [ "$1" == "wn" ];
 then
     echo "==> Compile configuration file for worker node with env vars"
     export CONDOR_DAEMON_LIST="MASTER, STARTD"
+    export CCB_ADDRESS_STRING="CCB_ADDRESS = $CONDOR_FULL_HOSTNAME"
     j2 /opt/dodas/htc_config/condor_config.template > /etc/condor/condor_config
     echo "==> Start condor"
     condor_master -f
