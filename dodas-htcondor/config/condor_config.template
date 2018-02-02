@@ -77,7 +77,6 @@ SSH_TO_JOB_SSHD_CONFIG_TEMPLATE = /etc/condor/condor_ssh_to_job_sshd_config_temp
 ##  What machine is your central manager?
 
 CONDOR_HOST = {{ CONDOR_HOST }}
-{{ SCHEDD_HOST_STRING }}
 
 ##  This macro determines what daemons the condor_master will start and keep its watchful eyes on.
 ##  The list is a comma or space separated list of subsystem names
@@ -130,5 +129,8 @@ SEC_NEGOTIATOR_AUTHENTICATION_METHODS = {{ SEC_NEGOTIATOR_AUTHENTICATION_METHODS
 SEC_ADVERTISE_STARTD_AUTHENTICATION_METHODS = {{ SEC_ADVERTISE_STARTD_AUTHENTICATION_METHODS }}
 
 # Condor connection broker
-# Only schedd or worker node can have CCB_ADDRESS
+# Only worker node can have CCB_ADDRESS
 {{ CCB_ADDRESS_STRING }}
+
+# SCHEDD ADDRESS
+{{ NETWORK_INTERFACE_STRING }}
