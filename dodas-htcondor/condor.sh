@@ -4,6 +4,7 @@ if [ "$1" == "master" ];
 then
     echo "==> Compile configuration file for master node with env vars"
     export CONDOR_DAEMON_LIST="COLLECTOR, MASTER, NEGOTIATOR"
+    export NETWORK_INTERFACE_STRING="NETWORK_INTERFACE = $CONDOR_HOST"
     j2 /opt/dodas/htc_config/condor_config.template > /etc/condor/condor_config
     echo "==> Start condor"
     condor_master -f
