@@ -36,6 +36,9 @@ if [[ -n "$1" ]]; then
         if [[ "$8" == "-redirector_global_port" && -n "$9" ]]; then
             sed -i -e "s/rdtr_global_port/$9/" /etc/xrootd/xrd.conf
         fi 
+        if [[ "${10}" == "-redirector_url" && -n "${11}" ]]; then
+            sed -i -e "s/rdtr_cache/${11}/" /etc/xrootd/xrd.conf
+        fi
     else 
         echo "no Valid options"
     fi
