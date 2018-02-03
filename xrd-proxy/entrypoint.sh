@@ -15,6 +15,12 @@ if [[ -n "$1" ]]; then
         if [[ "$6" == "-xrd_redirector_port" && -n "$7" ]]; then
             sed -i -e "s/rdtr_port_xrd/$7/" /etc/xrootd/xrd.conf
         fi
+        if [[ "$8" == "-redirector_global" && -n "$9" ]]; then
+            sed -i -e "s/rdtr_global:/$9:/" /etc/xrootd/xrd.conf
+        fi
+        if [[ "${10}" == "-redirector_global_port" && -n "${11}" ]]; then
+            sed -i -e "s/rdtr_global_port/${11}/" /etc/xrootd/xrd.conf
+        fi 
 
     elif [[ "$1" == "redirector" ]]; then
         cp /etc/xrootd/xrd_redirector.conf  /etc/xrootd/xrd.conf
