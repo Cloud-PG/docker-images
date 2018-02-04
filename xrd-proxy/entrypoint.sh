@@ -21,6 +21,7 @@ if [[ -n "$1" ]]; then
         if [[ "${10}" == "-redirector_global_port" && -n "${11}" ]]; then
             sed -i -e "s/rdtr_global_port/${11}/" /etc/xrootd/xrd.conf
         fi 
+        cmsd -b -c /etc/xrootd/xrd.conf -l /var/log/xrootd/proxyXrd.log 
 
     elif [[ "$1" == "redirector" ]]; then
         cp /etc/xrootd/xrd_redirector.conf  /etc/xrootd/xrd.conf
@@ -45,5 +46,4 @@ if [[ -n "$1" ]]; then
 
 fi
 
-xrootd -b -c /etc/xrootd/xrd.conf -l /var/log/xrootd/proxyXrd.log 
-exec cmsd -c /etc/xrootd/xrd.conf
+exec xrootd -c /etc/xrootd/xrd.conf
