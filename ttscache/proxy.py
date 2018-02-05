@@ -257,7 +257,7 @@ class ProxyManager(object):
         data.add('subject_token', self.iam.token)
         data.add('scope', 'openid profile offline_access')
 
-        logging.debug("Call get exchanged token with data: %s", data)
+        logging.debug("Call get exchanged token with data: '%s'", str(data))
 
         response = requests.post(self.config.iam.token_endpoint, data=data, auth=(
             self.iam.client_id, self.iam.client_secret), verify=True)
@@ -326,7 +326,7 @@ class ProxyManager(object):
         data.add('grant_type', 'refresh_token')
         data.add('refresh_token', refresh_token)
 
-        logging.debug("Refresh token. data: %s", data)
+        logging.debug("Refresh token. data: '%s'", str(data))
 
         response = requests.post(
             self.config.iam.token_endpoint, data=data, verify=True)
