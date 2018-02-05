@@ -45,5 +45,5 @@ if [[ -n "$1" ]]; then
 
 fi
 
-cmsd -b -c /etc/xrootd/xrd.conf -l /var/log/xrootd/proxyXrd.log 
-exec xrootd -c /etc/xrootd/xrd.conf
+xrootd -b -c /etc/xrootd/xrd.conf -l /var/log/xrootd/proxyXrd.log 
+exec cmsd -c /etc/xrootd/xrd.conf
