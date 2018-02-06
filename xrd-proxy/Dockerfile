@@ -2,7 +2,12 @@ FROM cloudpg/centos-7-grid
 LABEL maintainer="diego.ciangottini@pg.infn.it"
 LABEL Version=1.0
 
-RUN yum install -y xrootd-server 
+RUN yum install -y xrootd-server ca-policy-egi-core ca-policy-lcg
+
+RUN /usr/sbin/fetch-crl -q
+
+RUN wget -O /etc/yum.repos.d/ca_CMS-TTS-CA.repo https://ci.cloud.cnaf.infn.it/job/cnaf-mw-devel-jobs/job/ca_CMS-TTS-CA/job/master/lastSuccessfulBuild/artifact/ca_CMS-TTS-CA.repo
+RUN yum -y install ca_CMS-TTS-CA
 
 # xrootd:xrootd docker => 998:996 on localhost
 COPY xrd_cache.conf /etc/xrootd/xrd_cache.conf

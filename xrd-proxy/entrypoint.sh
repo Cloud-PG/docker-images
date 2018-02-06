@@ -2,6 +2,20 @@
 
 echo $@
 
+resp=0
+until [  $resp -eq 200 ]; do
+    resp=$(curl -s \
+        -w%{http_code} \
+        $PROXY_CACHE/cgi-bin/get_proxy -o /tmp/x509up_u996)
+done
+#############
+
+chmod 600 /tmp/x509up_u996
+
+export X509_USER_PROXY=/tmp/x509up_u996
+
+echo "u * / rl" > /etc/xrootd/Authfile-auth
+
 if [[ -n "$1" ]]; then
     if [[ "$1" == "proxy" ]]; then
 
