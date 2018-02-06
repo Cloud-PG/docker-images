@@ -8,7 +8,7 @@ RUN useradd -ms /bin/bash condor \
     && wget http://research.cs.wisc.edu/htcondor/yum/RPM-GPG-KEY-HTCondor \
     && rpm --import RPM-GPG-KEY-HTCondor \
     && yum --setopt=tsflags=nodocs -y update \
-    && yum --setopt=tsflags=nodocs -y install condor-all python-pip \
+    && yum --setopt=tsflags=nodocs -y install condor-all python-devel python-pip \
     && yum --setopt=tsflags=nodocs -y install binutils \
         boost-devel \
         cmake3 \
@@ -46,7 +46,7 @@ RUN useradd -ms /bin/bash condor \
         vim \
     && yum clean all \
     && pip install --upgrade pip \
-    && pip install j2cli
+    && pip install j2cli psutil
 
 # Root home
 WORKDIR /root
@@ -73,7 +73,9 @@ ENV SEC_ADVERTISE_STARTD_AUTHENTICATION_METHODS=CLAIMTOBE
 RUN mkdir -p /opt/dodas/htc_config \
     && mkdir -p /opt/dodas/fs_remote_dir
 COPY condor.sh /opt/dodas/
+COPY check_condor_processes.py /opt/dodas/
 COPY ./config/* /opt/dodas/htc_config/
-RUN ln -s /opt/dodas/condor.sh /usr/local/sbin/dodas_condor
+RUN ln -s /opt/dodas/condor.sh /usr/local/sbin/dodas_condor \
+    && ln -s /opt/dodas/check_condor_processes.py /usr/local/sbin/dodas_check_condor_processes
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/sbin/dodas_condor"]
