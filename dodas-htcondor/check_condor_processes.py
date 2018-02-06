@@ -5,8 +5,9 @@ from sys import argv, exit
 def check_condor_processes(process_list):
     counter = 0
     for process in psutil.process_iter(attrs=["name", "exe", "cmdline"]):
-        if process.info['name'] in process_list:
-            counter += 1
+        for name in process_list:
+            if name.find(process.info['name']) != -1:
+                counter += 1
     return counter == len(process_list)
 
 if __name__ == "__main__":
