@@ -6,7 +6,7 @@ def check_condor_processes(process_list):
     counter = 0
     for process in psutil.process_iter(attrs=["name", "exe", "cmdline"]):
         for name in process_list:
-            if name.find(process.info['name']) != -1:
+            if process.info['name'].find(name) != -1:
                 counter += 1
     return counter == len(process_list)
 
