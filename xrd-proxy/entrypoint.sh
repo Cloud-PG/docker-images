@@ -2,17 +2,28 @@
 
 echo $@
 
+echo "PROXY_CACHE: $PROXY_CACHE"
+echo "curl -s -w%{http_code} $PROXY_CACHE/cgi-bin/get_proxy -o /tmp/x509up_u998" 
+
 resp=0
 until [  $resp -eq 200 ]; do
     resp=$(curl -s \
         -w%{http_code} \
-        $PROXY_CACHE/cgi-bin/get_proxy -o /tmp/x509up_u996)
+        $PROXY_CACHE/cgi-bin/get_proxy -o /tmp/x509up_u998)
 done
 #############
 
-chmod 600 /tmp/x509up_u996
+chmod 600 /tmp/x509up_u998
 
-export X509_USER_PROXY=/tmp/x509up_u996
+export X509_USER_PROXY=/tmp/x509up_u998
+
+mkdir -p /etc/grid-security/xrd/
+
+# COPY HOSTCERTS HERE
+
+
+chmod 600 /etc/grid-security/xrd/userkey.pem
+
 
 echo "u * / rl" > /etc/xrootd/Authfile-auth
 
@@ -59,5 +70,5 @@ if [[ -n "$1" ]]; then
 
 fi
 
-xrootd -b -c /etc/xrootd/xrd.conf -l /var/log/xrootd/proxyXrd.log 
+xrootd -d3 -b -c /etc/xrootd/xrd.conf -l /var/log/xrootd/proxyXrd.log 
 exec cmsd -c /etc/xrootd/xrd.conf
