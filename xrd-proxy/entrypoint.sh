@@ -21,6 +21,23 @@ mkdir -p /etc/grid-security/xrd/
 
 # COPY HOSTCERTS HERE
 
+resp=0
+echo "curl -s -w%{http_code} $PROXY_CACHE/get_cert -o /etc/grid-security/xrd/usercert.pem"
+until [  $resp -eq 200 ]; do
+    resp=$(curl -s \
+        -w%{http_code} \
+        $PROXY_CACHE/get_cert -o /etc/grid-security/xrd/usercert.pem)
+done
+
+
+resp=0
+echo "curl -s -w%{http_code} $PROXY_CACHE/get_key -o /etc/grid-security/xrd/usercert.pem"
+until [  $resp -eq 200 ]; do
+    resp=$(curl -s \
+        -w%{http_code} \
+        $PROXY_CACHE/get_key -o /etc/grid-security/xrd/userkey.pem)
+done
+
 
 chmod 600 /etc/grid-security/xrd/userkey.pem
 

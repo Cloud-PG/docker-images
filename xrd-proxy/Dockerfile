@@ -10,6 +10,7 @@ RUN /usr/sbin/fetch-crl -q
 COPY TTS-CA.repo /etc/yum.repos.d/ca_CMS-TTS-CA.repo
 RUN yum -y install ca_CMS-TTS-CA
 
+
 RUN mkdir -p /etc/grid-security/xrd
 RUN chown -R xrootd:xrootd /etc/grid-security/xrd
 
