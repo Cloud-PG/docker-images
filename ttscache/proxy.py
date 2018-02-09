@@ -569,9 +569,9 @@ def get(cert=False,key=False):
     proxy_manager = ProxyManager(environment, cache_manager)
     if not cert and not key:
         proxy_file = proxy_manager.generate_proxy()
-    else if cert and not key:
+    elif cert and not key:
         proxy_file = proxy_manager.generate_certkeypair()[0]
-    else if not cert and key:
+    elif not cert and key:
         proxy_file = proxy_manager.generate_certkeypair()[1]
     else:
         raise Exception("Unknown options")
