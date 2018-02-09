@@ -10,7 +10,7 @@ RUN yum -y install ca_CMS-TTS-CA
 
 
 RUN mkdir -p /etc/grid-security/xrd
-RUN chown -R xrootd:xrootd /etc/grid-security/xrd
+RUN chown -R xrootd:xrootd /etc/grid-security
 
 # xrootd:xrootd docker => 998:996 on localhost
 COPY xrd_cache.conf /etc/xrootd/xrd_cache.conf
