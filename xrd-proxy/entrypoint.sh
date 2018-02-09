@@ -7,7 +7,7 @@ if [[ -n "$1" ]]; then
         echo "PROXY_CACHE: $PROXY_CACHE"
         echo "curl -s -w%{http_code} $PROXY_CACHE/cgi-bin/get_proxy -o /tmp/x509up_u998" 
 
-        RUN /usr/sbin/fetch-crl -q
+        /usr/sbin/fetch-crl -q
 
         resp=0
         until [  $resp -eq 200 ]; do
