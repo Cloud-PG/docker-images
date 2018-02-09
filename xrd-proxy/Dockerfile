@@ -11,7 +11,7 @@ RUN /usr/sbin/fetch-crl -q
 
 
 RUN mkdir -p /etc/grid-security/xrd
-RUN chown -R xrootd:xrootd /etc/grid-security
+RUN chown -R xrootd:xrootd /etc/grid-security/xrd
 
 # xrootd:xrootd docker => 998:996 on localhost
 COPY xrd_cache.conf /etc/xrootd/xrd_cache.conf
