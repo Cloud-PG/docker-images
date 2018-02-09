@@ -11,7 +11,7 @@ RUN useradd -ms /bin/bash condor \
     && yum --setopt=tsflags=nodocs -y install condor-all python-devel python-pip \
     && yum --setopt=tsflags=nodocs -y install binutils \
         boost-devel \
-        cmake3 \
+        cmake \
         curl \
         cvs \
         emacs \
