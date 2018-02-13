@@ -1,7 +1,0 @@
-[CMS-TTS-CA]
-name=test 
-baseurl=https://ci.cloud.cnaf.infn.it/job/cnaf-mw-devel-jobs/job/ca_CMS-TTS-CA/job/PR-2/53/artifact/repo/centos6
-protect=1
-enabled=1
-priority=1
-gpgcheck=0

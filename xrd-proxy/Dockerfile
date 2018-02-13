@@ -4,8 +4,7 @@ LABEL Version=1.0
 
 RUN yum install -y xrootd-server ca-policy-egi-core ca-policy-lcg
 
-#RUN wget -O /etc/yum.repos.d/ca_CMS-TTS-CA.repo https://ci.cloud.cnaf.infn.it/job/cnaf-mw-devel-jobs/job/ca_CMS-TTS-CA/job/master/lastSuccessfulBuild/artifact/ca_CMS-TTS-CA.repo
-COPY TTS-CA.repo /etc/yum.repos.d/ca_CMS-TTS-CA.repo
+RUN wget -O /etc/yum.repos.d/ca_CMS-TTS-CA.repo https://ci.cloud.cnaf.infn.it/job/cnaf-mw-devel-jobs/job/ca_CMS-TTS-CA/job/master/lastSuccessfulBuild/artifact/ca_CMS-TTS-CA.repo
 RUN yum -y install ca_CMS-TTS-CA
 RUN /usr/sbin/fetch-crl -q
 
