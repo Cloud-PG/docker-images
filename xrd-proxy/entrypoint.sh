@@ -9,7 +9,7 @@ if [[ -n "$1" ]]; then
         cp /tmp/userkey.pem /etc/grid-security/xrd/userkey.pem
         chmod 600 /etc/grid-security/xrd/userkey.pem
 
-        voms-proxy-init --voms cms --valid 192:00 --cert /etc/grid-security/xrd/usercert.pem
+        grid-proxy-init -cert /etc/grid-security/xrd/usercert.pem -key /etc/grid-security/xrd/userkey.pem
 
         echo "u * / rl" > /etc/xrootd/Authfile-auth
         cp /etc/xrootd/xrd_cache.conf  /etc/xrootd/xrd.conf
