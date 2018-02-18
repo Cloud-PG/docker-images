@@ -4,45 +4,12 @@ echo $@
 
 if [[ -n "$1" ]]; then
     if [[ "$1" == "proxy" ]]; then
-        echo "PROXY_CACHE: $PROXY_CACHE"
-        echo "curl -s -w%{http_code} $PROXY_CACHE/cgi-bin/get_proxy -o /tmp/x509up_u998" 
 
-        resp=0
-        until [  $resp -eq 200 ]; do
-            resp=$(curl -s \
-                -w%{http_code} \
-                $PROXY_CACHE/cgi-bin/get_proxy -o /tmp/x509up_u998)
-        done
-        #############
-
-        chmod 600 /tmp/x509up_u998
-
-        export X509_USER_PROXY=/tmp/x509up_u998
-
-        mkdir -p /etc/grid-security/xrd/
-
-        # COPY HOSTCERTS HERE
-
-        resp=0
-        echo "curl -s -w%{http_code} $PROXY_CACHE/get_cert -o /etc/grid-security/xrd/usercert.pem"
-        until [  $resp -eq 200 ]; do
-            resp=$(curl -s \
-                -w%{http_code} \
-                $PROXY_CACHE/get_cert -o /etc/grid-security/xrd/usercert.pem)
-        done
-
-
-        resp=0
-        echo "curl -s -w%{http_code} $PROXY_CACHE/get_key -o /etc/grid-security/xrd/usercert.pem"
-        until [  $resp -eq 200 ]; do
-            resp=$(curl -s \
-                -w%{http_code} \
-                $PROXY_CACHE/get_key -o /etc/grid-security/xrd/userkey.pem)
-        done
-
-
+        cp /tmp/usercert.pem /etc/grid-security/xrd/usercert.pem
+        cp /tmp/userkey.pem /etc/grid-security/xrd/userkey.pem
         chmod 600 /etc/grid-security/xrd/userkey.pem
 
+        voms-proxy-init --voms cms --valid 192:00 --cert /etc/grid-security/xrd/usercert.pem
 
         echo "u * / rl" > /etc/xrootd/Authfile-auth
         cp /etc/xrootd/xrd_cache.conf  /etc/xrootd/xrd.conf
