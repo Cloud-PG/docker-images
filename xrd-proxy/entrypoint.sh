@@ -5,11 +5,14 @@ echo $@
 if [[ -n "$1" ]]; then
     if [[ "$1" == "proxy" ]]; then
 
+        echo "Copying certs"
         cp /tmp/usercert.pem /etc/grid-security/xrd/usercert.pem
         cp /tmp/userkey.pem /etc/grid-security/xrd/userkey.pem
         chmod 600 /etc/grid-security/xrd/userkey.pem
 
+        echo "Retrieving proxy"
         grid-proxy-init -cert /etc/grid-security/xrd/usercert.pem -key /etc/grid-security/xrd/userkey.pem
+        echo "DONE."
 
         echo "u * / rl" > /etc/xrootd/Authfile-auth
         cp /etc/xrootd/xrd_cache.conf  /etc/xrootd/xrd.conf
