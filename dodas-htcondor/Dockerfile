@@ -81,4 +81,8 @@ COPY ./config/* /opt/dodas/htc_config/
 RUN ln -s /opt/dodas/condor.sh /usr/local/sbin/dodas_condor \
     && ln -s /opt/dodas/check_condor_processes.py /usr/local/sbin/dodas_check_condor_processes
 
+# CentOS uname characteristics
+RUN mv /bin/uname /bin/uname_old
+COPY ./bin/uname /bin/
+
 ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/sbin/dodas_condor"]
