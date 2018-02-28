@@ -474,10 +474,22 @@ def get():
         'CACHE_MANAGER': os.environ.get("CACHE_MANAGER", False)
     }
 
-    # Store environment in config file
+   # Open proxy config
     with open(CONFIG_FILE_PATH) as config_file:
         proxy_config = json.load(config_file)
     
+    # Check for env variables to override
+    for key in proxy_config:
+        cur_var = os.environ.get(key, False)
+        if cur_var:
+            if isinstance(proxy_config[key], int):
+                proxy_config[key] = int(cur_var)
+            elif isinstance(proxy_config[key], float):
+                proxy_config[key] = float(cur_var)
+            else:
+                proxy_config[key] = str(cur_var)
+    
+    # Store environment in config file
     proxy_config['environment'] = environment
     with open(CONFIG_FILE_PATH, "w") as config_file:
         json.dump(proxy_config, config_file)
