@@ -33,6 +33,6 @@ CMD ["/usr/bin/python", "/opt/ttscache/app_ttscache.py"]
 #   tts: "https://example.url.org",
 #   iam_endpoint: "https://example.endpoint/",
 #   credential_endpoint: "https://example.url.org/api/v2/iam/credential",
-#   local_cache_expiration_time: 6000,
+#   local_cache_expiration_time: 864000,
 #   lock_file_age: 20,
 #   cache_dir: "/tmp"
