@@ -39,6 +39,7 @@ CONFIG_FILE_PATH = os.path.join(
     "proxy_config.json"
 )
 
+
 class Container(object):
 
     """Simple object container to simulate JSON obj access."""
@@ -46,7 +47,7 @@ class Container(object):
     def __getattr__(self, name):
         setattr(self, name, None)
         return getattr(self, name)
-    
+
     def __repr__(self):
         return str(vars(self))
 
@@ -113,10 +114,10 @@ class ProxyManager(object):
 
     def check_tts_data(self):
         """Checks and refresh tts data.
-        
+
         .. note::
             Workflow:
-            
+
             - Check tts output data file
                 - if YES -> Check if expired
                     - if YES -> get_tts_data(True)
@@ -165,7 +166,7 @@ class ProxyManager(object):
         :returns: The given tts token
         :raises requests.exceptions: possible on redirect
         :raises pycurl.exceptions: during the call of iam credential endpoint
-        
+
         .. todo::
             Manage controls (gestisci controlli)
 
@@ -180,7 +181,8 @@ class ProxyManager(object):
         curl = pycurl.Curl()
         curl.setopt(pycurl.URL, bytes(self.config.iam.credential_endpoint))
         curl.setopt(pycurl.HTTPHEADER, [
-            'Authorization: Bearer {}'.format(str(self.exchanged_token).split('\n', 1)[0]),
+            'Authorization: Bearer {}'.format(
+                str(self.exchanged_token).split('\n', 1)[0]),
             'Content-Type: application/json'
         ])
         curl.setopt(pycurl.POST, 1)
@@ -233,17 +235,70 @@ class ProxyManager(object):
 
                 with open('/tmp/output.json', 'w') as outf:
                     outf.write(response.content)
+
+                cur_certificate = json.loads(response.content)
+                cert_id = cur_certificate['credential']['id']
+                logging.debug("Certificate id: '%s'", cert_id)
+                if self.revoke_cert(cert_id):
+                    logging.debug("Certificate '%s' revoked", cert_id)
+                else:
+                    logging.error("Certificate '%s' NOT REVOKED", cert_id)
             else:
                 logging.error("No location in redirect response")
 
         return True
 
+    def revoke_cert(self, cert_id):
+        """Revoke a certificate.
+        
+        :param cert_id: str
+        :returns: bool, the end status of the operation
+        :raises requests.exceptions: possible on redirect
+        :raises pycurl.exceptions: during the call of iam credential endpoint
+
+        """
+        logging.debug("Create buffers")
+        buffers = StringIO()
+
+        logging.debug("Prepare CURL to revoke cert '%s'", cert_id)
+        curl = pycurl.Curl()
+        curl.setopt(pycurl.URL, bytes(
+            "{}/{}".format(self.config.iam.credential_endpoint, cert_id))
+        )
+        curl.setopt(pycurl.HTTPHEADER, [
+            'Authorization: Bearer {}'.format(
+                str(self.exchanged_token).split('\n', 1)[0]),
+        ])
+        curl.setopt(pycurl.CUSTOMREQUEST, "DELETE")
+        curl.setopt(curl.WRITEFUNCTION, buffers.write)
+        curl.setopt(curl.VERBOSE, True)
+
+        try:
+            logging.debug("Perform CURL call to DELETE '%s'", cert_id)
+            curl.perform()
+            status = curl.getinfo(curl.RESPONSE_CODE)
+            logging.debug("Result status: %s", status)
+            logging.debug("Close CURL")
+            curl.close()
+            logging.debug("Get body content")
+            body = buffers.getvalue()
+            logging.debug("Body: %s", body)
+            body_dict = json.loads(body)
+            if body_dict['result'] != "ok":
+                return False
+        except pycurl.error as error:
+            errno, errstr = error
+            logging.error(
+                'A pycurl error n. %s occurred on DELETE: %s', errno, errstr)
+            return False
+        return True
+
     def get_exchange_token(self):
         """Retrieve the access token.
-        
+
         Exchange the access token with the given client id and secret.
         The refresh token in cached and the exchange token is kept in memory.
-        
+
         .. todo::
             Add controls (aggiungi controlli)
 
@@ -280,13 +335,13 @@ class ProxyManager(object):
 
     def introspection(self, iam_client_id, iam_client_secret, exchanged_token):
         """Get info through introspection with the given client id, secret and token.
-        
+
         .. todo::
             Add controls (aggiungi controlli)
 
-        :param iam_client_id: param iam_client_secret:
+        :param iam_client_id:
+        :param iam_client_secret:
         :param exchanged_token: 
-        :param iam_client_secret: 
 
         """
 
@@ -313,7 +368,7 @@ class ProxyManager(object):
 
     def refresh_token(self, refresh_token):
         """Request with refresh token.
-        
+
         .. todo::
             Manage result out of the function (gestisci result fuori dalla funzione)
 
@@ -346,7 +401,7 @@ class ProxyManager(object):
 
     def get_tts_data(self, exchange=False):
         """Get TTS data using a lock procedure.
-        
+
         Phases:
             - get lock
             - retrieve_tts_data
@@ -477,7 +532,7 @@ def get():
    # Open proxy config
     with open(CONFIG_FILE_PATH) as config_file:
         proxy_config = json.load(config_file)
-    
+
     # Check for env variables to override
     for key in proxy_config:
         cur_var = os.environ.get(key, False)
@@ -488,7 +543,7 @@ def get():
                 proxy_config[key] = float(cur_var)
             else:
                 proxy_config[key] = str(cur_var)
-    
+
     # Store environment in config file
     proxy_config['environment'] = environment
     with open(CONFIG_FILE_PATH, "w") as config_file:
