@@ -77,9 +77,11 @@ RUN mkdir -p /opt/dodas/htc_config \
     && mkdir -p /opt/dodas/fs_remote_dir
 COPY condor.sh /opt/dodas/
 COPY check_condor_processes.py /opt/dodas/
+COPY check_cvmfs_folders.py /opt/dodas/
 COPY ./config/* /opt/dodas/htc_config/
 RUN ln -s /opt/dodas/condor.sh /usr/local/sbin/dodas_condor \
-    && ln -s /opt/dodas/check_condor_processes.py /usr/local/sbin/dodas_check_condor_processes
+    && ln -s /opt/dodas/check_condor_processes.py /usr/local/sbin/dodas_check_condor_processes \
+    && ln -s /opt/dodas/check_cvmfs_folders.py /usr/local/sbin/dodas_check_cvmfs_folders
 
 # CentOS uname characteristics
 RUN mv /bin/uname /bin/uname_old
