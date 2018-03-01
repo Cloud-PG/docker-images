@@ -535,7 +535,7 @@ def get():
 
     # Check for env variables to override
     for key in proxy_config:
-        cur_var = os.environ.get(key, False)
+        cur_var = os.environ.get("proxy_{}".format(key), False)
         if cur_var:
             if isinstance(proxy_config[key], int):
                 proxy_config[key] = int(cur_var)
