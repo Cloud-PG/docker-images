@@ -75,7 +75,7 @@ ENV SLOT_TYPE_1="cpus=1, mem=4096"
 
 RUN mkdir -p /opt/dodas/htc_config \
     && mkdir -p /opt/dodas/fs_remote_dir \
-    && mkdir -p /etc/skel/.ssh \
+    && mkdir -p /etc/skel/.ssh
 COPY condor.sh /opt/dodas/
 COPY check_condor_processes.py /opt/dodas/
 COPY check_cvmfs_folders.py /opt/dodas/
