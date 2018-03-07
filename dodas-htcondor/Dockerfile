@@ -46,7 +46,7 @@ RUN useradd -ms /bin/bash condor \
         vim \
     && yum clean all \
     && pip install --upgrade pip \
-    && pip install j2cli psutil
+    && pip install j2cli paramiko psutil
 
 # Root home
 WORKDIR /root
@@ -74,14 +74,18 @@ ENV NUM_SLOTS_TYPE_1=1
 ENV SLOT_TYPE_1="cpus=1, mem=4096"
 
 RUN mkdir -p /opt/dodas/htc_config \
-    && mkdir -p /opt/dodas/fs_remote_dir
+    && mkdir -p /opt/dodas/fs_remote_dir \
+    && mkdir -p /etc/skel/.ssh \
 COPY condor.sh /opt/dodas/
 COPY check_condor_processes.py /opt/dodas/
 COPY check_cvmfs_folders.py /opt/dodas/
-COPY ./config/* /opt/dodas/htc_config/
+COPY check_ssh_server.py /opt/dodas/
+COPY ./config/condor_config.template /opt/dodas/htc_config/
+COPY ./config/ssh_config /etc/skel/.ssh/config
 RUN ln -s /opt/dodas/condor.sh /usr/local/sbin/dodas_condor \
     && ln -s /opt/dodas/check_condor_processes.py /usr/local/sbin/dodas_check_condor_processes \
-    && ln -s /opt/dodas/check_cvmfs_folders.py /usr/local/sbin/dodas_check_cvmfs_folders
+    && ln -s /opt/dodas/check_cvmfs_folders.py /usr/local/sbin/dodas_check_cvmfs_folders \
+    && ln -s /opt/dodas/check_ssh_server.py /usr/local/sbin/dodas_check_ssh_server
 
 # CentOS uname characteristics
 RUN mv /bin/uname /bin/uname_old
