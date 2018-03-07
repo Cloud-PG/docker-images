@@ -1,5 +1,8 @@
 FROM cloudpg/centos-7-grid-tini-sshd
 
+# kerberos ticket config - personalized home skeleton
+COPY ./config/ssh_config /etc/skel/.ssh/config
+
 WORKDIR /etc/yum.repos.d
 
 RUN useradd -ms /bin/bash condor \
@@ -81,7 +84,7 @@ COPY check_condor_processes.py /opt/dodas/
 COPY check_cvmfs_folders.py /opt/dodas/
 COPY check_ssh_server.py /opt/dodas/
 COPY ./config/condor_config.template /opt/dodas/htc_config/
-COPY ./config/ssh_config /etc/skel/.ssh/config
+
 RUN ln -s /opt/dodas/condor.sh /usr/local/sbin/dodas_condor \
     && ln -s /opt/dodas/check_condor_processes.py /usr/local/sbin/dodas_check_condor_processes \
     && ln -s /opt/dodas/check_cvmfs_folders.py /usr/local/sbin/dodas_check_cvmfs_folders \
