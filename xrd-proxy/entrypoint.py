@@ -7,7 +7,7 @@ import logging
 import subprocess
 import sys
 import time
-
+import os.path
 
 FORMAT = '%(asctime)s %(message)s'
 
@@ -41,6 +41,14 @@ def configure_redirector(server):
 
 if __name__ == "__main__":
 
+    logging.info("Intalling CAs...")
+    try:
+        subprocess.check_output("/opt/xrd_proxy/install_ca.sh", stderr=subprocess.STDOUT, shell=True)
+    except subprocess.CalledProcessError as ex:
+        logging.warn("WARNING: failed to install CAs: \n %s" % ex.output)
+
+    logging.info("Intalling CAs... - DONE")
+
     args = parser.parse_args()
     logging.info("Starting server: \
                  \n proxy: %s \
@@ -62,9 +70,7 @@ if __name__ == "__main__":
     if args.config:
         logging.info("Using configuration file: %s" % args.config)
 
-        #cmsd_command = "/usr/bin/cmsd -b -l /var/log/xrootd/cmsd.log -c "+args.config
         cmsd_command = "/usr/bin/cmsd -l /var/log/xrootd/cmsd.log -c" + args.config
-
         logging.debug("Starting cmsd daemon: \n %s", cmsd_command)
         try:
             cmsd_proc = subprocess.Popen(cmsd_command, shell=True)
@@ -74,7 +80,6 @@ if __name__ == "__main__":
         logging.debug("cmsd daemon started!")
 
         xrd_command = "/usr/bin/xrootd -l /var/log/xrootd/xrd.log -c" + args.config
-
         logging.debug("Starting xrootd daemon: \n %s", xrd_command)
         try:
             xrd_proc = subprocess.Popen(cmsd_command, shell=True)
@@ -83,16 +88,23 @@ if __name__ == "__main__":
             sys.exit(1)
         logging.debug("xrootd daemon started!")
 
-        services_running = True
-        while services_running:
+        while True:
             xrd_check = xrd_proc.poll()
             cmsd_check = cmsd_proc.poll()
             
             if xrd_check or cmsd_check:
-                logging.error("ERROR: one deamon down! Take a look to the logs.")
+                logging.error("ERROR: one deamon down! Take a look to the logs:")
+                if xrd_check:
+                    log_path = '/var/log/xrootd/xrd.log'
+                    if os.path.exists(log_path):
+                        with open(log_path, 'r') as fin:
+                            logging.debug('%s: \n %s' % (log_path,fin.read()))
+                if cmsd_check:
+                    log_path = '/var/log/xrootd/cmsd.log'
+                    if os.path.exists(log_path):
+                        with open(log_path, 'r') as fin:
+                            logging.debug('%s: \n %s' % (log_path,fin.read()))
                 sys.exit(1)
-            else:
-                logging.info("All services running")
             time.sleep(1)
 
     else:
