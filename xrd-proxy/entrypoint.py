@@ -2,11 +2,12 @@
 #-*- coding: utf-8 -*-
 
 import argparse
+import exceptions
 import logging
 import subprocess
 import sys
+import time
 
-from exceptions import *
 
 FORMAT = '%(asctime)s %(message)s'
 
@@ -31,11 +32,11 @@ parser.add_argument('--cache_cmsd_port', help='cache host address port for cmsd 
 parser.add_argument('--redir_cmsd_port', help='cache redirector host port for cmsd daemon', default='1213' )
 
 def configure_proxy(server):
-    pass
+    logging.warn("Feature not implemented yet. Please use --config to pass a valid configuration file")
 
 
 def configure_redirector(server):
-    pass
+    logging.warn("Feature not implemented yet. Please use --config to pass a valid configuration file")
     
 
 if __name__ == "__main__":
@@ -59,10 +60,40 @@ if __name__ == "__main__":
                       args.cache_cmsd_port, args.redir_cmsd_port))
 
     if args.config:
+        logging.info("Using configuration file: %s" % args.config)
 
+        #cmsd_command = "/usr/bin/cmsd -b -l /var/log/xrootd/cmsd.log -c "+args.config
+        cmsd_command = "/usr/bin/cmsd -l /var/log/xrootd/cmsd.log -c" + args.config
 
-        subprocess.check_call(["cmsd", "-b", "-l", "/var/log/xrootd/xrd.log", "-c", args.config])
-        subprocess.check_call(["xrootd", "-c", args.config])
+        logging.debug("Starting cmsd daemon: \n %s", cmsd_command)
+        try:
+            cmsd_proc = subprocess.Popen(cmsd_command, shell=True)
+        except ValueError as ex:
+            logging.error("ERROR: when launching cmsd daemon: %s \n %s" % (ex.args, ex.message))
+            sys.exit(1)
+        logging.debug("cmsd daemon started!")
+
+        xrd_command = "/usr/bin/xrootd -l /var/log/xrootd/xrd.log -c" + args.config
+
+        logging.debug("Starting xrootd daemon: \n %s", xrd_command)
+        try:
+            xrd_proc = subprocess.Popen(cmsd_command, shell=True)
+        except ValueError as ex:
+            logging.error("ERROR: when launching xrootd daemon: %s \n %s" % (ex.args, ex.message))
+            sys.exit(1)
+        logging.debug("xrootd daemon started!")
+
+        services_running = True
+        while services_running:
+            xrd_check = xrd_proc.poll()
+            cmsd_check = cmsd_proc.poll()
+            
+            if xrd_check or cmsd_check:
+                logging.error("ERROR: one deamon down! Take a look to the logs.")
+                sys.exit(1)
+            else:
+                logging.info("All services running")
+            time.sleep(1)
 
     else:
         server = {'cache_host':      args.cache_host,
