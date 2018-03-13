@@ -2,7 +2,7 @@
 
 ```
 # with your xrd_cache.conf on $PWD/config
-sudo docker run -v $PWD/config:/etc/xrootd proxy --config /etc/xrootd/xrd_cache.conf
+sudo docker run -v $PWD/config:/etc/xrootd cloudpg/xrootd-proxy --config /etc/xrootd/xrd_cache.conf
 ```
 
 Logs are stored in: 
