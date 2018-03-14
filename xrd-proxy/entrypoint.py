@@ -116,12 +116,12 @@ def check_health():
 
     if xrd_check is not None or cmsd_check is not None:
         logging.error("ERROR: one deamon down! Take a look to the logs:")
-        if xrd_check:
+        if xrd_check is not None:
             log_path = '/var/log/xrootd/xrd.log'
             if os.path.exists(log_path):
                 with open(log_path, 'r') as fin:
                     logging.debug('%s: \n %s' % (log_path,fin.read()))
-        if cmsd_check:
+        if cmsd_check is not None:
             log_path = '/var/log/xrootd/cmsd.log'
             if os.path.exists(log_path):
                 with open(log_path, 'r') as fin:
