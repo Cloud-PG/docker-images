@@ -69,7 +69,7 @@ def configure_redirector(server):
     """Make configuration file for proxy setup
     
     Arguments:
-        server = {'cache_host':      args.cache_host,
+        server = {'cache_host':      args.cache_host,19:15,060 Return code cmsd_check: 0
                 'redir_host':        args.redir_host,
                 'origin_host':       args.origin_host,
                 'cache_xrd_port':    args.cache_xrd_port,
@@ -111,7 +111,10 @@ def check_health():
     xrd_check = APP.xrd_proc.poll()
     cmsd_check = APP.cmsd_proc.poll()
 
-    if xrd_check or cmsd_check:
+    logging.debug("Return code xrd_check: %s", xrd_check)
+    logging.debug("Return code cmsd_check: %s", cmsd_check)
+
+    if xrd_check is not None or cmsd_check is not None:
         logging.error("ERROR: one deamon down! Take a look to the logs:")
         if xrd_check:
             log_path = '/var/log/xrootd/xrd.log'
@@ -127,13 +130,13 @@ def check_health():
     else:
         logging.info("It's all good!")
         return "0"
-    
+
 
 if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    logging.info("Intalling CAs...")
+    logging.info("Intalling certificates...")
     try:
         subprocess.check_output("/opt/xrd_proxy/install_ca.sh", stderr=subprocess.STDOUT, shell=True)
     except subprocess.CalledProcessError as ex:
