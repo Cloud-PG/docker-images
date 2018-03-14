@@ -26,6 +26,9 @@ RUN chown -R xrootd:xrootd /var/log/xrootd/
 
 RUN echo 'xrootd ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
+COPY config/xrd_cache.conf /etc/xrootd/xrd_cache.conf
+COPY config/xrd_redirector.conf /etc/xrootd/xrd_redirector.conf
+
 EXPOSE 80
 
 ENTRYPOINT ["/usr/bin/python", "/opt/xrd_proxy/entrypoint.py"]
