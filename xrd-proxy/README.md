@@ -5,12 +5,13 @@
 sudo docker run --rm --privileged -p 32294:32294 -p 31113:31113 -v $PWD/config:/etc/xrootd cloudpg/xrootd-proxy --config /etc/xrootd/xrd_test.conf
 ```
 
-*Remember* to expose the ports indicated in your config file. In the case of config/xrd_test.conf are: 32294, 31113
-*Remember2* file cached will be put on /data/xrd, so you may want to mount your storage backend there
+*Remember:* to expose the ports indicated in your config file. In the case of config/xrd_test.conf are: 32294, 31113
+
+*Remember2:* file cached will be put on /data/xrd, so you may want to mount your storage backend there
 
 Logs are stored in:
 
-```bash
+```
 /var/log/xrootd/xrd.log
 /var/log/xrootd/cmsd.log
 ```
