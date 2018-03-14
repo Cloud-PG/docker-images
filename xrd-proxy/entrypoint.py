@@ -4,11 +4,15 @@
 import argparse
 import exceptions
 import logging
+import os.path
 import subprocess
 import sys
 import time
-import os.path
 
+from flask import Flask
+
+
+APP = Flask(__name__)
 FORMAT = '%(asctime)s %(message)s'
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format=FORMAT)
@@ -37,6 +41,38 @@ def configure_proxy(server):
 
 def configure_redirector(server):
     logging.warn("Feature not implemented yet. Please use --config to pass a valid configuration file")
+    
+@APP.route('/check_health', methods=['GET'])
+def check_health():
+    """Check health of xrootd daemons
+    
+    Arguments:
+        xrd_proc {subprocess.Popen} -- xrootd daemon process
+        cmsd_proc {subprocess.Popen} -- cmsd daemon process
+    
+    Returns:
+        int -- 0 if healthy, 1 if down
+    """
+
+    xrd_check = APP.xrd_proc.poll()
+    cmsd_check = APP.cmsd_proc.poll()
+
+    if xrd_check or cmsd_check:
+        logging.error("ERROR: one deamon down! Take a look to the logs:")
+        if xrd_check:
+            log_path = '/var/log/xrootd/xrd.log'
+            if os.path.exists(log_path):
+                with open(log_path, 'r') as fin:
+                    logging.debug('%s: \n %s' % (log_path,fin.read()))
+        if cmsd_check:
+            log_path = '/var/log/xrootd/cmsd.log'
+            if os.path.exists(log_path):
+                with open(log_path, 'r') as fin:
+                    logging.debug('%s: \n %s' % (log_path,fin.read()))
+        return "1"
+    else:
+        logging.info("It's all good!")
+        return "0"
     
 
 if __name__ == "__main__":
@@ -70,7 +106,7 @@ if __name__ == "__main__":
     if args.config:
         logging.info("Using configuration file: %s" % args.config)
 
-        cmsd_command = "/usr/bin/cmsd -l /var/log/xrootd/cmsd.log -c" + args.config
+        cmsd_command = "sudo -u xrootd /usr/bin/cmsd -l /var/log/xrootd/cmsd.log -c" + args.config
         logging.debug("Starting cmsd daemon: \n %s", cmsd_command)
         try:
             cmsd_proc = subprocess.Popen(cmsd_command, shell=True)
@@ -79,33 +115,14 @@ if __name__ == "__main__":
             sys.exit(1)
         logging.debug("cmsd daemon started!")
 
-        xrd_command = "/usr/bin/xrootd -l /var/log/xrootd/xrd.log -c" + args.config
+        xrd_command = "sudo -u xrootd /usr/bin/xrootd -l /var/log/xrootd/xrd.log -c" + args.config
         logging.debug("Starting xrootd daemon: \n %s", xrd_command)
         try:
-            xrd_proc = subprocess.Popen(cmsd_command, shell=True)
+            xrd_proc = subprocess.Popen(xrd_command, shell=True)
         except ValueError as ex:
             logging.error("ERROR: when launching xrootd daemon: %s \n %s" % (ex.args, ex.message))
             sys.exit(1)
         logging.debug("xrootd daemon started!")
-
-        while True:
-            xrd_check = xrd_proc.poll()
-            cmsd_check = cmsd_proc.poll()
-            
-            if xrd_check or cmsd_check:
-                logging.error("ERROR: one deamon down! Take a look to the logs:")
-                if xrd_check:
-                    log_path = '/var/log/xrootd/xrd.log'
-                    if os.path.exists(log_path):
-                        with open(log_path, 'r') as fin:
-                            logging.debug('%s: \n %s' % (log_path,fin.read()))
-                if cmsd_check:
-                    log_path = '/var/log/xrootd/cmsd.log'
-                    if os.path.exists(log_path):
-                        with open(log_path, 'r') as fin:
-                            logging.debug('%s: \n %s' % (log_path,fin.read()))
-                sys.exit(1)
-            time.sleep(1)
 
     else:
         server = {'cache_host':      args.cache_host,
@@ -122,3 +139,7 @@ if __name__ == "__main__":
             configure_proxy(server)
         elif args.redirector:
             configure_redirector(server)
+
+    APP.cmsd_proc = cmsd_proc
+    APP.xrd_proc = xrd_proc
+    APP.run(host="0.0.0.0", port=80)

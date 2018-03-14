@@ -2,7 +2,9 @@ FROM cloudpg/centos-7-grid
 LABEL maintainer="diego.ciangottini@pg.infn.it"
 LABEL Version=1.0
 
-RUN yum install -y xrootd-server sudo
+RUN yum install -y xrootd-server sudo \
+    && yum --setopt=tsflags=nodocs -y install python python-pip \
+    && pip install flask 
 
 RUN mkdir -p /etc/grid-security/xrd
 RUN chown -R xrootd:xrootd /etc/grid-security/xrd
@@ -24,6 +26,6 @@ RUN chown -R xrootd:xrootd /var/log/xrootd/
 
 RUN echo 'xrootd ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-USER xrootd
+EXPOSE 80
 
 ENTRYPOINT ["/usr/bin/python", "/opt/xrd_proxy/entrypoint.py"]
