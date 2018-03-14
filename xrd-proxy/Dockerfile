@@ -9,6 +9,10 @@ RUN yum install -y xrootd-server sudo \
 RUN mkdir -p /etc/grid-security/xrd
 RUN chown -R xrootd:xrootd /etc/grid-security/xrd
 
+COPY config/xrd_cache.conf /etc/xrootd/xrd_cache.conf
+COPY config/xrd_redirector.conf /etc/xrootd/xrd_redirector.conf
+COPY config/Authfile-auth /etc/xrootd/Authfile-auth
+
 # xrootd:xrootd docker => 998:996 on localhost
 RUN chown -R xrootd:xrootd /etc/xrootd/
 
@@ -25,9 +29,6 @@ RUN mkdir -p /var/log/xrootd/
 RUN chown -R xrootd:xrootd /var/log/xrootd/
 
 RUN echo 'xrootd ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-COPY config/xrd_cache.conf /etc/xrootd/xrd_cache.conf
-COPY config/xrd_redirector.conf /etc/xrootd/xrd_redirector.conf
 
 EXPOSE 80
 
