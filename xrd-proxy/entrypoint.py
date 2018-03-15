@@ -25,6 +25,8 @@ group.add_argument('-P', '--proxy', help='XrootD proxy file cache mode', action=
 group.add_argument('-R', '--redirector', help='XrootD cache redirector mode', action="store_true")
 group.add_argument('--config', help='XrootD config file path')
 
+parser.add_argument('--nogrid', help='avoid grid CAs installation', action="store_true")
+parser.add_argument('--health_port', help='port for healthcheck listening', type=int, default=80)
 parser.add_argument('--cache_host', help='cache host address', default='0.0.0.0')
 parser.add_argument('--redir_host', help='cache redirector host address', default='0.0.0.0' )
 parser.add_argument('--origin_host', help='origin server/redirector host address', default='0.0.0.0')
@@ -136,13 +138,14 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    logging.info("Intalling certificates...")
-    try:
-        subprocess.check_output("/opt/xrd_proxy/install_ca.sh", stderr=subprocess.STDOUT, shell=True)
-    except subprocess.CalledProcessError as ex:
-        logging.warn("WARNING: failed to install CAs: \n %s" % ex.output)
+    if not args.nogrid:
+        logging.info("Intalling certificates...")
+        try:
+            subprocess.check_output("/opt/xrd_proxy/install_ca.sh", stderr=subprocess.STDOUT, shell=True)
+        except subprocess.CalledProcessError as ex:
+            logging.warn("WARNING: failed to install CAs: \n %s" % ex.output)
 
-    logging.info("Intalling CAs... - DONE")
+        logging.info("Intalling CAs... - DONE")
 
     logging.info("Starting server: \
                  \n proxy: %s \
@@ -228,4 +231,4 @@ if __name__ == "__main__":
 
     APP.cmsd_proc = cmsd_proc
     APP.xrd_proc = xrd_proc
-    APP.run(host="0.0.0.0", port=80)
+    APP.run(host="0.0.0.0", port=args.health_port)

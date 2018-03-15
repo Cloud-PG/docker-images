@@ -9,6 +9,9 @@ RUN yum install -y xrootd-server sudo \
 RUN mkdir -p /etc/grid-security/xrd
 RUN chown -R xrootd:xrootd /etc/grid-security/xrd
 
+COPY config/xrd_test.conf /etc/xrootd/xrd_test.conf
+COPY config/xrd_test_redir.conf /etc/xrootd/xrd_test_redir.conf
+COPY config/xrd_test_origin.conf /etc/xrootd/xrd_test_origin.conf
 COPY config/xrd_cache.conf /etc/xrootd/xrd_cache.conf
 COPY config/xrd_redirector.conf /etc/xrootd/xrd_redirector.conf
 COPY config/Authfile-auth /etc/xrootd/Authfile-auth
