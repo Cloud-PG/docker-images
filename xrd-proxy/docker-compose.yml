@@ -33,5 +33,16 @@ services:
       - --health_port
       - "8081"
       - --nogrid
+  client:
+    network_mode: "host"
+    image: "cloudpg/xrootd-proxy"
+    entrypoint:
+      - python
+      - /opt/xrd_proxy/entrypoint.py
+      - --config 
+      - DUMMY  
+      - --health_port
+      - "8082"
+      - --nogrid
 
     
