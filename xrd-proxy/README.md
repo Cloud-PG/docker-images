@@ -62,7 +62,7 @@ To shutdown the stack:
 
 ```bash
 # Put a test file on the remote host
-sudo docker exec -ti dciangot_origin_1 touch /data/xrd/test.txt
+sudo docker exec -ti xrdproxy_origin_1 touch /data/xrd/test.txt
 # Request that file from the cache redirector xrootd process 
 # that is listening on 1094
 sudo docker exec -ti xrdproxy_client_1 xrdcp -f root://localhost:1094//test.txt /dev/null
