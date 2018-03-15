@@ -50,7 +50,12 @@ The command for bringing the full stack up is:
 ```
 git clone https://github.com/Cloud-PG/docker-images.git
 cd docker-images/xrd-proxy
-/usr/local/bin/docker-compose up
+/usr/local/bin/docker-compose up -d
+```
+
+To shutdown the stack:
+```
+/usr/local/bin/docker-compose down
 ```
 
 ### First functional test
