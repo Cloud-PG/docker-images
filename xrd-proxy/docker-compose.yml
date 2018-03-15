@@ -2,7 +2,7 @@ version: '3'
 services:
   cache:
     network_mode: "host"
-    image: "proxy"
+    image: "cloudpg/xrootd-proxy"
     entrypoint:
       - python
       - /opt/xrd_proxy/entrypoint.py
@@ -13,7 +13,7 @@ services:
       - --nogrid
   redirector:
     network_mode: "host"
-    image: "proxy"
+    image: "cloudpg/xrootd-proxy"
     entrypoint:
       - python
       - /opt/xrd_proxy/entrypoint.py
@@ -24,7 +24,7 @@ services:
       - --nogrid
   origin:
     network_mode: "host"
-    image: "proxy"
+    image: "cloudpg/xrootd-proxy"
     entrypoint:
       - python
       - /opt/xrd_proxy/entrypoint.py
