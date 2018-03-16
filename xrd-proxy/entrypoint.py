@@ -195,7 +195,7 @@ if __name__ == "__main__":
                 'redir_xrd_port':    args.redir_xrd_port,
                 'origin_xrd_port':   args.origin_xrd_port,
                 'cache_cmsd_port':   '1213',
-                'redir_cmsd_port':   '1213',
+                'redir_cmsd_port':   args.redir_cmsd_port,
                 }
 
         if args.proxy:
