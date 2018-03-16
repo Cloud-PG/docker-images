@@ -9,4 +9,4 @@ yum -y install ca_CMS-TTS-CA
 chmod 600 /etc/grid-security/xrd/userkey.pem
 
 echo "Retrieving proxy"
-grid-proxy-init -cert /etc/grid-security/xrd/usercert.pem -key /etc/grid-security/xrd/userkey.pem
+sudo -u xrootd grid-proxy-init -cert /etc/grid-security/xrd/usercert.pem -key /etc/grid-security/xrd/userkey.pem

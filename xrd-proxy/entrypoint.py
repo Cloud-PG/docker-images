@@ -5,6 +5,7 @@ import argparse
 import exceptions
 import logging
 import os.path
+import shutil
 import subprocess
 import sys
 import time
