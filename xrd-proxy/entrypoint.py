@@ -189,6 +189,7 @@ if __name__ == "__main__":
         logging.debug("xrootd daemon started!")
 
     else:
+        # TODO: add pfc parameter
         server = {'cache_host':      args.cache_host,
                 'redir_host':        args.redir_host,
                 'origin_host':       args.origin_host,
