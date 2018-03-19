@@ -170,7 +170,7 @@ if __name__ == "__main__":
             args.config = '/etc/xrootd/xrd_cache.conf'
         logging.info("Using configuration file: %s" % args.config)
 
-        cmsd_command = "sudo -u xrootd /usr/bin/cmsd -l /var/log/xrootd/cmsd.log -c" + args.config
+        cmsd_command = "sudo -u xrootd /usr/bin/cmsd -l /var/log/xrootd/cmsd.log -c " + args.config
         logging.debug("Starting cmsd daemon: \n %s", cmsd_command)
         try:
             cmsd_proc = subprocess.Popen(cmsd_command, shell=True)
@@ -179,7 +179,7 @@ if __name__ == "__main__":
             sys.exit(1)
         logging.debug("cmsd daemon started!")
 
-        xrd_command = "sudo -u xrootd /usr/bin/xrootd -l /var/log/xrootd/xrd.log -c" + args.config
+        xrd_command = "sudo -u xrootd /usr/bin/xrootd -l /var/log/xrootd/xrd.log -c " + args.config
         logging.debug("Starting xrootd daemon: \n %s", xrd_command)
         try:
             xrd_proc = subprocess.Popen(xrd_command, shell=True)
@@ -213,7 +213,7 @@ if __name__ == "__main__":
         
         logging.info("Using configuration file: %s" % DEFAULT_CONFIG)
 
-        cmsd_command = "sudo -u xrootd /usr/bin/cmsd -l /var/log/xrootd/cmsd.log -c" + DEFAULT_CONFIG
+        cmsd_command = "sudo -u xrootd /usr/bin/cmsd -l /var/log/xrootd/cmsd.log -c " + DEFAULT_CONFIG
         logging.debug("Starting cmsd daemon: \n %s", cmsd_command)
         try:
             cmsd_proc = subprocess.Popen(cmsd_command, shell=True)
@@ -222,7 +222,7 @@ if __name__ == "__main__":
             sys.exit(1)
         logging.debug("cmsd daemon started!")
 
-        xrd_command = "sudo -u xrootd /usr/bin/xrootd -l /var/log/xrootd/xrd.log -c" + DEFAULT_CONFIG
+        xrd_command = "sudo -u xrootd /usr/bin/xrootd -l /var/log/xrootd/xrd.log -c " + DEFAULT_CONFIG
         logging.debug("Starting xrootd daemon: \n %s", xrd_command)
         try:
             xrd_proc = subprocess.Popen(xrd_command, shell=True)
