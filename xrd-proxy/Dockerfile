@@ -20,10 +20,12 @@ COPY config/Authfile-auth /etc/xrootd/Authfile-auth
 RUN chown -R xrootd:xrootd /etc/xrootd/
 
 RUN mkdir -p /opt/xrd_proxy
-COPY entrypoint.py /opt/xrd_proxy/entrypoint.py
-COPY install_ca.sh /opt/xrd_proxy/install_ca.sh
+COPY bin/entrypoint.py /opt/xrd_proxy/entrypoint.py
+COPY bin/install_ca.sh /opt/xrd_proxy/install_ca.sh
+COPY bin/refresh_cert.sh /opt/xrd_proxy/refresh_cert.sh
 RUN chown -R xrootd:xrootd  /opt/xrd_proxy/
 RUN chmod +x /opt/xrd_proxy/install_ca.sh
+RUN chmod +x /opt/xrd_proxy/refresh_cert.sh
 
 RUN mkdir -p /data/xrd
 RUN chown -R xrootd:xrootd /data/xrd

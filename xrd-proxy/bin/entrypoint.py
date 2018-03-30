@@ -83,8 +83,6 @@ def configure_redirector(server):
                 }
     """
 
-    DEFAULT_CONFIG = '/etc/xrootd/xrd_redirector.conf'
-
     with open(DEFAULT_CONFIG, 'r') as file:
         filedata = file.read()
 
@@ -131,7 +129,11 @@ def check_health():
                     logging.debug('%s: \n %s' % (log_path,fin.read()))
         return "1"
     else:
-        logging.info("It's all good!")
+        logging.info("It's all good! Checking certificate timeleft now")
+        try:
+            subprocess.check_output("/opt/xrd_proxy/refresh_cert.sh", stderr=subprocess.STDOUT, shell=True)
+        except subprocess.CalledProcessError as ex:
+            logging.warn("WARNING: failed to install CAs: \n %s" % ex.output)
         return "0"
 
 
@@ -206,6 +208,7 @@ if __name__ == "__main__":
             except:
                 logging.exception("Unknown exception")
         elif args.redirector:
+            DEFAULT_CONFIG = '/etc/xrootd/xrd_redirector.conf'
             try:
                 configure_redirector(server)
             except:
@@ -213,7 +216,7 @@ if __name__ == "__main__":
         
         logging.info("Using configuration file: %s" % DEFAULT_CONFIG)
 
-        cmsd_command = "sudo -u xrootd /usr/bin/cmsd -l /var/log/xrootd/cmsd.log -c " + DEFAULT_CONFIG
+        cmsd_command = "sudo -u xrootd /usr/bin/cmsd -k 3 -l /var/log/xrootd/cmsd.log -c " + DEFAULT_CONFIG
         logging.debug("Starting cmsd daemon: \n %s", cmsd_command)
         try:
             cmsd_proc = subprocess.Popen(cmsd_command, shell=True)
@@ -222,7 +225,7 @@ if __name__ == "__main__":
             sys.exit(1)
         logging.debug("cmsd daemon started!")
 
-        xrd_command = "sudo -u xrootd /usr/bin/xrootd -l /var/log/xrootd/xrd.log -c " + DEFAULT_CONFIG
+        xrd_command = "sudo -u xrootd /usr/bin/xrootd -k 3 -l /var/log/xrootd/xrd.log -c " + DEFAULT_CONFIG
         logging.debug("Starting xrootd daemon: \n %s", xrd_command)
         try:
             xrd_proc = subprocess.Popen(xrd_command, shell=True)
