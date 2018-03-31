@@ -2,7 +2,7 @@
 
 VALID=`sudo -u xrootd grid-proxy-info -f /tmp/x509up_u998 -e && echo "VALID" || echo "EXPIRED"`
 
-if [ "$VALID" -eq "VALID" ]; then
+if [ "$VALID" == "VALID" ]; then
     echo "Proxy is valid"
 else
     echo "Proxy $VALID. Retrieving a new one..."
