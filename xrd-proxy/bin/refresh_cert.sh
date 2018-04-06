@@ -1,12 +1,12 @@
 #!/bin/bash
 
-VALID=`sudo -u xrootd grid-proxy-info -f /tmp/x509up_u998 -e && echo "VALID" || echo "EXPIRED"`
+VALID=`sudo -u xrootd grid-proxy-info -f /tmp/x509up_u998 -e -h 24 && echo "VALID" || echo "EXPIRED"`
 
 if [ "$VALID" == "VALID" ]; then
     echo "Proxy is valid"
 else
     echo "Proxy $VALID. Retrieving a new one..."
-    sudo -u xrootd grid-proxy-init -cert /etc/grid-security/xrd/usercert.pem -key /etc/grid-security/xrd/userkey.pem
+    sudo -u xrootd grid-proxy-init -cert /etc/grid-security/xrd/usercert.pem -key /etc/grid-security/xrd/userkey.pem -valid 48:00
 
     echo "Done. Refreshing CAs..."
     yum install -y ca-policy-egi-core ca-policy-lcg
