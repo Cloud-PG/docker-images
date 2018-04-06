@@ -1,14 +1,11 @@
 #!/usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import argparse
-import exceptions
 import logging
 import os.path
-import shutil
 import subprocess
 import sys
-import time
 
 from flask import Flask
 
@@ -29,19 +26,20 @@ group.add_argument('--config', help='XrootD config file path')
 parser.add_argument('--nogrid', help='avoid grid CAs installation', action="store_true")
 parser.add_argument('--health_port', help='port for healthcheck listening', type=int, default=80)
 parser.add_argument('--cache_host', help='cache host address', default='0.0.0.0')
-parser.add_argument('--redir_host', help='cache redirector host address', default='0.0.0.0' )
+parser.add_argument('--redir_host', help='cache redirector host address', default='0.0.0.0')
 parser.add_argument('--origin_host', help='origin server/redirector host address', default='0.0.0.0')
 
 parser.add_argument('--cache_xrd_port', help='cache host port for xrootd daemon', default='1094')
-parser.add_argument('--redir_xrd_port', help='cache redirector host port for xrootd daemon', default='1094' )
+parser.add_argument('--redir_xrd_port', help='cache redirector host port for xrootd daemon', default='1094')
 parser.add_argument('--origin_xrd_port', help='origin server/redirector host port for xrootd daemon', default='1094')
 
 parser.add_argument('--cache_cmsd_port', help='cache host address port for cmsd daemon', default='1213')
-parser.add_argument('--redir_cmsd_port', help='cache redirector host port for cmsd daemon', default='1213' )
+parser.add_argument('--redir_cmsd_port', help='cache redirector host port for cmsd daemon', default='1213')
+
 
 def configure_proxy(server):
     """Make configuration file for proxy setup
-    
+
     Arguments:
         server = {'cache_host':      args.cache_host,
                 'redir_host':        args.redir_host,
@@ -59,18 +57,19 @@ def configure_proxy(server):
 
         logging.info("Creating config file..")
         # Replace the target string
-        filedata = filedata.replace('rdtr_cache',server["redir_host"])
-        filedata = filedata.replace('rdtr_port_xrd',server["redir_xrd_port"])
-        filedata = filedata.replace('rdtr_port_cmsd',server["redir_cmsd_port"])
-        filedata = filedata.replace('rdtr_global_port',server["origin_xrd_port"])
-        filedata = filedata.replace('rdtr_global',server["origin_host"])
-        
+        filedata = filedata.replace('rdtr_cache', server["redir_host"])
+        filedata = filedata.replace('rdtr_port_xrd', server["redir_xrd_port"])
+        filedata = filedata.replace('rdtr_port_cmsd', server["redir_cmsd_port"])
+        filedata = filedata.replace('rdtr_global_port', server["origin_xrd_port"])
+        filedata = filedata.replace('rdtr_global', server["origin_host"])
+
     with open(DEFAULT_CONFIG, 'w') as file:
         file.write(filedata)
 
+
 def configure_redirector(server):
     """Make configuration file for proxy setup
-    
+
     Arguments:
         server = {'cache_host':      args.cache_host,19:15,060 Return code cmsd_check: 0
                 'redir_host':        args.redir_host,
@@ -88,23 +87,24 @@ def configure_redirector(server):
 
         logging.info("Creating config file..")
         # Replace the target string
-        filedata = filedata.replace('rdtr_cache',server["redir_host"])
-        filedata = filedata.replace('rdtr_port_xrd',server["redir_xrd_port"])
-        filedata = filedata.replace('rdtr_port_cmsd',server["redir_cmsd_port"])
-        filedata = filedata.replace('rdtr_global_port',server["origin_xrd_port"])
-        filedata = filedata.replace('rdtr_global',server["origin_host"])
-        
+        filedata = filedata.replace('rdtr_cache', server["redir_host"])
+        filedata = filedata.replace('rdtr_port_xrd', server["redir_xrd_port"])
+        filedata = filedata.replace('rdtr_port_cmsd', server["redir_cmsd_port"])
+        filedata = filedata.replace('rdtr_global_port', server["origin_xrd_port"])
+        filedata = filedata.replace('rdtr_global', server["origin_host"])
+
     with open(DEFAULT_CONFIG, 'w') as file:
         file.write(filedata)
-    
+
+
 @APP.route('/check_health', methods=['GET'])
 def check_health():
     """Check health of xrootd daemons
-    
+
     Arguments:
         xrd_proc {subprocess.Popen} -- xrootd daemon process
         cmsd_proc {subprocess.Popen} -- cmsd daemon process
-    
+
     Returns:
         int -- 0 if healthy, 1 if down
     """
@@ -121,12 +121,12 @@ def check_health():
             log_path = '/var/log/xrootd/xrd.log'
             if os.path.exists(log_path):
                 with open(log_path, 'r') as fin:
-                    logging.debug('%s: \n %s' % (log_path,fin.read()))
+                    logging.debug('%s: \n %s' % (log_path, fin.read()))
         if cmsd_check is not None:
             log_path = '/var/log/xrootd/cmsd.log'
             if os.path.exists(log_path):
                 with open(log_path, 'r') as fin:
-                    logging.debug('%s: \n %s' % (log_path,fin.read()))
+                    logging.debug('%s: \n %s' % (log_path, fin.read()))
         return "1"
     else:
         logging.info("It's all good! Checking certificate timeleft now")
@@ -162,7 +162,7 @@ if __name__ == "__main__":
                  \n origin xrootd port: %s \
                  \n cache cmsd port: %s \
                  \n redirector cmsd port: %s \
-                 " % (args.proxy, args.redirector, args.config, 
+                 " % (args.proxy, args.redirector, args.config,
                       args.cache_host, args.redir_host, args.origin_host,
                       args.cache_xrd_port, args.redir_xrd_port, args.origin_xrd_port,
                       args.cache_cmsd_port, args.redir_cmsd_port))
@@ -192,15 +192,15 @@ if __name__ == "__main__":
 
     else:
         # TODO: add pfc parameter
-        server = {'cache_host':      args.cache_host,
-                'redir_host':        args.redir_host,
-                'origin_host':       args.origin_host,
-                'cache_xrd_port':    args.cache_xrd_port,
-                'redir_xrd_port':    args.redir_xrd_port,
-                'origin_xrd_port':   args.origin_xrd_port,
-                'cache_cmsd_port':   '1213',
-                'redir_cmsd_port':   args.redir_cmsd_port,
-                }
+        server = {'cache_host':        args.cache_host,
+                  'redir_host':        args.redir_host,
+                  'origin_host':       args.origin_host,
+                  'cache_xrd_port':    args.cache_xrd_port,
+                  'redir_xrd_port':    args.redir_xrd_port,
+                  'origin_xrd_port':   args.origin_xrd_port,
+                  'cache_cmsd_port':   '1213',
+                  'redir_cmsd_port':   args.redir_cmsd_port,
+                  }
 
         if args.proxy:
             try:
@@ -213,7 +213,7 @@ if __name__ == "__main__":
                 configure_redirector(server)
             except:
                 logging.exception("Unknown exception")
-        
+
         logging.info("Using configuration file: %s" % DEFAULT_CONFIG)
 
         cmsd_command = "sudo -u xrootd /usr/bin/cmsd -k 3 -l /var/log/xrootd/cmsd.log -c " + DEFAULT_CONFIG
