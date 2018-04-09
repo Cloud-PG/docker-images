@@ -45,7 +45,7 @@ def check_env():
                 }
 
     for key, value in env_vars.iteritems():
-        if os.environ(key) is None:
+        if os.environ[key] is None:
             os.environ[key] = value
 
 
