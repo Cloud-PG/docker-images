@@ -40,8 +40,8 @@ def check_env():
                 'N_PREFETCH': '0',
                 'BLOCK_SIZE': '512k',
                 'CACHE_LOG_LEVEL': 'info',
-                'LOW_WM': '80',
-                'HI_WM': '90'
+                'LOW_WM': '0.80',
+                'HI_WM': '0.90'
                 }
 
     for key, value in env_vars.iteritems():
