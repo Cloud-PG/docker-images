@@ -9,11 +9,12 @@ RUN yum install -y xrootd-server sudo \
 RUN mkdir -p /etc/grid-security/xrd
 RUN chown -R xrootd:xrootd /etc/grid-security/xrd
 
-RUN mkdir -p /etc/xrootd
-ADD --chown=xrootd:xrootd config /etc/xrootd
+ADD config /etc/xrootd
+RUN chown -R xrootd:xrootd /etc/xrootd 
 
 RUN mkdir -p /opt/xrd_proxy
-ADD --chown=xrootd:xrootd bin /opt/xrd_proxy 
+ADD bin /opt/xrd_proxy 
+RUN chown -R xrootd:xrootd /opt/xrd_proxy 
 
 RUN chmod +x /opt/xrd_proxy/install_ca.sh
 RUN chmod +x /opt/xrd_proxy/refresh_cert.sh
