@@ -41,10 +41,11 @@ def check_env():
                 'BLOCK_SIZE': '512k',
                 'CACHE_LOG_LEVEL': 'info',
                 'LOW_WM': '80',
-                'HIGH_WM': '90'
+                'HI_WM': '90'
                 }
 
     for key, value in env_vars.iteritems():
+        # TODO: logging
         if os.environ.get(key) is None:
             os.environ[key] = value
 
