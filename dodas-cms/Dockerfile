@@ -1,4 +1,4 @@
-FROM cloudpg/centos-7-grid
+FROM cloudpg/centos-7-grid:singularity
 LABEL maintainer="mirco.tracolli@pg.infn.it"
 LABEL Version=1.0
 
