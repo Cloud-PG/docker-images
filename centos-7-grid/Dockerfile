@@ -13,9 +13,18 @@ RUN echo "LC_ALL=C" >> /etc/environment \
     && yum clean all
 
 # Add yum repos
+WORKDIR /etc/pki/rpm-gpg
+RUN wget http://linuxsoft.cern.ch/wlcg/RPM-GPG-KEY-wlcg
+
 WORKDIR /etc/yum.repos.d
 RUN wget http://repository.egi.eu/community/software/preview.repository/2.0/releases/repofiles/centos-7-x86_64.repo \
-    && wget http://repository.egi.eu/sw/production/cas/1/current/repo-files/EGI-trustanchors.repo 
+    && wget http://repository.egi.eu/sw/production/cas/1/current/repo-files/EGI-trustanchors.repo \ 
+    && wget http://linuxsoft.cern.ch/wlcg/wlcg-centos7.repo
+
+# Add singularity
+RUN yum -y clean all --enablerepo=* \
+    && yum -y update \
+    && yum -y install singularity-runtime
 
 # Add grid stuff
 WORKDIR /root
