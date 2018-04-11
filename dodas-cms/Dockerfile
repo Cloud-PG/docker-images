@@ -26,6 +26,9 @@ COPY dodas_bin/*  /usr/local/bin/
 
 WORKDIR /root
 
+# Download validation script
+RUN wget https://gitlab.cern.ch/CMSSI/CMSglideinWMSValidation/raw/master/singularity_validation.sh
+
 RUN chmod +x /usr/local/bin/dodasexe_pre.sh \
     && chmod +x /usr/local/bin/dodasexe.sh \
     && chmod +x /usr/local/bin/dodas.sh \
