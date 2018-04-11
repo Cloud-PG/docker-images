@@ -48,7 +48,7 @@ if [ $? -eq 0 ]; then
 
     export PATH=$PATH:/usr/libexec/condor
 
-    oneclient -i -o allow_other -H $CMS_ONEDATA_CACHE -t $ONEDATA_ACCESS_TOKEN /mnt/onedata/
+    #oneclient -i -o allow_other -H $CMS_ONEDATA_CACHE -t $ONEDATA_ACCESS_TOKEN /mnt/onedata/
 else
     echo "proxy certificate is Failure"
     exit 9
