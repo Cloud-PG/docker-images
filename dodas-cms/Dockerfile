@@ -23,12 +23,13 @@ RUN useradd -ms /bin/bash condor \
 COPY condorconfig/* /etc/condor/
 COPY config.d/* /etc/condor/config.d/
 COPY dodas_bin/*  /usr/local/bin/
+COPY config.d/condor_mapfile /etc/condor/certs/condor_mapfile
 
 WORKDIR /root
 
 # Download validation script
 RUN wget https://gitlab.cern.ch/CMSSI/CMSglideinWMSValidation/raw/master/singularity_validation.sh \
-    && wget https://gitlab.cern.ch/CMSSI/CMSglideinWMSValidation/blob/master/singularity_wrapper.sh
+    && wget https://gitlab.cern.ch/CMSSI/CMSglideinWMSValidation/raw/master/singularity_wrapper.sh
 
 RUN chmod +x /usr/local/bin/dodasexe_pre.sh \
     && chmod +x /usr/local/bin/dodasexe.sh \
