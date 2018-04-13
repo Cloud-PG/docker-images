@@ -23,7 +23,7 @@ RUN useradd -ms /bin/bash condor \
 COPY condorconfig/* /etc/condor/
 COPY config.d/* /etc/condor/config.d/
 COPY dodas_bin/*  /usr/local/bin/
-RUN mv /etc/condor/config.d/condor_mapfile /etc/condor/certs/condor_mapfile
+RUN mkdir -p /etc/condor/certs && mv /etc/condor/config.d/condor_mapfile /etc/condor/certs/condor_mapfile
 
 WORKDIR /root
 
