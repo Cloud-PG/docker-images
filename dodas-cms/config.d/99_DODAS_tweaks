@@ -8,7 +8,7 @@ GSI_DAEMON_NAME=$(GSI_DAEMON_NAME),/DC=ch/DC=cern/OU=computers/CN=vocms0809.cern
 GSI_DAEMON_NAME=$(GSI_DAEMON_NAME),/DC=org/DC=opensciencegrid/O=Open Science Grid/OU=Services/CN=cmssrv215.fnal.gov
 
 # Appending CCB DN to collector configuration
-GSI_DAEMON_NAME=$(GSI_DAEMON_NAME),/DC=ch/DC=cern/OU=computers/CN=vocms0803.cern.ch, /DC=ch/DC=cern/OU=computers/CN=vocms0816.cern.ch
+GSI_DAEMON_NAME=$(GSI_DAEMON_NAME),/DC=ch/DC=cern/OU=computers/CN=vocms0803.cern.ch,/DC=ch/DC=cern/OU=computers/CN=vocms0816.cern.ch,/DC=ch/DC=cern/OU=computers/CN=vocms068.cern.ch
 
 GSI_DAEMON_NAME=$(GSI_DAEMON_NAME),/C=EU/O=INDIGO/OU=TTS/CN=c20282d9-279f-4eb5-bef6-30905c3fdd68@indigo-iam-test/CN=704102384
 
