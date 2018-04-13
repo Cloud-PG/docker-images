@@ -49,7 +49,7 @@ RUN useradd -ms /bin/bash condor \
         vim \
     && yum clean all \
     && pip install --upgrade pip \
-    && pip install j2cli paramiko psutil
+    && pip install j2cli paramiko psutil kazoo requests
 
 # Root home
 WORKDIR /root
