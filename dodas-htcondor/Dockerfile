@@ -83,6 +83,7 @@ COPY condor.sh /opt/dodas/
 COPY check_condor_processes.py /opt/dodas/
 COPY check_cvmfs_folders.py /opt/dodas/
 COPY check_ssh_server.py /opt/dodas/
+COPY cache.py /opt/dodas/
 COPY ./config/condor_config.template /opt/dodas/htc_config/
 
 RUN ln -s /opt/dodas/condor.sh /usr/local/sbin/dodas_condor \
