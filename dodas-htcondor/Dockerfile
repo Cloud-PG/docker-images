@@ -48,7 +48,7 @@ RUN useradd -ms /bin/bash condor \
         sudo \
         vim \
     && yum clean all \
-    && pip install --upgrade pip \
+    && pip install --upgrade pip setuptools \
     && pip install j2cli paramiko psutil kazoo requests
 
 # Root home
