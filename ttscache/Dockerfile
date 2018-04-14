@@ -6,7 +6,7 @@ LABEL Version=1.0.1
 RUN yum --setopt=tsflags=nodocs -y update \
     && yum --setopt=tsflags=nodocs -y install python python-pip \
     && yum clean all \
-    && pip install --upgrade pip \
+    && pip install --upgrade pip setuptools \
     && pip install requests kazoo flask \
     && mkdir -p /opt/ttscache/ \
     && mkdir -p /var/log/ttscache/ \
