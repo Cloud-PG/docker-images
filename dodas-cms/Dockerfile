@@ -14,8 +14,7 @@ RUN useradd -ms /bin/bash condor \
     && rpm --import RPM-GPG-KEY-HTCondor \
     && wget -O onedata.repo http://packages.onedata.org/yum/onedata_centos_7x.repo \
     && yum --setopt=tsflags=nodocs -y update \
-    && yum --setopt=tsflags=nodocs -y install condor-all \
-    && yum --setopt=tsflags=nodocs --enablerepo=onedata -y install oneclient \
+    && yum --setopt=tsflags=nodocs -y install condor-all-8.6.5 \
     && yum clean all \
     && ln -s /usr/lib64/condor /usr/lib/condor \
     && ln -s /usr/libexec/condor /usr/lib/condor/libexec
