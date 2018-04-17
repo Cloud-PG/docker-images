@@ -5,6 +5,7 @@ then
     echo "==> Check CONDOR_HOST"
     if [ "$CONDOR_HOST" == "ZOOKEEPER" ];
     then
+        echo "==> CONDOR_HOST with Zookeeper"
         export CONDOR_HOST=$(hostname -i)
         dodas_cache zookeeper condor_host "$CONDOR_HOST"
     fi
@@ -16,6 +17,13 @@ then
     condor_master -f
 elif [ "$1" == "wn" ];
 then
+    echo "==> Check CONDOR_HOST"
+    if [ "$CONDOR_HOST" == "ZOOKEEPER" ];
+    then
+        echo "==> CONDOR_HOST with Zookeeper"
+        export CONDOR_HOST=$(dodas_cache --wait-for true zookeeper condor_host)
+        export CCB_ADDRESS="$CONDOR_HOST"
+    fi
     echo "==> Compile configuration file for worker node with env vars"
     export CONDOR_DAEMON_LIST="MASTER, STARTD"
     export CCB_ADDRESS_STRING="CCB_ADDRESS = $CCB_ADDRESS"
@@ -25,6 +33,12 @@ then
     echo "==> Start service"
 elif [ "$1" == "schedd" ];
 then
+    echo "==> Check CONDOR_HOST"
+    if [ "$CONDOR_HOST" == "ZOOKEEPER" ];
+    then
+        echo "==> CONDOR_HOST with Zookeeper"
+        export CONDOR_HOST=$(dodas_cache --wait-for true zookeeper condor_host)
+    fi
     echo "==> Compile configuration file for sheduler node with env vars"
     export CONDOR_DAEMON_LIST="MASTER, SCHEDD"
     export NETWORK_INTERFACE_STRING="NETWORK_INTERFACE = $NETWORK_INTERFACE"
