@@ -555,7 +555,6 @@ def main():
                         help='The type of the value to set')
 
     args = parser.parse_args()
-    print(args)
 
     cache = None
     converter = {
