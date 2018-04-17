@@ -6,11 +6,12 @@ import json
 import logging
 from abc import ABCMeta, abstractmethod
 from ast import literal_eval
-from os import environ, _exit
+from os import _exit, environ
 from sys import stdout
+from time import sleep
 
 import requests
-from six import add_metaclass, PY2
+from six import PY2, add_metaclass
 
 from kazoo import exceptions as kazoo_exceptions
 from kazoo.client import KazooClient
@@ -553,6 +554,8 @@ def main():
                         help='Value to set on selected variable')
     parser.add_argument('--value-type', metavar='value_type', type=str, choices=['int', 'float', 'str'], default="str",
                         help='The type of the value to set')
+    parser.add_argument('--wait-for', metavar='wait_for', type=bool, default=False,
+                        help='Wait for the variable to be set (!= None)')
 
     args = parser.parse_args()
 
@@ -582,9 +585,14 @@ def main():
         cache = MemoryCache()
 
     cur_var = getattr(cache, args.variable)
+        
     if args.value is not None:
         cur_var.value = converter[args.value_type](
             args.value)
+
+    if args.wait_for:
+        while cur_var.value is None or cur_var.value == "None":
+            sleep(1)
 
     stdout.write(str(cur_var.value))
     stdout.flush()
