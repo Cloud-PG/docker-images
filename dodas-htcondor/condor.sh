@@ -2,6 +2,11 @@
 
 if [ "$1" == "master" ];
 then
+    echo "==> Check CONDOR_HOST"
+    if [ "$CONDOR_HOST" == "ZOOKEEPER" ];
+        export CONDOR_HOST=$(hostname -i)
+        dodas_cache zookeeper condor_host "$CONDOR_HOST"
+    fi
     echo "==> Compile configuration file for master node with env vars"
     export CONDOR_DAEMON_LIST="COLLECTOR, MASTER, NEGOTIATOR"
     export NETWORK_INTERFACE_STRING="NETWORK_INTERFACE = $CONDOR_HOST"

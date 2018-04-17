@@ -90,6 +90,7 @@ RUN ln -s /opt/dodas/condor.sh /usr/local/sbin/dodas_condor \
     && ln -s /opt/dodas/check_condor_processes.py /usr/local/sbin/dodas_check_condor_processes \
     && ln -s /opt/dodas/check_cvmfs_folders.py /usr/local/sbin/dodas_check_cvmfs_folders \
     && ln -s /opt/dodas/check_ssh_server.py /usr/local/sbin/dodas_check_ssh_server
+    && ln -s /opt/dodas/cache.py /usr/local/sbin/dodas_cache
 
 # CentOS uname characteristics
 RUN mv /bin/uname /bin/uname_old
