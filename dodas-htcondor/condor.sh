@@ -6,8 +6,12 @@ then
     if [ "$CONDOR_HOST" == "ZOOKEEPER" ];
     then
         echo "==> CONDOR_HOST with Zookeeper"
+        echo "==> Get Master IP"
         export CONDOR_HOST=$(hostname -i)
+        echo "==> Set Master IP on Zookeeper"
         dodas_cache zookeeper condor_host "$CONDOR_HOST"
+    else
+        echo "==> CONDOR_HOST with ENV"
     fi
     echo "==> Compile configuration file for master node with env vars"
     export CONDOR_DAEMON_LIST="COLLECTOR, MASTER, NEGOTIATOR"
@@ -21,8 +25,11 @@ then
     if [ "$CONDOR_HOST" == "ZOOKEEPER" ];
     then
         echo "==> CONDOR_HOST with Zookeeper"
+        echo "==> Get Master ip with Zookeeper"
         export CONDOR_HOST=$(dodas_cache --wait-for true zookeeper condor_host)
         export CCB_ADDRESS="$CONDOR_HOST"
+    else
+        echo "==> CONDOR_HOST with ENV"
     fi
     echo "==> Compile configuration file for worker node with env vars"
     export CONDOR_DAEMON_LIST="MASTER, STARTD"
@@ -37,7 +44,10 @@ then
     if [ "$CONDOR_HOST" == "ZOOKEEPER" ];
     then
         echo "==> CONDOR_HOST with Zookeeper"
+        echo "==> Get Master ip with Zookeeper"
         export CONDOR_HOST=$(dodas_cache --wait-for true zookeeper condor_host)
+    else
+        echo "==> CONDOR_HOST with ENV"
     fi
     echo "==> Compile configuration file for sheduler node with env vars"
     export CONDOR_DAEMON_LIST="MASTER, SCHEDD"
