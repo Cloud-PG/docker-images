@@ -4,6 +4,7 @@ if [ "$1" == "master" ];
 then
     echo "==> Check CONDOR_HOST"
     if [ "$CONDOR_HOST" == "ZOOKEEPER" ];
+    then
         export CONDOR_HOST=$(hostname -i)
         dodas_cache zookeeper condor_host "$CONDOR_HOST"
     fi
