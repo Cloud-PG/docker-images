@@ -9,7 +9,7 @@ then
         echo "==> Get Master IP"
         export CONDOR_HOST=$(hostname -i)
         echo "==> Set Master IP on Zookeeper"
-        dodas_cache zookeeper condor_host "$CONDOR_HOST"
+        dodas_cache zookeeper CONDOR_HOST "$CONDOR_HOST"
     else
         echo "==> CONDOR_HOST with ENV"
     fi
@@ -26,7 +26,7 @@ then
     then
         echo "==> CONDOR_HOST with Zookeeper"
         echo "==> Get Master ip with Zookeeper"
-        export CONDOR_HOST=$(dodas_cache --wait-for true zookeeper condor_host)
+        export CONDOR_HOST=$(dodas_cache --wait-for true zookeeper CONDOR_HOST)
         export CCB_ADDRESS="$CONDOR_HOST"
     else
         echo "==> CONDOR_HOST with ENV"
@@ -45,7 +45,7 @@ then
     then
         echo "==> CONDOR_HOST with Zookeeper"
         echo "==> Get Master ip with Zookeeper"
-        export CONDOR_HOST=$(dodas_cache --wait-for true zookeeper condor_host)
+        export CONDOR_HOST=$(dodas_cache --wait-for true zookeeper CONDOR_HOST)
     else
         echo "==> CONDOR_HOST with ENV"
     fi
