@@ -14,8 +14,9 @@ then
         echo "==> CONDOR_HOST with ENV"
     fi
     echo "==> Compile configuration file for master node with env vars"
+    export NETWORK_INTERFACE=$(hostname -i)
     export CONDOR_DAEMON_LIST="COLLECTOR, MASTER, NEGOTIATOR"
-    export NETWORK_INTERFACE_STRING="NETWORK_INTERFACE = $CONDOR_HOST"
+    export NETWORK_INTERFACE_STRING="NETWORK_INTERFACE = $NETWORK_INTERFACE"
     j2 /opt/dodas/htc_config/condor_config.template > /etc/condor/condor_config
     echo "==> Start condor"
     condor_master -f
@@ -50,6 +51,7 @@ then
         echo "==> CONDOR_HOST with ENV"
     fi
     echo "==> Compile configuration file for sheduler node with env vars"
+    export NETWORK_INTERFACE=$(hostname -i)
     export CONDOR_DAEMON_LIST="MASTER, SCHEDD"
     export NETWORK_INTERFACE_STRING="NETWORK_INTERFACE = $NETWORK_INTERFACE"
     j2 /opt/dodas/htc_config/condor_config.template > /etc/condor/condor_config
