@@ -33,5 +33,6 @@ RUN wget https://gitlab.cern.ch/CMSSI/CMSglideinWMSValidation/raw/master/singula
 RUN chmod +x /usr/local/bin/dodasexe_pre.sh \
     && chmod +x /usr/local/bin/dodasexe.sh \
     && chmod +x /usr/local/bin/dodas.sh \
-    # onedata directories needed by mount
+    && chmod +x /root/singularity_wrapper.sh \
+    && chmod +x /root/singularity_validation.sh \
     && mkdir -p /mnt/onedata/ /var/log/dodas
