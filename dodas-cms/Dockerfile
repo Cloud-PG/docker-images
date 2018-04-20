@@ -22,17 +22,20 @@ RUN useradd -ms /bin/bash condor \
 COPY condorconfig/* /etc/condor/
 COPY config.d/* /etc/condor/config.d/
 COPY dodas_bin/*  /usr/local/bin/
-RUN mkdir -p /etc/condor/certs && cp /etc/condor/config.d/condor_mapfile /etc/condor/certs/condor_mapfile && rm /etc/condor/config.d/condor_mapfile 
+RUN mkdir -p /etc/condor/certs \
+    && mkdir -p /etc/cvmfs/SITECONF \
+    && cp /etc/condor/config.d/condor_mapfile /etc/condor/certs/condor_mapfile \
+    && rm /etc/condor/config.d/condor_mapfile 
 
 WORKDIR /root
 
 # Download validation script
 RUN wget https://gitlab.cern.ch/CMSSI/CMSglideinWMSValidation/raw/master/singularity_validation.sh \
-    && wget https://gitlab.cern.ch/CMSSI/CMSglideinWMSValidation/raw/master/singularity_wrapper.sh
+    && wget https://gitlab.cern.ch/CMSSI/CMSglideinWMSValidation/raw/master/singularity_wrapper.sh -O /etc/cvmfs/SITECONF/singularity_wrapper.sh
 
 RUN chmod +x /usr/local/bin/dodasexe_pre.sh \
     && chmod +x /usr/local/bin/dodasexe.sh \
     && chmod +x /usr/local/bin/dodas.sh \
-    && chmod +x /root/singularity_wrapper.sh \
+    && chmod +x /etc/cvmfs/SITECONF/singularity_wrapper.sh \
     && chmod +x /root/singularity_validation.sh \
     && mkdir -p /mnt/onedata/ /var/log/dodas
