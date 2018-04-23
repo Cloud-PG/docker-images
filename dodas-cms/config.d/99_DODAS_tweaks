@@ -35,4 +35,4 @@ OSG_SINGULARITY_VERSION="2.4.2-dist"
 # Tells the startd to advertise these attributes to the central manager
 STARTD_ATTRS = $(STARTD_ATTRS) GLIDEIN_REQUIRED_OS HAS_Singularity OSG_SINGULARITY_VERSION OSG_SINGULARITY_PATH OSG_SINGULARITY_IMAGE_DEFAULT
 
-USER_JOB_WRAPPER="/cvmfs/cms.cern.ch/SITECONF/local/singularity_wrapper.sh"
+USER_JOB_WRAPPER="/etc/cvmfs/SITECONF/singularity_wrapper.sh"
