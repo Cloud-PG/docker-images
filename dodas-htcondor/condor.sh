@@ -55,6 +55,8 @@ then
     export CONDOR_DAEMON_LIST="MASTER, SCHEDD"
     export NETWORK_INTERFACE_STRING="NETWORK_INTERFACE = $NETWORK_INTERFACE"
     j2 /opt/dodas/htc_config/condor_config.template > /etc/condor/condor_config
+    echo "==> Public schedd host"
+    dodas_cache zookeeper SCHEDD_HOST "$NETWORK_INTERFACE"
     echo "==> Start condor"
     condor_master
     echo "==> Start sshd on port $CONDOR_SCHEDD_SSH_PORT"
