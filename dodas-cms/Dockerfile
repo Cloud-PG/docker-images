@@ -28,10 +28,13 @@ WORKDIR /root
 
 # Download validation script
 RUN wget https://gitlab.cern.ch/CMSSI/CMSglideinWMSValidation/raw/master/singularity_validation.sh \
-    && wget https://gitlab.cern.ch/CMSSI/CMSglideinWMSValidation/raw/master/singularity_wrapper.sh
+    && wget https://gitlab.cern.ch/CMSSI/CMSglideinWMSValidation/raw/master/singularity_wrapper.sh -O /usr/local/libexec/singularity_wrapper.sh
 
 RUN chmod +x /usr/local/bin/dodasexe_pre.sh \
     && chmod +x /usr/local/bin/dodasexe.sh \
     && chmod +x /usr/local/bin/dodas.sh \
+    && chmod +x /usr/local/libexec/singularity_wrapper.sh \
+    && chmod 0755 /usr/local/libexec/singularity_wrapper.sh \
+    && chown condor:condor /usr/local/libexec/singularity_wrapper.sh \
     # onedata directories needed by mount
     && mkdir -p /mnt/onedata/ /var/log/dodas
