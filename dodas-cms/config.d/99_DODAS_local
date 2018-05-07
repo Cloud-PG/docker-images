@@ -1,7 +1,7 @@
 # This file is AUTO-GENERATED and will be overwritten.
 GLIDEIN_Site = "T3_IT_Opportunistic" 
 GLIDEIN_In_Downtime = "True"
-GLIDEIN_Gatekeeper = "http://cms-cloud.cern.ch:8773/services/Cloud"
+GLIDEIN_Gatekeeper = "T3_IT_Opportunistic:8443"
 GLIDEIN_Supported_VOs = "CMS"
 START = ifthenelse(DESIRED_Sites isnt undefined, stringListMember(GLIDEIN_CMSSite,DESIRED_Sites), undefined)
 GLIDEIN_Req_MUPJ_gLExec = "False"
