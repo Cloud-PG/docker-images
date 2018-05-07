@@ -43,12 +43,12 @@ if [ $? -eq 0 ]; then
     sed -i -e "s/$str1/GLIDEIN_Site = \"$CMS_LOCAL_SITE\"/g" /etc/condor/config.d/99_DODAS_local
     str2=$(grep "GLIDEIN_CMSSite =" /etc/condor/config.d/99_DODAS_local)
     sed -i -e "s/$str2/GLIDEIN_CMSSite = \"$CMS_LOCAL_SITE\"/g" /etc/condor/config.d/99_DODAS_local
-    str3=$(grep "GLIDEIN_Gatekeeper =" /etc/condor/config.d/99_glidein)
-    sed -i -e "s/$str3/GLIDEIN_Gatekeeper = \"$GATKEEPER\"/g" /etc/condor/config.d/99_glidein
+    str3=$(grep "GLIDEIN_Gatekeeper =" /etc/condor/config.d/99_DODAS_local)
+    sed -i -e "s/$str3/GLIDEIN_Gatekeeper = \"$GATKEEPER\"/g" /etc/condor/config.d/99_DODAS_local
 
     export PATH=$PATH:/usr/libexec/condor
 
-    oneclient -i -o allow_other -H $CMS_ONEDATA_CACHE -t $ONEDATA_ACCESS_TOKEN /mnt/onedata/
+    #oneclient -i -o allow_other -H $CMS_ONEDATA_CACHE -t $ONEDATA_ACCESS_TOKEN /mnt/onedata/
 else
     echo "proxy certificate is Failure"
     exit 9
