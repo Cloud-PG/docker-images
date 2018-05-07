@@ -46,6 +46,12 @@ if [ $? -eq 0 ]; then
     str3=$(grep "GLIDEIN_Gatekeeper =" /etc/condor/config.d/99_DODAS_local)
     sed -i -e "s/$str3/GLIDEIN_Gatekeeper = \"$GATKEEPER\"/g" /etc/condor/config.d/99_DODAS_local
 
+    COLLECTOR_PORT=`shuf -i 9621-9720 -n 1`
+    sed -i -e "s/COLLECTOR_PORT/${COLLECTOR_PORT}/g" /etc/condor/config.d/99_DODAS_tweaks
+
+    CCB_PORT=`shuf -i 9619-9720 -n 1`
+    sed -i -e "s/CCB_PORT/${CCB_PORT}/g" /etc/condor/config.d/99_DODAS_tweaks
+
     export PATH=$PATH:/usr/libexec/condor
 
     #oneclient -i -o allow_other -H $CMS_ONEDATA_CACHE -t $ONEDATA_ACCESS_TOKEN /mnt/onedata/
