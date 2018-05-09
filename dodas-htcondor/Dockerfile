@@ -72,6 +72,10 @@ ENV SEC_ADVERTISE_STARTD_AUTHENTICATION_METHODS=CLAIMTOBE
 ENV NUM_SLOTS=1 
 ENV NUM_SLOTS_TYPE_1=1
 ENV SLOT_TYPE_1="cpus=1, mem=4096"
+ENV FLOCK_FROM=""
+ENV FLOCK_TO=""
+ENV FLOCK_TO_COL_NEG=""
+ENV HOST_ALLOW_FLOCK=""
 
 RUN mkdir -p /opt/dodas/htc_config \
     && mkdir -p /opt/dodas/fs_remote_dir \

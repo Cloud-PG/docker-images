@@ -1,5 +1,13 @@
 #!/bin/bash
 
+CLUSTER_ALLOW_FLOCK="HOSTALLOW_WRITE_COLLECTOR = $(HOSTALLOW_WRITE), $(FLOCK_FROM)\
+HOSTALLOW_WRITE_STARTD = $(HOSTALLOW_WRITE), $(FLOCK_FROM)\
+HOSTALLOW_READ_COLLECTOR = $(HOSTALLOW_READ), $(FLOCK_FROM)\
+HOSTALLOW_READ_STARTD = $(HOSTALLOW_READ), $(FLOCK_FROM)"
+
+CLUSTER_FLOCK_COL_NEG="FLOCK_COLLECTOR_HOSTS = $(FLOCK_TO)\
+FLOCK_NEGOTIATOR_HOSTS = $(FLOCK_TO)"
+
 if [ "$1" == "master" ];
 then
     echo "==> Check CONDOR_HOST"
@@ -15,8 +23,10 @@ then
     fi
     echo "==> Compile configuration file for master node with env vars"
     export NETWORK_INTERFACE=$(hostname -i)
-    export CONDOR_DAEMON_LIST="COLLECTOR, MASTER, NEGOTIATOR"
     export NETWORK_INTERFACE_STRING="NETWORK_INTERFACE = $NETWORK_INTERFACE"
+    export CONDOR_DAEMON_LIST="COLLECTOR, MASTER, NEGOTIATOR"
+    export FLOCK_FROM="FLOCK_FROM = 192.168.0.*"
+    export HOST_ALLOW_FLOCK="$CLUSTER_ALLOW_FLOCK"
     j2 /opt/dodas/htc_config/condor_config.template > /etc/condor/condor_config
     echo "==> Start condor"
     condor_master -f
@@ -62,6 +72,21 @@ then
     condor_master
     echo "==> Start sshd on port $CONDOR_SCHEDD_SSH_PORT"
     exec /usr/sbin/sshd -E /var/log/sshd.log -g 30 -p $CONDOR_SCHEDD_SSH_PORT -D
+elif [ "$1" == "flock" ];
+then
+    echo "==> Compile configuration file for flock cluster node with env vars"
+    CLUSTER_CM=$(dodas_cache --wait-for true zookeeper CONDOR_HOST)
+    export FLOCK_TO="FLOCK_TO = $CLUSTER_CM"
+    export FLOCK_TO_COL_NEG="$CLUSTER_FLOCK_COL_NEG"
+    export NETWORK_INTERFACE=$(hostname -i)
+    export NETWORK_INTERFACE_STRING="NETWORK_INTERFACE = $NETWORK_INTERFACE"
+    export CONDOR_DAEMON_LIST="MASTER, SCHEDD, COLLECTOR, NEGOTIATOR"
+    export CONDOR_HOST="localhost"
+    j2 /opt/dodas/htc_config/condor_config.template > /etc/condor/condor_config
+    echo "==> Start condor"
+    condor_master
+    echo "==> Start sshd on port 32042"
+    exec /usr/sbin/sshd -E /var/log/sshd.log -g 30 -p 32042 -D
 elif [ "$1" == "all" ];
 then
     echo "==> Compile configuration file for sheduler node with env vars"
