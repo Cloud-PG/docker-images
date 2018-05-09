@@ -85,10 +85,9 @@ then
     CLUSTER_CM=$(dodas_cache --wait-for true zookeeper CONDOR_HOST)
     export FLOCK_TO="FLOCK_TO = $CLUSTER_CM"
     export FLOCK_TO_COL_NEG="$CLUSTER_FLOCK_COL_NEG"
-    export NETWORK_INTERFACE=$(hostname -i)
-    export NETWORK_INTERFACE_STRING="NETWORK_INTERFACE = $NETWORK_INTERFACE"
+    # export NETWORK_INTERFACE=$(hostname -i)
+    # export NETWORK_INTERFACE_STRING="NETWORK_INTERFACE = $NETWORK_INTERFACE"
     export CONDOR_DAEMON_LIST="MASTER, SCHEDD, COLLECTOR, NEGOTIATOR"
-    export CONDOR_HOST="localhost"
     j2 /opt/dodas/htc_config/condor_config.template > /etc/condor/condor_config
     echo "==> Start condor"
     condor_master
