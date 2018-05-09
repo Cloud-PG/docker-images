@@ -1,8 +1,5 @@
 FROM cloudpg/centos-7-grid-tini-sshd
 
-# kerberos ticket config - personalized home skeleton
-COPY ./config/ssh_config /etc/skel/.ssh/config
-
 WORKDIR /etc/yum.repos.d
 
 RUN useradd -ms /bin/bash condor \

@@ -1,5 +1,0 @@
-GSSAPIAuthentication yes
-GSSAPIDelegateCredentials yes
-
-HOST lxplus*
-GSSAPITrustDns yes
