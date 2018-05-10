@@ -101,6 +101,10 @@ then
     condor_master -f
     echo "==> Start sshd on port $CONDOR_SCHEDD_SSH_PORT"
     exec /usr/sbin/sshd -E /var/log/sshd.log -g 30 -p $CONDOR_SCHEDD_SSH_PORT -D
+elif [ "$1" == "sshonly" ];
+then
+    echo "==> Start sshd on port $CONDOR_SCHEDD_SSH_PORT"
+    exec /usr/sbin/sshd -E /var/log/sshd.log -g 30 -p $CONDOR_SCHEDD_SSH_PORT -D
 else
     echo "[ERROR]==> You have to supply a role, like: 'master', 'wn', 'schedd' or 'all'..."
     exit 1
