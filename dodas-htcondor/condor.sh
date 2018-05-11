@@ -69,6 +69,7 @@ then
     dodas_cache zookeeper SCHEDD_PRIV_KEY "$(< /home/schedd/.ssh/id_rsa)"
     echo "==> Add authorized key"
     cat /home/schedd/.ssh/id_rsa.pub > /home/schedd/.ssh/authorized_keys
+    chmod go-rw /home/schedd/.ssh/authorized_keys
     logout ;
     echo "==> Check CONDOR_HOST"
     if [ "$CONDOR_HOST" == "ZOOKEEPER" ];
@@ -122,6 +123,8 @@ then
     echo "==> Copy keys"
     dodas_cache zookeeper SCHEDD_PUB_KEY > /keys/id_rsa.pub
     dodas_cache zookeeper SCHEDD_PRIV_KEY > /keys/id_rsa
+    chmod go-rw /keys/id_rsa
+    chmod go-w /keys/id_rsa.pub
     export SCHEDD_HOST=$(dodas_cache --wait-for true zookeeper SCHEDD_HOST)
     echo "==> Start sshd tunnel"
     exec ssh -N -g -L $CONDOR_SCHEDD_SSH_PORT:$SCHEDD_HOST:$CONDOR_SCHEDD_SSH_PORT schedd@$SCHEDD_HOST -p $CONDOR_SCHEDD_SSH_PORT -i /keys/id_rsa
