@@ -58,6 +58,18 @@ then
     echo "==> Start service"
 elif [ "$1" == "schedd" ];
 then
+    echo "==> Prepare schedd"
+    adduser schedd ;
+    passwd -d schedd ;
+    su - schedd ;
+    cd ;
+    ssh-keygen -q -t rsa -N '' -f /home/schedd/.ssh/id_rsa ;
+    echo "==> Public schedd key"
+    dodas_cache zookeeper SCHEDD_PUB_KEY "$(< /home/schedd/.ssh/id_rsa.pub)"
+    dodas_cache zookeeper SCHEDD_PRIV_KEY "$(< /home/schedd/.ssh/id_rsa)"
+    echo "==> Add authorized key"
+    cat /home/schedd/.ssh/id_rsa.pub > /home/schedd/.ssh/authorized_keys
+    logout ;
     echo "==> Check CONDOR_HOST"
     if [ "$CONDOR_HOST" == "ZOOKEEPER" ];
     then
@@ -105,6 +117,14 @@ elif [ "$1" == "sshonly" ];
 then
     echo "==> Start sshd on port $CONDOR_SCHEDD_SSH_PORT"
     exec /usr/sbin/sshd -E /var/log/sshd.log -g 30 -p $CONDOR_SCHEDD_SSH_PORT -D
+elif [ "$1" == "scheddtunnel" ];
+then
+    echo "==> Copy keys"
+    dodas_cache zookeeper SCHEDD_PUB_KEY > /keys/id_rsa.pub
+    dodas_cache zookeeper SCHEDD_PRIV_KEY > /keys/id_rsa
+    export SCHEDD_HOST=$(dodas_cache --wait-for true zookeeper SCHEDD_HOST)
+    echo "==> Start sshd tunnel"
+    exec ssh -N -g -L $CONDOR_SCHEDD_SSH_PORT:$SCHEDD_HOST:$CONDOR_SCHEDD_SSH_PORT schedd@$SCHEDD_HOST -p $CONDOR_SCHEDD_SSH_PORT -i /keys/id_rsa
 else
     echo "[ERROR]==> You have to supply a role, like: 'master', 'wn', 'schedd' or 'all'..."
     exit 1
