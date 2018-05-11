@@ -59,18 +59,18 @@ then
 elif [ "$1" == "schedd" ];
 then
     echo "==> Prepare schedd"
-    adduser schedd ;
-    passwd -d schedd ;
-    su - schedd ;
-    cd ;
-    ssh-keygen -q -t rsa -N '' -f /home/schedd/.ssh/id_rsa ;
+    adduser schedd
+    passwd -d schedd
+    su - schedd
+    cd
+    ssh-keygen -q -t rsa -N '' -f /home/schedd/.ssh/id_rsa
     echo "==> Public schedd key"
     dodas_cache zookeeper SCHEDD_PUB_KEY "$(< /home/schedd/.ssh/id_rsa.pub)"
     dodas_cache zookeeper SCHEDD_PRIV_KEY "$(< /home/schedd/.ssh/id_rsa)"
     echo "==> Add authorized key"
     cat /home/schedd/.ssh/id_rsa.pub > /home/schedd/.ssh/authorized_keys
     chmod go-rw /home/schedd/.ssh/authorized_keys
-    logout ;
+    logout
     echo "==> Check CONDOR_HOST"
     if [ "$CONDOR_HOST" == "ZOOKEEPER" ];
     then
@@ -121,8 +121,8 @@ then
 elif [ "$1" == "scheddtunnel" ];
 then
     echo "==> Copy keys"
-    dodas_cache zookeeper SCHEDD_PUB_KEY > /keys/id_rsa.pub
-    dodas_cache zookeeper SCHEDD_PRIV_KEY > /keys/id_rsa
+    dodas_cache --wait-for zookeeper SCHEDD_PUB_KEY > /keys/id_rsa.pub
+    dodas_cache --wait-for zookeeper SCHEDD_PRIV_KEY > /keys/id_rsa
     chmod go-rw /keys/id_rsa
     chmod go-w /keys/id_rsa.pub
     export SCHEDD_HOST=$(dodas_cache --wait-for true zookeeper SCHEDD_HOST)
