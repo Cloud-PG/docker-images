@@ -1,4 +1,4 @@
-NUM_CPUS                  = ${MARATHON_APP_RESOURCE_CPUS%.*}
+NUM_CPUS                  = TO-BE-SET-according-to-Marathon
 NUM_SLOTS                 = 1
 NUM_SLOTS_TYPE_1          = 1
 SLOT_TYPE_1               = 100%
