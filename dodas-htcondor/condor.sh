@@ -120,6 +120,7 @@ then
     exec /usr/sbin/sshd -E /var/log/sshd.log -g 30 -p $CONDOR_SCHEDD_SSH_PORT -D
 elif [ "$1" == "scheddtunnel" ];
 then
+    mkdir -p /keys
     echo "==> Copy keys"
     dodas_cache --wait-for zookeeper SCHEDD_PUB_KEY > /keys/id_rsa.pub
     dodas_cache --wait-for zookeeper SCHEDD_PRIV_KEY > /keys/id_rsa
