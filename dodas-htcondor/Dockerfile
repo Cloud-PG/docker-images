@@ -46,7 +46,8 @@ RUN useradd -ms /bin/bash condor \
         vim \
     && yum clean all \
     && pip install --upgrade pip setuptools \
-    && pip install j2cli paramiko psutil kazoo requests
+    && pip install j2cli paramiko psutil kazoo requests \
+    && systemctl disable condor
 
 # Root home
 WORKDIR /root
