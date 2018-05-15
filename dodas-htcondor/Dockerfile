@@ -80,22 +80,23 @@ ENV HOST_ALLOW_FLOCK=""
 
 RUN mkdir -p /opt/dodas/htc_config \
     && mkdir -p /opt/dodas/fs_remote_dir \
+    && mkdir -p /opt/dodas/health_checks \
     && mkdir -p /etc/skel/.ssh
 COPY condor.sh /opt/dodas/
-COPY check_condor_processes.py /opt/dodas/
-COPY check_cvmfs_folders.py /opt/dodas/
-COPY check_ssh_server.py /opt/dodas/
-COPY check_condor_master_ip.sh /opt/dodas/
-COPY check_condor_schedd_tunnel.sh /opt/dodas
+COPY ./health_checks/check_condor_processes.py /opt/dodas/health_checks/
+COPY ./health_checks/check_cvmfs_folders.py /opt/dodas/health_checks/
+COPY ./health_checks/check_ssh_server.py /opt/dodas/health_checks/
+COPY ./health_checks/check_condor_master_ip.sh /opt/dodas/health_checks/
+COPY ./health_checks/check_condor_schedd_tunnel.sh /opt/dodas/health_checks/
 COPY cache.py /opt/dodas/
 COPY ./config/condor_config.template /opt/dodas/htc_config/
 
 RUN ln -s /opt/dodas/condor.sh /usr/local/sbin/dodas_condor \
-    && ln -s /opt/dodas/check_condor_processes.py /usr/local/sbin/dodas_check_condor_processes \
-    && ln -s /opt/dodas/check_cvmfs_folders.py /usr/local/sbin/dodas_check_cvmfs_folders \
-    && ln -s /opt/dodas/check_ssh_server.py /usr/local/sbin/dodas_check_ssh_server \
-    && ln -s /opt/dodas/check_condor_master_ip.sh /usr/local/sbin/dodas_check_condor_master_ip \
-    && ln -s /opt/dodas/check_condor_schedd_tunnel.sh /usr/local/sbin/dodas_check_condor_schedd_tunnel \
+    && ln -s /opt/dodas/health_checks/check_condor_processes.py /usr/local/sbin/dodas_check_condor_processes \
+    && ln -s /opt/dodas/health_checks/check_cvmfs_folders.py /usr/local/sbin/dodas_check_cvmfs_folders \
+    && ln -s /opt/dodas/health_checks/check_ssh_server.py /usr/local/sbin/dodas_check_ssh_server \
+    && ln -s /opt/dodas/health_checks/check_condor_master_ip.sh /usr/local/sbin/dodas_check_condor_master_ip \
+    && ln -s /opt/dodas/health_checks/check_condor_schedd_tunnel.sh /usr/local/sbin/dodas_check_condor_schedd_tunnel \
     && ln -s /opt/dodas/cache.py /usr/local/sbin/dodas_cache
 
 # CentOS uname characteristics
