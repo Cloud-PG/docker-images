@@ -120,8 +120,8 @@ elif [ "$1" == "scheddtunnel" ];
 then
     mkdir -p /opt/dodas/keys
     echo "==> Copy keys"
-    dodas_cache --wait-for true zookeeper SCHEDD_PUB_KEY > /opt/dodas/keys/id_rsa.pub
     dodas_cache --wait-for true zookeeper SCHEDD_PRIV_KEY > /opt/dodas/keys/id_rsa
+    dodas_cache --wait-for true zookeeper SCHEDD_PUB_KEY > /opt/dodas/keys/id_rsa.pub
     chmod go-rw /opt/dodas/keys/id_rsa
     chmod go-w /opt/dodas/keys/id_rsa.pub
     export SCHEDD_HOST=$(dodas_cache --wait-for true zookeeper SCHEDD_HOST)
