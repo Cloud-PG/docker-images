@@ -61,8 +61,6 @@ then
     echo "==> Prepare schedd"
     adduser schedd
     passwd -d schedd
-    su - schedd
-    cd
     ssh-keygen -q -t rsa -N '' -f /home/schedd/.ssh/id_rsa
     echo "==> Public schedd key"
     dodas_cache zookeeper SCHEDD_PUB_KEY "$(< /home/schedd/.ssh/id_rsa.pub)"
@@ -70,7 +68,7 @@ then
     echo "==> Add authorized key"
     cat /home/schedd/.ssh/id_rsa.pub > /home/schedd/.ssh/authorized_keys
     chmod go-rw /home/schedd/.ssh/authorized_keys
-    logout
+    chown -R schedd:schedd /home/schedd/.ssh
     echo "==> Check CONDOR_HOST"
     if [ "$CONDOR_HOST" == "ZOOKEEPER" ];
     then
