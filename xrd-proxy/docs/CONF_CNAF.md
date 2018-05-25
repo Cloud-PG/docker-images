@@ -20,7 +20,7 @@ cd /etc/yum.repos.d
 wget http://repository.egi.eu/community/software/preview.repository/2.0/releases/repofiles/centos-7-x86_64.repo \
     && wget http://repository.egi.eu/sw/production/cas/1/current/repo-files/EGI-trustanchors.repo
 yum --setopt=tsflags=nodocs -y install epel-release yum-plugin-ovl \
-    && yum --setopt=tsflags=nodocs -y install fetch-crl wn \
+    && yum --setopt=tsflags=nodocs -y install fetch-crl wn sysstat \
     && yum clean all
 
 yum install -y ca-policy-egi-core ca-policy-lcg
