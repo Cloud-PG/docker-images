@@ -2,10 +2,10 @@
 
 ## REQUIREMENTS
 
-- OS:
+- OS: Centos7
 - Port: one open service port + 8443
 - Valid grid host certifate
-- Valid service certificate, able to read from AAA (/etc/grid-security/xrd/xrdcert.pem, /etc/grid-security/xrd/xrdkey.pem)
+- Valid service certificate that is able to read from AAA (/etc/grid-security/xrd/xrdcert.pem, /etc/grid-security/xrd/xrdkey.pem)
 
 ## PACKAGES INSTALLATION
 
@@ -39,7 +39,7 @@ sudo rpm -vi metricbeat-6.2.4-x86_64.rpm
 
 ## PROXY RENEWAL
 
-/usr/lib/systemd/system/xrootd-renew-proxy.service
+- `cat /usr/lib/systemd/system/xrootd-renew-proxy.service`
 
 ```bash
 [Unit]
@@ -55,7 +55,7 @@ ExecStart = /bin/grid-proxy-init -cert /etc/grid-security/xrd/xrdcert.pem -key /
 WantedBy=multi-user.target
 ```
 
-/usr/lib/systemd/system/xrootd-renew-proxy.timer
+- `cat /usr/lib/systemd/system/xrootd-renew-proxy.timer`
 
 ```
 [Unit]
@@ -69,32 +69,37 @@ Unit=xrootd-renew-proxy.service
 WantedBy=multi-user.target
 ```
 
-systemctl start xrootd-renew-proxy.timer
+- `systemctl start xrootd-renew-proxy.timer`
 
-systemctl daemon-reload
+- `systemctl daemon-reload`
 
 ## XROOTD SERVER CONFIGURATION
 
-/etc/xrootd/xrootd-xcache.cfg
+**DISCLAIMER**: fields surrounded by `<>` or called `DUMMY` are to be substituted with values that varies case by case.
+
+- `cat /etc/xrootd/xrootd-xcache.cfg`
 
 ```bash
 #
-set rdtrCache=
-set rdtrPortCmsd=
+set rdtrCache=<host cache redirector>
+set rdtrPortCmsd=<port of cmsd cache redirector>
 #
-set rdtrGlobal=
-set rdtrGlobalPort=
+set rdtrGlobal=xrootd-cms.infn.it
+set rdtrGlobalPort=1094
 #
-set cacheLowWm=
-set cacheHiWm=
+set cacheLowWm=0.70
+set cacheHiWm=0.85
 #
-set cacheLogLevel=
+set cacheLogLevel=info
 #
-set cachePath=
-set cacheRam=
-set cacheStreams=
-set prefetch=
-set blkSize=
+set xrdport=1094
+set cmsdport=1213
+#
+set cachePath=<path to folder for storing data, NB it has to be owned by xrootd user>
+set cacheRam=<ram dedicated to cache, ~50% of the total is suggested>
+set cacheStreams=256
+set prefetch=0
+set blkSize=512k
 
 all.manager $rdtrCache:$rdtrPortCmsd
 
@@ -108,7 +113,7 @@ pfc.trace $cacheLogLevel
 if exec cmsd
 
 all.role server
-xrd.port 31113
+xrd.port $cmsdport
 
 all.export / stage
 oss.localroot $cachePath
@@ -119,7 +124,7 @@ all.export /
 all.role  server
 oss.localroot $cachePath
 
-xrd.port 32294
+xrd.port $xrdport
 # For xrootd, load the proxy plugin and the disk caching plugin.
 #
 ofs.osslib   libXrdPss.so
@@ -155,7 +160,7 @@ fi
 #xrootd.monitor all auth flush 30s window 5s fstat 60 lfn ops xfr 5 dest redir fstat info user <host>:<>
 ```
 
-/etc/xrootd/Authfile-noauth
+- `cat /etc/xrootd/Authfile-noauth`
 
 ```
 u * /store/ lr / rl
@@ -163,7 +168,11 @@ u * /store/ lr / rl
 
 ## METRICBEAT CONFIGURATION
 
-/etc/metricbeat/metricbeat.yml
+Setup and configure metricbeat to collect information on host metrics on an elasticsearch endpoint.
+
+**DISCLAIMER**: fields surrounded by `<>` or called `DUMMY` are to be substituted with values that varies case by case.
+
+- `cat /etc/metricbeat/metricbeat.yml`
 
 ```yaml
 
@@ -214,7 +223,7 @@ metricbeat.modules:
 
 # The name of the shipper that publishes the network data. It can be used to group
 # all the transactions sent by a single shipper in the web interface.
-name:
+name: 'DUMMY: cache sitename'
 
 #================================ Outputs =====================================
 
@@ -224,7 +233,7 @@ name:
 #-------------------------- Elasticsearch output ------------------------------
 output.elasticsearch:
   # Array of hosts to connect to.
-  hosts: ["DUMMY.com"]
+  hosts: ["DUMMY_esHost.com"]
   template.name: "metricbeat_slave"
   template.path: "metricbeat.template.json"
   template.overwrite: false
@@ -243,11 +252,46 @@ output.elasticsearch:
 
 ## STARTING DAEMONS
 
+```bash
 systemctl enable xrootd@xcache.service
 systemctl enable cmsd@xcache.service
 
 systemctl start xrootd@xcache.service
 systemctl start cmsd@xcache.service
 
+systemctl enable metricbeat.service
+systemctl start metricbeat.service
+```
+
 ## TESTING THE DEPLOYMENT
 
+- `systemctl status xrootd@xcache.service`
+```
+* xrootd@xcache.service - XRootD xrootd deamon instance xcache
+   Loaded: loaded (/usr/lib/systemd/system/xrootd@.service; enabled; vendor preset: disabled)
+   Active: active (running) since Fri 2018-05-25 07:17:21 UTC; 36min ago
+     Docs: man:xrootd(8)
+           http://xrootd.org/docs.html
+ Main PID: 19933 (xrootd)
+   CGroup: /system.slice/system-xrootd.slice/xrootd@xcache.service
+           `-19933 /usr/bin/xrootd -l /var/log/xrootd/xrootd.log -c /etc/xrootd/xrootd-xcache.cfg -k fifo -s /var/r...
+
+May 25 07:17:21 xrootdcentostest systemd[1]: Started XRootD xrootd deamon instance xcache.
+May 25 07:17:21 xrootdcentostest systemd[1]: Starting XRootD xrootd deamon instance xcache...
+```
+
+- `systemctl status cmsd@xcache.service`: similar output as above
+
+- `xrdcp -f -v xroot://localhost:<xrdport defined in the configuration above>//store/mc/RunIISummer17DRPremix/QCD_Pt-15to20_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/AODSIM/92X_upgrade2017_realistic_v10-v2/90000/C85940F6-9596-E711-8FD6-D8D385FF1940.root /dev/null`
+
+```
+[root@xrootdcentostest centos]# xrdcp -f -v xroot://localhost:32294//store/mc/RunIISummer17DRPremix/QCD_Pt-15to20_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/AODSIM/92X_upgrade2017_realistic_v10-v2/90000/C85940F6-9596-E711-8FD6-D8D385FF1940.root /dev/null
+[544MB/3.108GB][ 17%][========>                                         ][19.43MB/s]
+```
+
+- at the end of transferring, the file has to be visible in the `<cache path>` indicated in the xrood-xcache configuration:
+
+`ls <cache path>/store/mc/RunIISummer17DRPremix/QCD_Pt-15to20_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/AODSIM/92X_upgrade2017_realistic_v10-v2/90000/C85940F6-9596-E711-8FD6-D8D385FF1940.root`
+```
+<cache path>/store/mc/RunIISummer17DRPremix/QCD_Pt-15to20_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/AODSIM/92X_upgrade2017_realistic_v10-v2/90000/C85940F6-9596-E711-8FD6-D8D385FF1940.root
+```
