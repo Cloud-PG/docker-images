@@ -3,7 +3,7 @@
 ## REQUIREMENTS
 
 - OS:
-- Port: one open service port
+- Port: one open service port + 8443
 - Valid grid host certifate
 - Valid service certificate, able to read from AAA (/etc/grid-security/xrd/xrdcert.pem, /etc/grid-security/xrd/xrdkey.pem)
 
@@ -29,9 +29,53 @@ yum install -y ca-policy-egi-core ca-policy-lcg
 mkdir -p /etc/grid-security/xrd/
 
 chown -R xrootd:xrootd /etc/grid-security/xrd/
+
+systemctl enable fetch-crl-cron
+systemctl start fetch-crl-cron
+
+curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-6.2.4-x86_64.rpm
+sudo rpm -vi metricbeat-6.2.4-x86_64.rpm
 ```
 
+## PROXY RENEWAL
+
+/usr/lib/systemd/system/xrootd-renew-proxy.service
+
+```bash
+[Unit]
+Description=Renew xrootd proxy
+
+[Service]
+User=xrootd
+Group=xrootd
+Type = oneshot
+ExecStart = /bin/grid-proxy-init -cert /etc/grid-security/xrd/xrdcert.pem -key /etc/grid-security/xrd/xrdkey.pem -out /tmp/x509up_u995 -valid 48:00
+
+[Install]
+WantedBy=multi-user.target
+```
+
+/usr/lib/systemd/system/xrootd-renew-proxy.timer
+
+```
+[Unit]
+Description=Renew proxy every day at midnight
+
+[Timer]
+OnCalendar=*-*-* 00:00:00
+Unit=xrootd-renew-proxy.service
+
+[Install]
+WantedBy=multi-user.target
+```
+
+systemctl start xrootd-renew-proxy.timer
+
+systemctl daemon-reload
+
 ## XROOTD SERVER CONFIGURATION
+
+/etc/xrootd/xrootd-xcache.cfg
 
 ```bash
 #
@@ -108,10 +152,18 @@ pfc.prefetch    $prefetch
 fi
 
 #xrd.report <host>:<port>
-#xrootd.monitor all auth flush 30s window 5s fstat 60 lfn ops xfr 5 dest redir fstat info user <host>:<port>
+#xrootd.monitor all auth flush 30s window 5s fstat 60 lfn ops xfr 5 dest redir fstat info user <host>:<>
+```
+
+/etc/xrootd/Authfile-noauth
+
+```
+u * /store/ lr / rl
 ```
 
 ## METRICBEAT CONFIGURATION
+
+/etc/metricbeat/metricbeat.yml
 
 ```yaml
 
@@ -172,7 +224,7 @@ name:
 #-------------------------- Elasticsearch output ------------------------------
 output.elasticsearch:
   # Array of hosts to connect to.
-  hosts: []
+  hosts: ["DUMMY.com"]
   template.name: "metricbeat_slave"
   template.path: "metricbeat.template.json"
   template.overwrite: false
@@ -180,7 +232,7 @@ output.elasticsearch:
   # Optional protocol and basic auth credentials.
   protocol: "http"
   username: "dodas"
-  password:
+  password: "DUMMY"
 
 #================================ Logging =====================================
 
@@ -191,47 +243,11 @@ output.elasticsearch:
 
 ## STARTING DAEMONS
 
+systemctl enable xrootd@xcache.service
+systemctl enable cmsd@xcache.service
+
+systemctl start xrootd@xcache.service
+systemctl start cmsd@xcache.service
+
 ## TESTING THE DEPLOYMENT
 
-## PROXY RENEWAL
-/usr/lib/systemd/system/xrootd-renew-proxy.service
-
-```bash
-[Unit]
-Description=Renew xrootd proxy
-
-[Service]
-User=xrootd
-Group=xrootd
-Type = oneshot
-ExecStart = /bin/grid-proxy-init -cert /etc/grid-security/xrd/xrdcert.pem -key /etc/grid-security/xrd/xrdkey.pem -out /tmp/x509up_xrootd -valid 48:00
-
-[Install]
-WantedBy=multi-user.target
-```
-
-/usr/lib/systemd/system/xrootd-renew-proxy.timer
-
-```
-[Unit]
-Description=Renew proxy every day at midnight
-
-[Timer]
-OnCalendar=*-*-* 00:00:00
-Unit=xrootd-renew-proxy.service
-
-[Install]
-WantedBy=multi-user.target
-```
-
-systemctl start xrootd-renew-proxy.timer
-
-systemctl enable fetch-crl-cron
-systemctl start fetch-crl-cron
-systemctl daemon-reload
-
-/etc/xrootd/Authfile-noauth
-
-```
-u ligo /user/ligo lr / rl
-```
