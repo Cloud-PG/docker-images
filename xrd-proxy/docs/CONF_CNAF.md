@@ -75,6 +75,8 @@ WantedBy=multi-user.target
 
 ## XROOTD SERVER CONFIGURATION
 
+Configuration file may be adapted in the future to send xrd information via UDP at a testbed elasticsearch endpoint (a kafka stream is in the plan later on).
+
 **DISCLAIMER**: fields surrounded by `<>` or called `DUMMY` are to be substituted with values that varies case by case.
 
 - `cat /etc/xrootd/xrootd-xcache.cfg`
@@ -157,7 +159,7 @@ pfc.prefetch    $prefetch
 fi
 
 #xrd.report <host>:<port>
-#xrootd.monitor all auth flush 30s window 5s fstat 60 lfn ops xfr 5 dest redir fstat info user <host>:<>
+#xrootd.monitor all auth flush 30s window 5s fstat 60 lfn ops xfr 5 dest redir fstat info user pfc <host>:<>
 ```
 
 - `cat /etc/xrootd/Authfile-noauth`
