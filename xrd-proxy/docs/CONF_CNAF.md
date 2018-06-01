@@ -26,6 +26,8 @@ yum --setopt=tsflags=nodocs -y install epel-release yum-plugin-ovl \
 yum install -y ca-policy-egi-core ca-policy-lcg
 /usr/sbin/fetch-crl -q
 
+yum install xrootd-server
+
 mkdir -p /etc/grid-security/xrd/
 
 chown -R xrootd:xrootd /etc/grid-security/xrd/
