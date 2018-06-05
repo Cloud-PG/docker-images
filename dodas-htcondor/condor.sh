@@ -126,9 +126,11 @@ then
     chmod go-w /opt/dodas/keys/id_rsa.pub
     echo "==> Check tunnel endpoints"
     if [ "$TUNNEL_FROM" == "UNDEFINED" ];
+    then
         export TUNNEL_FROM="$CONDOR_SCHEDD_SSH_PORT"
     fi
     if [ "$TUNNEL_TO" == "UNDEFINED" ];
+    then
         export TUNNEL_TO="$CONDOR_SCHEDD_SSH_PORT"
     fi
     export SCHEDD_HOST=$(dodas_cache --wait-for true zookeeper SCHEDD_HOST)
