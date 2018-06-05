@@ -124,9 +124,16 @@ then
     dodas_cache --wait-for true zookeeper SCHEDD_PUB_KEY > /opt/dodas/keys/id_rsa.pub
     chmod go-rw /opt/dodas/keys/id_rsa
     chmod go-w /opt/dodas/keys/id_rsa.pub
+    echo "==> Check tunnel endpoints"
+    if [ "$TUNNEL_FROM" == "UNDEFINED" ];
+        export TUNNEL_FROM="$CONDOR_SCHEDD_SSH_PORT"
+    fi
+    if [ "$TUNNEL_TO" == "UNDEFINED" ];
+        export TUNNEL_TO="$CONDOR_SCHEDD_SSH_PORT"
+    fi
     export SCHEDD_HOST=$(dodas_cache --wait-for true zookeeper SCHEDD_HOST)
     echo "==> Start sshd tunnel"
-    exec ssh -N -g -L $CONDOR_SCHEDD_SSH_PORT:$SCHEDD_HOST:$CONDOR_SCHEDD_SSH_PORT -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no schedd@$SCHEDD_HOST -p $CONDOR_SCHEDD_SSH_PORT -i /opt/dodas/keys/id_rsa
+    exec ssh -N -g -L $TUNNEL_FROM:$SCHEDD_HOST:$TUNNEL_TO -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no schedd@$SCHEDD_HOST -p $CONDOR_SCHEDD_SSH_PORT -i /opt/dodas/keys/id_rsa
 else
     echo "[ERROR]==> You have to supply a role, like: 'master', 'wn', 'schedd' or 'all'..."
     exit 1
