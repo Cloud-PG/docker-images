@@ -159,9 +159,9 @@ pfc.blocksize   $blkSize
 pfc.prefetch    $prefetch
 
 fi
-
+# all.sitename DUMMY
 #xrd.report <host>:<port>
-#xrootd.monitor all auth flush 30s window 5s fstat 60 lfn ops xfr 5 dest redir fstat info user pfc <host>:<>
+#xrootd.monitor all auth flush 30s window 5s fstat 60 lfn ops xfr 5 dest redir fstat info user <host>:<>
 ```
 
 - `cat /etc/xrootd/Authfile-noauth`

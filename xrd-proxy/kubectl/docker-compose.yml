@@ -1,0 +1,45 @@
+version: '3.6'
+services:
+  cache:
+    deploy:
+      replicas: 2
+    image: "cloudpg/xrootd-proxy:xcache"
+    command: ["--nogrid", "--proxy", "--health_port=8080"] 
+    environment:
+      REDIR_HOST: '0.0.0.0'
+      REDIR_CMSD_PORT: 1213
+      ORIGIN_HOST: '0.0.0.0'
+      ORIGIN_XRD_PORT: 1094
+      LOW_WM: 0.80
+      HI_WM: 0.90
+      CACHE_LOG_LEVEL: 'info'
+      CACHE_PATH: '/data/xrd'
+      CACHE_RAM_GB: 12
+      STREAMS: '256'
+      N_PREFETCH: 0
+      BLOCK_SIZE: '512k'
+    networks:
+      - overlay
+    expose:
+      - "32294"
+      - "31113"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+
+  redirector:
+    image: "cloudpg/xrootd-proxy:xcache"
+    command: ["--nogrid", "--redirector", "--health_port=8080"] 
+    environment:
+      REDIR_HOST: '0.0.0.0'
+      REDIR_CMSD_PORT: 1213
+      REDIR_XRD_PORT: 1094
+    networks:
+      - overlay
+    expose:
+      - "1094"
+      - "1213"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+
+networks:
+  overlay:
