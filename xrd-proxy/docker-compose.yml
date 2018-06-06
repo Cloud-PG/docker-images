@@ -1,48 +1,45 @@
 version: '3'
 services:
   cache:
-    network_mode: "host"
-    image: "cloudpg/xrootd-proxy"
-    entrypoint:
-      - python
-      - /opt/xrd_proxy/entrypoint.py
-      - --config 
-      - /etc/xrootd/xrd_test.conf
-      - --health_port
-      - "8888"
-      - --nogrid
-  redirector:
-    network_mode: "host"
-    image: "cloudpg/xrootd-proxy"
-    entrypoint:
-      - python
-      - /opt/xrd_proxy/entrypoint.py
-      - --config 
-      - /etc/xrootd/xrd_test_redir.conf  
-      - --health_port
-      - "8080"
-      - --nogrid
-  origin:
-    network_mode: "host"
-    image: "cloudpg/xrootd-proxy"
-    entrypoint:
-      - python
-      - /opt/xrd_proxy/entrypoint.py
-      - --config 
-      - /etc/xrootd/xrd_test_origin.conf  
-      - --health_port
-      - "8081"
-      - --nogrid
-  client:
-    network_mode: "host"
-    image: "cloudpg/xrootd-proxy"
-    entrypoint:
-      - python
-      - /opt/xrd_proxy/entrypoint.py
-      - --config 
-      - DUMMY  
-      - --health_port
-      - "8082"
-      - --nogrid
+    deploy:
+      replicas: 2
+    image: "cloudpg/xrootd-proxy:xrd"
+    command: ["--nogrid", "--proxy", "--health_port=8080"] 
+    environment:
+      REDIR_HOST: 'redirector'
+      REDIR_CMSD_PORT: 1213
+      ORIGIN_HOST: 'origin'
+      ORIGIN_XRD_PORT: 1094
+      LOW_WM: 0.80
+      HI_WM: 0.90
+      CACHE_LOG_LEVEL: 'info'
+      CACHE_PATH: '/data/xrd'
+      CACHE_RAM_GB: 12
+      STREAMS: '256'
+      N_PREFETCH: 0
+      BLOCK_SIZE: '512k'
+    networks:
+      - overlay
+    expose:
+      - "32294"
+      - "31113"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
 
-    
+  redirector:
+    image: "cloudpg/xrootd-proxy:xrd"
+    command: ["--nogrid", "--redirector", "--health_port=8080"] 
+    environment:
+      REDIR_HOST: 'redirector'
+      REDIR_CMSD_PORT: 1213
+      REDIR_XRD_PORT: 1094
+    networks:
+      - overlay
+    expose:
+      - "1094"
+      - "1213"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+
+networks:
+  overlay:
