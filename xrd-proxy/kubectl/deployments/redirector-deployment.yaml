@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: /home/dciangot/kompose convert -f docker-compose.yml
+    kompose.version: 1.14.0 (fa706f2)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: redirector
+  name: redirector
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: redirector
+    spec:
+      containers:
+      - args:
+        - --nogrid
+        - --redirector
+        - --health_port
+        - "8080"
+        env:
+        - name: REDIR_CMSD_PORT
+          value: "1213"
+        - name: REDIR_HOST
+          value: redirector
+        - name: REDIR_XRD_PORT
+          value: "1094"
+        image: cloudpg/xrootd-proxy:xrd
+        livenessProbe:
+          exec:
+            command:
+            - curl
+            - -f
+            - http://localhost:8080/check_health
+        name: redirector
+        resources: {}
+      restartPolicy: Always
+status: {}
