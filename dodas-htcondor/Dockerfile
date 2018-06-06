@@ -20,6 +20,7 @@ RUN useradd -ms /bin/bash condor \
         fuse \
         gcc \
         gcc-c++ \
+        gcc-gfortran \
         git \
         glibc-devel \
         glibc-headers \
@@ -42,6 +43,8 @@ RUN useradd -ms /bin/bash condor \
         openssh-server \
         openssl098e \
         pam-krb5 \
+        screen \
+        subversion \
         sudo \
         vim \
     && yum clean all \
