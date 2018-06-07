@@ -13,6 +13,8 @@ RUN useradd -ms /bin/bash condor \
         gcc \
         gcc-c++ \
         make \
+        openssh-clients \
+        openssh-server \
         python-devel \
         python-pip \
     && yum clean all \

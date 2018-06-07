@@ -30,8 +30,6 @@ RUN yum --setopt=tsflags=nodocs -y install binutils \
         nano \
         ncurses \
         ncurses-devel \
-        openssh-clients \
-        openssh-server \
         openssl098e \
         pam-krb5 \
         screen \
