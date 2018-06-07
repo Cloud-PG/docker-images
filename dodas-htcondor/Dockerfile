@@ -9,44 +9,6 @@ RUN useradd -ms /bin/bash condor \
     && rpm --import RPM-GPG-KEY-HTCondor \
     && yum --setopt=tsflags=nodocs -y update \
     && yum --setopt=tsflags=nodocs -y install condor-all python-devel python-pip \
-    && yum --setopt=tsflags=nodocs -y install binutils \
-        boost-devel \
-        cmake \
-        curl \
-        cvs \
-        emacs \
-        freetype \
-        freetype-devel \
-        fuse \
-        gcc \
-        gcc-c++ \
-        gcc-gfortran \
-        git \
-        glibc-devel \
-        glibc-headers \
-        gsl-devel \
-        initscripts \
-        krb5-workstation \
-        libSM \
-        libX11-devel \
-        libXext \
-        libXext-devel \
-        libXft-devel \
-        libXpm \
-        libXpm-devel \
-        make \
-        man \
-        nano \
-        ncurses \
-        ncurses-devel \
-        openssh-clients \
-        openssh-server \
-        openssl098e \
-        pam-krb5 \
-        screen \
-        subversion \
-        sudo \
-        vim \
     && yum clean all \
     && pip install --upgrade pip setuptools \
     && pip install j2cli paramiko psutil kazoo requests \
