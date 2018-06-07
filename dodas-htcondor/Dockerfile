@@ -8,7 +8,13 @@ RUN useradd -ms /bin/bash condor \
     && wget http://research.cs.wisc.edu/htcondor/yum/RPM-GPG-KEY-HTCondor \
     && rpm --import RPM-GPG-KEY-HTCondor \
     && yum --setopt=tsflags=nodocs -y update \
-    && yum --setopt=tsflags=nodocs -y install condor-all python-devel python-pip \
+    && yum --setopt=tsflags=nodocs -y install \
+        condor-all \
+        gcc \
+        gcc-c++ \
+        make \
+        python-devel \
+        python-pip \
     && yum clean all \
     && pip install --upgrade pip setuptools \
     && pip install j2cli paramiko psutil kazoo requests \
