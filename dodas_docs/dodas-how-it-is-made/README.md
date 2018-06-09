@@ -1,7 +1,3 @@
----
-description: Quick overview of the basic building blocks of DODAS
----
-
 # DODAS: How it is made
 
 DODAS has been implemented in the context of INDIGO-DataCloud project and thus it is built on several software components developed by that project. Also most of the technical solutions adopted by DODAS follow the guidelines provided by INDIGO-DataCloud. As result DODAS has a highly modular architecture and, from the perspectives of the workflows, is highly customisable because of extremely flexible approach used to deal with software dependencies, external services and of course the Infrastructure as a Service layer.  

@@ -1,7 +1,3 @@
----
-description: High level description of the workflow
----
-
 # From the user perspectives
 
 DODAS from the user perspectives is a service aiming at enabling an easy solution for the creation of a complex setup for a computational environment on any cloud based environment. The DODAS solution pretend to be as easy as it is today creating a virtual machine over any IaaS, to some extend. Regarding the complex setup, from the user point of view this must be a TOSCA description, which relies on a set of Ansible roles for any configuration and software installation. As container based service DODAS foreseen that any service the user wants to execute on the dynamic generated cluster has been previously containerised.   
