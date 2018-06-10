@@ -14,5 +14,5 @@
   * [How to use a public cloud](using-dodas-with-external-providers/how-to-use-a-public-cloud.md)
 * [Troubleshooting](troubleshooting.md)
 * [FAQ](faq.md)
-* [Contacts](contacts.md)
+* [Contact us](contacts.md)
 
