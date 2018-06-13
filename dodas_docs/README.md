@@ -1,6 +1,6 @@
 # Dynamic On Demand Analysis Service: DODAS
 
-**Dynamic On Demand Analysis Service \(DODAS\) is a Platform as a Service tool built combining several solutions and products developed by the** [**INDIGO-DataCloud**](https://www.indigo-datacloud.eu/) **H2020 project.**
+**Dynamic On Demand Analysis Service \(DODAS\) is a Platform as a Service tool built combining several solutions and products developed by the** [**INDIGO-DataCloud**](https://www.indigo-datacloud.eu/) **H2020 project. t**
 
 **DODAS allows to instantiate on-demand container-based clusters \(Apache Mesos\) over any cloud with almost zero effort and with very limited knowledge of the underlying technical details DODAS provides the end user with all the support to deploy both HTCondor batch system and platforms for the Big Data analysis based on Spark, Hadoop etc.**
 
