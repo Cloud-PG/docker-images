@@ -11,7 +11,7 @@
   * [CMS Recipe](getting-started/cms-recipe.md)
 * [Monitoring](monitoring.md)
 * [Using DODAS with external providers](using-dodas-with-external-providers/README.md)
-  * [How to use your own cloud](using-dodas-with-external-providers/how-to-use-your-own-cloud.md)
+  * [How to use private cloud with DODAS](using-dodas-with-external-providers/how-to-use-your-own-cloud.md)
   * [How to use a public cloud](using-dodas-with-external-providers/how-to-use-a-public-cloud.md)
 * [Troubleshooting](troubleshooting.md)
 * [FAQ](faq.md)

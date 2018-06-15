@@ -1,4 +1,4 @@
-# How to use your own cloud
+# How to use private cloud with DODAS
 
 **Work in Progress**
 
