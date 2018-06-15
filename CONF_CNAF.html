@@ -1,0 +1,555 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>INSTALLATION GUIDE &mdash; xcache  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="README" href="README.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> xcache
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">INSTALLATION GUIDE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">REQUIREMENTS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#packages-installation">PACKAGES INSTALLATION</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#proxy-renewal">PROXY RENEWAL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xrootd-server-configuration">XROOTD SERVER CONFIGURATION</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xrootd-cache-redirector-configuration">XROOTD CACHE REDIRECTOR CONFIGURATION</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metricbeat-configuration">METRICBEAT CONFIGURATION</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#starting-daemons">STARTING DAEMONS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-the-deployment">TESTING THE DEPLOYMENT</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">xcache</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>INSTALLATION GUIDE</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/CONF_CNAF.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installation-guide">
+<span id="installation-guide"></span><h1>INSTALLATION GUIDE<a class="headerlink" href="#installation-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="requirements">
+<span id="requirements"></span><h2>REQUIREMENTS<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>OS: Centos7</li>
+<li>Port: one open service port + 8443</li>
+<li>Valid grid host certifate</li>
+<li>Valid service certificate that is able to read from AAA (/etc/grid-security/xrd/xrdcert.pem, /etc/grid-security/xrd/xrdkey.pem)</li>
+</ul>
+</div>
+<div class="section" id="packages-installation">
+<span id="packages-installation"></span><h2>PACKAGES INSTALLATION<a class="headerlink" href="#packages-installation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;LC_ALL=C&quot;</span> &gt;&gt; /etc/environment <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&quot;LANGUAGE=C&quot;</span> &gt;&gt; /etc/environment <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> yum --setopt<span class="o">=</span><span class="nv">tsflags</span><span class="o">=</span>nodocs -y update <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> yum --setopt<span class="o">=</span><span class="nv">tsflags</span><span class="o">=</span>nodocs -y install wget <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> yum clean all
+
+<span class="nb">cd</span> /etc/yum.repos.d
+wget http://repository.egi.eu/community/software/preview.repository/2.0/releases/repofiles/centos-7-x86_64.repo <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> wget http://repository.egi.eu/sw/production/cas/1/current/repo-files/EGI-trustanchors.repo
+yum --setopt<span class="o">=</span><span class="nv">tsflags</span><span class="o">=</span>nodocs -y install epel-release yum-plugin-ovl <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> yum --setopt<span class="o">=</span><span class="nv">tsflags</span><span class="o">=</span>nodocs -y install fetch-crl wn sysstat <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> yum clean all
+
+yum install -y ca-policy-egi-core ca-policy-lcg
+/usr/sbin/fetch-crl -q
+
+yum install xrootd-server
+
+mkdir -p /etc/grid-security/xrd/
+
+chown -R xrootd:xrootd /etc/grid-security/xrd/
+
+systemctl <span class="nb">enable</span> fetch-crl-cron
+systemctl start fetch-crl-cron
+
+curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-6.2.4-x86_64.rpm
+sudo rpm -vi metricbeat-6.2.4-x86_64.rpm
+</pre></div>
+</div>
+</div>
+<div class="section" id="proxy-renewal">
+<span id="proxy-renewal"></span><h2>PROXY RENEWAL<a class="headerlink" href="#proxy-renewal" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">/usr/lib/systemd/system/xrootd-renew-proxy.service</span></code></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>Unit<span class="o">]</span>
+<span class="nv">Description</span><span class="o">=</span>Renew xrootd proxy
+
+<span class="o">[</span>Service<span class="o">]</span>
+<span class="nv">User</span><span class="o">=</span>xrootd
+<span class="nv">Group</span><span class="o">=</span>xrootd
+<span class="nv">Type</span> <span class="o">=</span> oneshot
+<span class="nv">ExecStart</span> <span class="o">=</span> /bin/grid-proxy-init -cert /etc/grid-security/xrd/xrdcert.pem -key /etc/grid-security/xrd/xrdkey.pem -out /tmp/x509up_u995 -valid <span class="m">48</span>:00
+
+<span class="o">[</span>Install<span class="o">]</span>
+<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">/usr/lib/systemd/system/xrootd-renew-proxy.timer</span></code></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Unit</span><span class="p">]</span>
+<span class="n">Description</span><span class="o">=</span><span class="n">Renew</span> <span class="n">proxy</span> <span class="n">every</span> <span class="n">day</span> <span class="n">at</span> <span class="n">midnight</span>
+
+<span class="p">[</span><span class="n">Timer</span><span class="p">]</span>
+<span class="n">OnCalendar</span><span class="o">=*-*-*</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>
+<span class="n">Unit</span><span class="o">=</span><span class="n">xrootd</span><span class="o">-</span><span class="n">renew</span><span class="o">-</span><span class="n">proxy</span><span class="o">.</span><span class="n">service</span>
+
+<span class="p">[</span><span class="n">Install</span><span class="p">]</span>
+<span class="n">WantedBy</span><span class="o">=</span><span class="n">multi</span><span class="o">-</span><span class="n">user</span><span class="o">.</span><span class="n">target</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">xrootd-renew-proxy.timer</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">daemon-reload</span></code></li>
+</ul>
+</div>
+<div class="section" id="xrootd-server-configuration">
+<span id="xrootd-server-configuration"></span><h2>XROOTD SERVER CONFIGURATION<a class="headerlink" href="#xrootd-server-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Configuration file may be adapted in the future to send xrd information via UDP at a testbed elasticsearch endpoint (a kafka stream is in the plan later on).</p>
+<p><strong>DISCLAIMER</strong>: fields surrounded by <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code> or called <code class="docutils literal notranslate"><span class="pre">DUMMY</span></code> are to be substituted with values that varies case by case.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">/etc/xrootd/xrootd-xcache.cfg</span></code></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="nb">set</span> <span class="nv">rdtrCache</span><span class="o">=</span>&lt;host cache redirector&gt;
+<span class="nb">set</span> <span class="nv">rdtrPortCmsd</span><span class="o">=</span>&lt;port of cmsd cache redirector&gt;
+<span class="c1">#</span>
+<span class="nb">set</span> <span class="nv">rdtrGlobal</span><span class="o">=</span>xrootd-cms.infn.it
+<span class="nb">set</span> <span class="nv">rdtrGlobalPort</span><span class="o">=</span><span class="m">1094</span>
+<span class="c1">#</span>
+<span class="nb">set</span> <span class="nv">cacheLowWm</span><span class="o">=</span><span class="m">0</span>.70
+<span class="nb">set</span> <span class="nv">cacheHiWm</span><span class="o">=</span><span class="m">0</span>.85
+<span class="c1">#</span>
+<span class="nb">set</span> <span class="nv">cacheLogLevel</span><span class="o">=</span>info
+<span class="c1">#</span>
+<span class="nb">set</span> <span class="nv">xrdport</span><span class="o">=</span><span class="m">1094</span>
+<span class="nb">set</span> <span class="nv">cmsdport</span><span class="o">=</span><span class="m">1213</span>
+<span class="c1">#</span>
+<span class="nb">set</span> <span class="nv">cachePath</span><span class="o">=</span>&lt;path to folder <span class="k">for</span> storing data, NB it has to be owned by xrootd user&gt;
+<span class="nb">set</span> <span class="nv">cacheRam</span><span class="o">=</span>&lt;ram dedicated to cache, ~50% of the total is suggested&gt;
+<span class="nb">set</span> <span class="nv">cacheStreams</span><span class="o">=</span><span class="m">256</span>
+<span class="nb">set</span> <span class="nv">prefetch</span><span class="o">=</span><span class="m">0</span>
+<span class="nb">set</span> <span class="nv">blkSize</span><span class="o">=</span>512k
+
+all.manager <span class="nv">$rdtrCache</span>:<span class="nv">$rdtrPortCmsd</span>
+
+xrootd.trace all
+ofs.trace all
+xrd.trace all
+cms.trace all
+sec.trace all
+pfc.trace <span class="nv">$cacheLogLevel</span>
+
+<span class="k">if</span> <span class="nb">exec</span> cmsd
+
+all.role server
+xrd.port <span class="nv">$cmsdport</span>
+
+all.export / stage
+oss.localroot <span class="nv">$cachePath</span>
+
+<span class="k">else</span>
+
+all.export /
+all.role  server
+oss.localroot <span class="nv">$cachePath</span>
+
+xrd.port <span class="nv">$xrdport</span>
+<span class="c1"># For xrootd, load the proxy plugin and the disk caching plugin.</span>
+<span class="c1">#</span>
+ofs.osslib   libXrdPss.so
+pss.cachelib libXrdFileCache.so
+
+pss.origin <span class="nv">$rdtrGlobal</span>:<span class="nv">$rdtrGlobalPort</span>
+
+pss.config streams <span class="nv">$cacheStreams</span>
+
+xrootd.seclib /usr/lib64/libXrdSec.so
+
+sec.protocol /usr/lib64 gsi <span class="se">\</span>
+  -certdir:/etc/grid-security/certificates <span class="se">\</span>
+  -cert:/etc/grid-security/xrd/xrdcert.pem <span class="se">\</span>
+  -key:/etc/grid-security/xrd/xrdkey.pem <span class="se">\</span>
+  -d:3 <span class="se">\</span>
+  -crl:1
+
+ofs.authorize <span class="m">1</span>
+acc.audit deny grant
+acc.authdb /etc/xrootd/Authfile-auth
+sec.protbind * gsi
+
+pfc.diskusage <span class="nv">$cacheLowWm</span> <span class="nv">$cacheHiWm</span>
+pfc.ram       <span class="si">${</span><span class="nv">cacheRam</span><span class="si">}</span>g
+
+pfc.blocksize   <span class="nv">$blkSize</span>
+pfc.prefetch    <span class="nv">$prefetch</span>
+
+<span class="k">fi</span>
+<span class="c1"># all.sitename DUMMY</span>
+<span class="c1">#xrd.report &lt;host&gt;:&lt;port&gt;</span>
+<span class="c1">#xrootd.monitor all auth flush 30s window 5s fstat 60 lfn ops xfr 5 dest redir fstat info user &lt;host&gt;:&lt;&gt;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">/etc/xrootd/Authfile-noauth</span></code></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="o">*</span> <span class="o">/</span><span class="n">store</span><span class="o">/</span> <span class="n">lr</span> <span class="o">/</span> <span class="n">rl</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xrootd-cache-redirector-configuration">
+<span id="xrootd-cache-redirector-configuration"></span><h2>XROOTD CACHE REDIRECTOR CONFIGURATION<a class="headerlink" href="#xrootd-cache-redirector-configuration" title="Permalink to this headline">¶</a></h2>
+<p><strong>DISCLAIMER</strong>: fields surrounded by <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code> or called <code class="docutils literal notranslate"><span class="pre">DUMMY</span></code> are to be substituted with values that varies case by case.</p>
+<ul class="simple">
+<li>cat /etc/xrootd/xrootd-cacheredir.cfg</li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="nv">rdtrcache</span><span class="o">=</span>&lt;redirector host&gt;
+<span class="nb">set</span> <span class="nv">rdtrportcmsd</span><span class="o">=</span>&lt;redirector cluster manager port&gt;
+<span class="nb">set</span> <span class="nv">rdtrportxrd</span><span class="o">=</span>&lt;redirector xrd port&gt;
+
+all.manager <span class="nv">$rdtrcache</span>:<span class="nv">$rdtrportcmsd</span>
+
+xrd.allow host *
+xrd.port <span class="nv">$rdtrportxrd</span>
+xrd.port <span class="nv">$rdtrportcmsd</span> <span class="k">if</span> <span class="nb">exec</span> cmsd
+all.export /store stage r/o
+all.role manager
+</pre></div>
+</div>
+</div>
+<div class="section" id="metricbeat-configuration">
+<span id="metricbeat-configuration"></span><h2>METRICBEAT CONFIGURATION<a class="headerlink" href="#metricbeat-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Setup and configure metricbeat to collect information on host metrics on an elasticsearch endpoint.</p>
+<p><strong>DISCLAIMER</strong>: fields surrounded by <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code> or called <code class="docutils literal notranslate"><span class="pre">DUMMY</span></code> are to be substituted with values that varies case by case.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">/etc/metricbeat/metricbeat.yml</span></code></li>
+</ul>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># You can find the full configuration reference here:</span>
+<span class="c1"># https://www.elastic.co/guide/en/beats/metricbeat/index.html</span>
+
+<span class="c1">#==========================  Modules configuration ============================</span>
+<span class="l l-Scalar l-Scalar-Plain">metricbeat.modules</span><span class="p p-Indicator">:</span>
+
+<span class="c1">#------------------------------- System Module -------------------------------</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">module</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">system</span>
+  <span class="l l-Scalar l-Scalar-Plain">metricsets</span><span class="p p-Indicator">:</span>
+    <span class="c1"># CPU stats</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cpu</span>
+
+    <span class="c1"># System Load stats</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">load</span>
+
+    <span class="c1"># Per CPU core stats</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">core</span>
+
+    <span class="c1"># IO stats</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">diskio</span>
+
+    <span class="c1"># Per filesystem stats</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">filesystem</span>
+
+    <span class="c1"># File system summary stats</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">fsstat</span>
+
+    <span class="c1"># Memory stats</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">memory</span>
+
+    <span class="c1"># Network stats</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">network</span>
+
+    <span class="c1"># Per process stats</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">process</span>
+
+    <span class="c1"># Sockets (linux only)</span>
+    <span class="c1">#- socket</span>
+  <span class="l l-Scalar l-Scalar-Plain">enabled</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="l l-Scalar l-Scalar-Plain">period</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">60s</span>
+  <span class="l l-Scalar l-Scalar-Plain">processes</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;.*&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1">#================================ General =====================================</span>
+
+<span class="c1"># The name of the shipper that publishes the network data. It can be used to group</span>
+<span class="c1"># all the transactions sent by a single shipper in the web interface.</span>
+<span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&#39;DUMMY:</span><span class="nv"> </span><span class="s">cache</span><span class="nv"> </span><span class="s">sitename&#39;</span>
+
+<span class="c1">#================================ Outputs =====================================</span>
+
+<span class="c1"># Configure what outputs to use when sending the data collected by the beat.</span>
+<span class="c1"># Multiple outputs may be used.</span>
+
+<span class="c1">#-------------------------- Elasticsearch output ------------------------------</span>
+<span class="l l-Scalar l-Scalar-Plain">output.elasticsearch</span><span class="p p-Indicator">:</span>
+  <span class="c1"># Array of hosts to connect to.</span>
+  <span class="l l-Scalar l-Scalar-Plain">hosts</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&quot;DUMMY_esHost.com&quot;</span><span class="p p-Indicator">]</span>
+  <span class="l l-Scalar l-Scalar-Plain">template.name</span><span class="p p-Indicator">:</span> <span class="s">&quot;metricbeat_slave&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">template.path</span><span class="p p-Indicator">:</span> <span class="s">&quot;metricbeat.template.json&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">template.overwrite</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+
+  <span class="c1"># Optional protocol and basic auth credentials.</span>
+  <span class="l l-Scalar l-Scalar-Plain">protocol</span><span class="p p-Indicator">:</span> <span class="s">&quot;http&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">username</span><span class="p p-Indicator">:</span> <span class="s">&quot;dodas&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">password</span><span class="p p-Indicator">:</span> <span class="s">&quot;DUMMY&quot;</span>
+
+<span class="c1">#================================ Logging =====================================</span>
+
+<span class="c1"># Sets log level. The default log level is info.</span>
+<span class="c1"># Available log levels are: critical, error, warning, info, debug</span>
+<span class="c1">#logging.level: debug</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="starting-daemons">
+<span id="starting-daemons"></span><h2>STARTING DAEMONS<a class="headerlink" href="#starting-daemons" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># enable and start xrootd redirector daemons</span>
+systemctl <span class="nb">enable</span> xrootd@cacheredir.service
+systemctl <span class="nb">enable</span> cmsd@cacheredir.service
+
+systemctl start xrootd@cacheredir.service
+systemctl start cmsd@cacheredir.service
+
+<span class="c1"># enable and start xrootd server deamons</span>
+systemctl <span class="nb">enable</span> xrootd@xcache.service
+systemctl <span class="nb">enable</span> cmsd@xcache.service
+
+systemctl start xrootd@xcache.service
+systemctl start cmsd@xcache.service
+
+<span class="c1"># enable and start metricbeat service</span>
+systemctl <span class="nb">enable</span> metricbeat.service
+systemctl start metricbeat.service
+</pre></div>
+</div>
+</div>
+<div class="section" id="testing-the-deployment">
+<span id="testing-the-deployment"></span><h2>TESTING THE DEPLOYMENT<a class="headerlink" href="#testing-the-deployment" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">xrootd&#64;xcache.service</span></code></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>* xrootd@xcache.service - XRootD xrootd deamon instance xcache
+   Loaded: loaded (/usr/lib/systemd/system/xrootd@.service; enabled; vendor preset: disabled)
+   Active: active (running) since Fri 2018-05-25 07:17:21 UTC; 36min ago
+     Docs: man:xrootd(8)
+           http://xrootd.org/docs.html
+ Main PID: 19933 (xrootd)
+   CGroup: /system.slice/system-xrootd.slice/xrootd@xcache.service
+           `-19933 /usr/bin/xrootd -l /var/log/xrootd/xrootd.log -c /etc/xrootd/xrootd-xcache.cfg -k fifo -s /var/r...
+
+May 25 07:17:21 xrootdcentostest systemd[1]: Started XRootD xrootd deamon instance xcache.
+May 25 07:17:21 xrootdcentostest systemd[1]: Starting XRootD xrootd deamon instance xcache...
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">cmsd&#64;xcache.service</span></code>: similar output as above</li>
+<li><code class="docutils literal notranslate"><span class="pre">xrdcp</span> <span class="pre">-f</span> <span class="pre">-v</span> <span class="pre">xroot://localhost:&lt;xrdport</span> <span class="pre">defined</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">configuration</span> <span class="pre">above&gt;//store/mc/RunIISummer17DRPremix/QCD_Pt-15to20_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/AODSIM/92X_upgrade2017_realistic_v10-v2/90000/C85940F6-9596-E711-8FD6-D8D385FF1940.root</span> <span class="pre">/dev/null</span></code></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@xrootdcentostest</span> <span class="n">centos</span><span class="p">]</span><span class="c1"># xrdcp -f -v xroot://localhost:32294//store/mc/RunIISummer17DRPremix/QCD_Pt-15to20_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/AODSIM/92X_upgrade2017_realistic_v10-v2/90000/C85940F6-9596-E711-8FD6-D8D385FF1940.root /dev/null</span>
+<span class="p">[</span><span class="mi">544</span><span class="n">MB</span><span class="o">/</span><span class="mf">3.108</span><span class="n">GB</span><span class="p">][</span> <span class="mi">17</span><span class="o">%</span><span class="p">][</span><span class="o">========&gt;</span>                                         <span class="p">][</span><span class="mf">19.43</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>at the end of transferring, the file has to be visible in the <code class="docutils literal notranslate"><span class="pre">&lt;cache</span> <span class="pre">path&gt;</span></code> indicated in the xrood-xcache configuration:</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">&lt;cache</span> <span class="pre">path&gt;/store/mc/RunIISummer17DRPremix/QCD_Pt-15to20_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/AODSIM/92X_upgrade2017_realistic_v10-v2/90000/C85940F6-9596-E711-8FD6-D8D385FF1940.root</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">cache</span> <span class="n">path</span><span class="o">&gt;/</span><span class="n">store</span><span class="o">/</span><span class="n">mc</span><span class="o">/</span><span class="n">RunIISummer17DRPremix</span><span class="o">/</span><span class="n">QCD_Pt</span><span class="o">-</span><span class="mi">15</span><span class="n">to20_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8</span><span class="o">/</span><span class="n">AODSIM</span><span class="o">/</span><span class="mi">92</span><span class="n">X_upgrade2017_realistic_v10</span><span class="o">-</span><span class="n">v2</span><span class="o">/</span><span class="mi">90000</span><span class="o">/</span><span class="n">C85940F6</span><span class="o">-</span><span class="mi">9596</span><span class="o">-</span><span class="n">E711</span><span class="o">-</span><span class="mi">8</span><span class="n">FD6</span><span class="o">-</span><span class="n">D8D385FF1940</span><span class="o">.</span><span class="n">root</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="README.html" class="btn btn-neutral" title="README" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Diego Ciangottini.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
