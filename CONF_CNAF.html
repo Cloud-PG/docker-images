@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>INSTALLATION GUIDE &mdash; xcache  documentation</title>
+  <title>GRID installation guide &mdash; xcache  documentation</title>
   
 
   
@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="README" href="README.html" /> 
+    <link rel="prev" title="Introduction" href="README.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -79,16 +79,16 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">INSTALLATION GUIDE</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#requirements">REQUIREMENTS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#packages-installation">PACKAGES INSTALLATION</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#proxy-renewal">PROXY RENEWAL</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#xrootd-server-configuration">XROOTD SERVER CONFIGURATION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GRID installation guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#packages-installation">Packages installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#proxy-renewal">Proxy Renewal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xrootd-server-configuration">XRootD server configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#xrootd-cache-redirector-configuration">XROOTD CACHE REDIRECTOR CONFIGURATION</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#metricbeat-configuration">METRICBEAT CONFIGURATION</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#starting-daemons">STARTING DAEMONS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#testing-the-deployment">TESTING THE DEPLOYMENT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metricbeat-configuaration">Metricbeat configuaration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#starting-daemons">Starting daemons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-the-deployments">Testing the deployments</a></li>
 </ul>
 </li>
 </ul>
@@ -136,7 +136,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>INSTALLATION GUIDE</li>
+      <li>GRID installation guide</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -155,10 +155,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="installation-guide">
-<span id="installation-guide"></span><h1>INSTALLATION GUIDE<a class="headerlink" href="#installation-guide" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="grid-installation-guide">
+<span id="grid-installation-guide"></span><h1>GRID installation guide<a class="headerlink" href="#grid-installation-guide" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="requirements">
-<span id="requirements"></span><h2>REQUIREMENTS<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<span id="requirements"></span><h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>OS: Centos7</li>
 <li>Port: one open service port + 8443</li>
@@ -167,7 +167,7 @@
 </ul>
 </div>
 <div class="section" id="packages-installation">
-<span id="packages-installation"></span><h2>PACKAGES INSTALLATION<a class="headerlink" href="#packages-installation" title="Permalink to this headline">¶</a></h2>
+<span id="packages-installation"></span><h2>Packages installation<a class="headerlink" href="#packages-installation" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;LC_ALL=C&quot;</span> &gt;&gt; /etc/environment <span class="se">\</span>
     <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&quot;LANGUAGE=C&quot;</span> &gt;&gt; /etc/environment <span class="se">\</span>
     <span class="o">&amp;&amp;</span> yum --setopt<span class="o">=</span><span class="nv">tsflags</span><span class="o">=</span>nodocs -y update <span class="se">\</span>
@@ -199,7 +199,7 @@ sudo rpm -vi metricbeat-6.2.4-x86_64.rpm
 </div>
 </div>
 <div class="section" id="proxy-renewal">
-<span id="proxy-renewal"></span><h2>PROXY RENEWAL<a class="headerlink" href="#proxy-renewal" title="Permalink to this headline">¶</a></h2>
+<span id="proxy-renewal"></span><h2>Proxy Renewal<a class="headerlink" href="#proxy-renewal" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">/usr/lib/systemd/system/xrootd-renew-proxy.service</span></code></li>
 </ul>
@@ -236,7 +236,7 @@ sudo rpm -vi metricbeat-6.2.4-x86_64.rpm
 </ul>
 </div>
 <div class="section" id="xrootd-server-configuration">
-<span id="xrootd-server-configuration"></span><h2>XROOTD SERVER CONFIGURATION<a class="headerlink" href="#xrootd-server-configuration" title="Permalink to this headline">¶</a></h2>
+<span id="xrootd-server-configuration"></span><h2>XRootD server configuration<a class="headerlink" href="#xrootd-server-configuration" title="Permalink to this headline">¶</a></h2>
 <p>Configuration file may be adapted in the future to send xrd information via UDP at a testbed elasticsearch endpoint (a kafka stream is in the plan later on).</p>
 <p><strong>DISCLAIMER</strong>: fields surrounded by <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code> or called <code class="docutils literal notranslate"><span class="pre">DUMMY</span></code> are to be substituted with values that varies case by case.</p>
 <ul class="simple">
@@ -349,8 +349,8 @@ all.role manager
 </pre></div>
 </div>
 </div>
-<div class="section" id="metricbeat-configuration">
-<span id="metricbeat-configuration"></span><h2>METRICBEAT CONFIGURATION<a class="headerlink" href="#metricbeat-configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="metricbeat-configuaration">
+<span id="metricbeat-configuaration"></span><h2>Metricbeat configuaration<a class="headerlink" href="#metricbeat-configuaration" title="Permalink to this headline">¶</a></h2>
 <p>Setup and configure metricbeat to collect information on host metrics on an elasticsearch endpoint.</p>
 <p><strong>DISCLAIMER</strong>: fields surrounded by <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code> or called <code class="docutils literal notranslate"><span class="pre">DUMMY</span></code> are to be substituted with values that varies case by case.</p>
 <ul class="simple">
@@ -432,7 +432,7 @@ all.role manager
 </div>
 </div>
 <div class="section" id="starting-daemons">
-<span id="starting-daemons"></span><h2>STARTING DAEMONS<a class="headerlink" href="#starting-daemons" title="Permalink to this headline">¶</a></h2>
+<span id="starting-daemons"></span><h2>Starting daemons<a class="headerlink" href="#starting-daemons" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># enable and start xrootd redirector daemons</span>
 systemctl <span class="nb">enable</span> xrootd@cacheredir.service
 systemctl <span class="nb">enable</span> cmsd@cacheredir.service
@@ -453,8 +453,8 @@ systemctl start metricbeat.service
 </pre></div>
 </div>
 </div>
-<div class="section" id="testing-the-deployment">
-<span id="testing-the-deployment"></span><h2>TESTING THE DEPLOYMENT<a class="headerlink" href="#testing-the-deployment" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="testing-the-deployments">
+<span id="testing-the-deployments"></span><h2>Testing the deployments<a class="headerlink" href="#testing-the-deployments" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">xrootd&#64;xcache.service</span></code></li>
 </ul>
@@ -498,7 +498,7 @@ May 25 07:17:21 xrootdcentostest systemd[1]: Starting XRootD xrootd deamon insta
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="README.html" class="btn btn-neutral" title="README" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="README.html" class="btn btn-neutral" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

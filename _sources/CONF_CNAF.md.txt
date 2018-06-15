@@ -1,13 +1,13 @@
-# INSTALLATION GUIDE
+# GRID installation guide
 
-## REQUIREMENTS
+## Requirements
 
 - OS: Centos7
 - Port: one open service port + 8443
 - Valid grid host certifate
 - Valid service certificate that is able to read from AAA (/etc/grid-security/xrd/xrdcert.pem, /etc/grid-security/xrd/xrdkey.pem)
 
-## PACKAGES INSTALLATION
+## Packages installation
 
 ```bash
 echo "LC_ALL=C" >> /etc/environment \
@@ -39,7 +39,7 @@ curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-6.
 sudo rpm -vi metricbeat-6.2.4-x86_64.rpm
 ```
 
-## PROXY RENEWAL
+## Proxy Renewal
 
 - `cat /usr/lib/systemd/system/xrootd-renew-proxy.service`
 
@@ -75,7 +75,7 @@ WantedBy=multi-user.target
 
 - `systemctl daemon-reload`
 
-## XROOTD SERVER CONFIGURATION
+## XRootD server configuration
 
 Configuration file may be adapted in the future to send xrd information via UDP at a testbed elasticsearch endpoint (a kafka stream is in the plan later on).
 
@@ -190,7 +190,7 @@ all.export /store stage r/o
 all.role manager
 ```
 
-## METRICBEAT CONFIGURATION
+## Metricbeat configuaration
 
 Setup and configure metricbeat to collect information on host metrics on an elasticsearch endpoint.
 
@@ -274,7 +274,7 @@ output.elasticsearch:
 #logging.level: debug
 ```
 
-## STARTING DAEMONS
+## Starting daemons
 
 ```bash
 # enable and start xrootd redirector daemons
@@ -296,7 +296,7 @@ systemctl enable metricbeat.service
 systemctl start metricbeat.service
 ```
 
-## TESTING THE DEPLOYMENT
+## Testing the deployments
 
 - `systemctl status xrootd@xcache.service`
 ```
