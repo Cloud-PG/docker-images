@@ -170,6 +170,26 @@ fi
 u * /store/ lr / rl
 ```
 
+## XROOTD CACHE REDIRECTOR CONFIGURATION
+
+**DISCLAIMER**: fields surrounded by `<>` or called `DUMMY` are to be substituted with values that varies case by case.
+
+- cat /etc/xrootd/xrootd-cacheredir.cfg
+
+```bash
+set rdtrcache=<redirector host>
+set rdtrportcmsd=<redirector cluster manager port>
+set rdtrportxrd=<redirector xrd port>
+
+all.manager $rdtrcache:$rdtrportcmsd
+
+xrd.allow host *
+xrd.port $rdtrportxrd
+xrd.port $rdtrportcmsd if exec cmsd
+all.export /store stage r/o
+all.role manager
+```
+
 ## METRICBEAT CONFIGURATION
 
 Setup and configure metricbeat to collect information on host metrics on an elasticsearch endpoint.
@@ -257,12 +277,21 @@ output.elasticsearch:
 ## STARTING DAEMONS
 
 ```bash
+# enable and start xrootd redirector daemons
+systemctl enable xrootd@cacheredir.service
+systemctl enable cmsd@cacheredir.service
+
+systemctl start xrootd@cacheredir.service
+systemctl start cmsd@cacheredir.service
+
+# enable and start xrootd server deamons
 systemctl enable xrootd@xcache.service
 systemctl enable cmsd@xcache.service
 
 systemctl start xrootd@xcache.service
 systemctl start cmsd@xcache.service
 
+# enable and start metricbeat service
 systemctl enable metricbeat.service
 systemctl start metricbeat.service
 ```
