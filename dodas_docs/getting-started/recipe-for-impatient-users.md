@@ -64,9 +64,24 @@ A impatient user seeking to try a DODAS deployment need to address the following
 
            `export ORCHENT_URL=https://orchestrator.cloud.cnaf.infn.it/orchestrator`
 
-   As example, once the environment has been configured and the template is ready, the submission will be  
+   As example, once the environment has been configured and the template is ready, the submission would be the like the following   
    `orchent depcreate <Your-TOSCA>.yaml '{}'`  
-    the paretheisi '{}' must be there 
+    the parenthesis  '{}' can be used to pass the input parameter to the TOSCA. Although values can be filled in the template itself, the parenthesis must be left there otherwise you'll get an error.   
+   The output of the deployment creation \(depcreate\) command will be something like the following   
+   `Deployment [b8bdccf3-9be5-499f-aac2-664dc0726795]:  
+     status: CREATE_IN_PROGRESS  
+     creation time: 2018-06-16T15:58+0000  
+     update time: 2018-06-16T15:58+0000  
+     callback:   
+     status reason:   
+     task: NONE  
+     CloudProviderName:   
+     outputs:  
+     {}   
+     links:  
+       self [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795]  
+       resources [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795/resources]  
+       template [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795/template]`
 
 You could now exploit DODAS to instantiate and run a HTCondor batch system. In such a case the step 1 to 3 remain the same, so you need only to checkout the proper template and submit it
 
