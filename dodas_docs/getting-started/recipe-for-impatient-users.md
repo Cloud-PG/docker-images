@@ -14,10 +14,51 @@ A impatient user seeking to try a DODAS deployment need to address the following
            IAM\_DEVICE\_CODE\_ENDPOINT  
            IAM\_TOKEN\_ENDPOINT 
        * There will be few steps to address.. the script will guide you. 
-3. At that point you can checkout the already available TOSCA Templates here. Or just use the following simple test:
-4. Once properly configured you can submit the TOSCA either to the PaaS Orchestrator or directly to IM.
+3. At that point you can checkout the already available TOSCA Templates here and pic-up the one you prefer. Otherwise just use the following simple TOSCA test to get a taste of the whole system:  
+   `imports:`
 
-* Submit Te TOSCA template to PaaS
+    `- indigo_custom_types: https://raw.githubusercontent.com/indigo-dc/tosca-types/master/custom_types.yaml  
+   description: >  
+    Launch a VM   
+    Get IP and SSH credentials to access`
+
+   `topology_template:  
+  
+    node_templates:  
+      simple_node:  
+        type: tosca.nodes.indigo.Compute  
+        capabilities:  
+          endpoint:  
+            properties:  
+              network_name: PUBLIC  
+              ports:  
+                user_port:  
+                  protocol: tcp  
+                  source: 9000  
+                other_port:  
+                  protocol: tcp  
+                  source: 9001  
+          scalable:  
+            properties:  
+              count: 1  
+          host:  
+            properties:  
+              instance_type: m1.small  
+          os:  
+            properties:  
+              image: Ubuntu_16.04  
+   outputs:  
+      node_ip:  
+        value: { get_attribute: [ simple_node, public_address, 0 ] }  
+      node_creds:  
+        value: { get_attribute: [ simple_node, endpoint, credential, 0 ] }`
+
+4. If you will choose a specific template \(not just the test once\) you need to  properly configured it. Once configured, you can submit the TOSCA either to the PaaS Orchestrator or directly to IM.
+
+* Submit the TOSCA template to PaaS
+
+
+
 * Submit a TOSCA template to IM
 
 [`https://im.cloud.cnaf.infn.it:8800/`](http://im.cloud.cnaf.infn.it:8800/)
