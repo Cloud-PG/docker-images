@@ -14,11 +14,13 @@ A impatient user seeking to try a DODAS deployment need to address the following
            IAM\_DEVICE\_CODE\_ENDPOINT  
            IAM\_TOKEN\_ENDPOINT 
        * There will be few steps to address.. the script will guide you. 
-3. At that point you can checkout the test template here
-4. Submit the TOSCA either to PaaS or to IM.
+3. At that point you can checkout the already available TOSCA Templates here. Or just use the following simple test:
+4. Once properly configured you can submit the TOSCA either to the PaaS Orchestrator or directly to IM.
 
 * Submit Te TOSCA template to PaaS
 * Submit a TOSCA template to IM
+
+[`https://im.cloud.cnaf.infn.it:8800/`](http://im.cloud.cnaf.infn.it:8800/)
 
 You could now exploit DODAS to instantiate and run a HTCondor batch system. In such a case the step 1 to 3 remain the same, so you need only to checkout the proper template and submit it
 
