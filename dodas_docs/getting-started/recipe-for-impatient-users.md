@@ -55,7 +55,25 @@ A impatient user seeking to try a DODAS deployment need to address the following
         
 
 4. If you will choose a specific template \(not just the test once\) you need to  properly configured it. Configuration parameters should be documented on each TOSCA template. Once configured, you can submit the TOSCA either to the PaaS Orchestrator or directly to IM.
-   * **Direct submission to IM** can be done either via im-client or using the RESTful API. The [extended guide ](http://imdocs.readthedocs.io/en/devel/client.html#) provides all the recipes and information for installation and configuration of the CLI as well as the documentation of the REST APIs. However using the REST is highly suggested for the initial testing cause it guarantee a enormous flexibility, useful for a fast turnaround during tests. In any case the public endpoint is :  [`https://im.cloud.cnaf.infn.it:8800/infrastructures`](http://im.cloud.cnaf.infn.it:8800/infrastructures)   And an example of REST based submission is 
+
+   * **Direct submission to IM** can be done either via im-client or using the RESTful API. The [extended guide ](http://imdocs.readthedocs.io/en/devel/client.html#) provides all the recipes and information for installation and configuration of the CLI as well as the documentation of the REST APIs. However using the REST is highly suggested for the initial testing cause it guarantee a enormous flexibility, useful for a fast turnaround during tests. In any case the public endpoint is :   
+     **`https://im.cloud.cnaf.infn.it:8800/infrastructures`**    
+     And an example of REST based submission is   
+     **`curl -k -H 'Content-type: text/yaml' -H "Authorization: id = ost; type = OpenStack; host = https://horizon.cloud.cnaf.infn.it:5000/v3; username = indigo-dc; password = $IAM_ACCESS_TOKEN; tenant = oidc; auth_version = 3.x_oidc_access_token; service_region = regionOne;\nid = im; type = InfrastructureManager; token = $IAM_ACCESS_TOKEN" -X POST http://im.cloud.cnaf.infn.it:8800/infrastructures --data-binary @"<YOUR_TOSCA>.yaml"`**   
+     `HTTP/1.1 100 Continue`
+
+     `HTTP/1.1 200 OK   
+     Content-Length: 86   
+     Content-Type: text/uri-list  
+     Infid: 9b044cce-6424-11e8-bad9-0242ac120003   
+     Date: Wed, 30 May 2018 16:15:11 GMT Server: Cheroot/6.3.1`  
+
+
+     **`http://im.cloud.cnaf.infn.it:8800/infrastructures/9b044cce-6424-11e8-bad9-0242ac120003`**
+
+  
+
+
    * **Submission to the PaaS Orchestrator**. There are two steps.
      * Install the client called **orchent** following the [recipe here](https://indigo-dc.gitbooks.io/orchent/admin.html). Once installed...
      * use the orchent client as described [here](https://indigo-dc.gitbooks.io/orchent/user.html) . Be careful to the following notes:
