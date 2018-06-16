@@ -83,7 +83,7 @@ A impatient user seeking to try a DODAS deployment need to address the following
        resources [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795/resources]  
        template [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795/template]`
 
-You could now exploit DODAS to instantiate and run a HTCondor batch system. In such a case the step 1 to 3 remain the same, so you need only to checkout the proper template and submit it
+## You could now exploit DODAS to instantiate and run a HTCondor batch system. In such a case the step 1 to 3 remain the same, so you need only to checkout the proper template and submit it
 
 * TOSCA template for a batch system
 
