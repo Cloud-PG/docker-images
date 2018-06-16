@@ -9,5 +9,5 @@ Regarding the PaaS Orchestrator and IM, both have the role of abstracting the un
 * if you need to hide a multi cloud environment, which in principle could be a combination of both public and private provider \(hybrid model\) most probably you are looking for the orchestrator
 *  if your goal is a transparent support to the elasticity, you need the PaaS Orchestrator which integrated [Clues](https://legacy.gitbook.com/book/indigo-dc/clues-indigo/details). 
 
-On the other side is worth to mention that using your own public or private cloud through the orchestrator requires some IaaS [registration steps](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LEDKwAyU8rRIV1lDMsb/using-dodas-with-external-providers), while IM is not requiring any resource registration. 
+On the other hand is worth to mention that using your own public or private cloud through the orchestrator requires some [registration steps](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LEDKwAyU8rRIV1lDMsb/using-dodas-with-external-providers), while IM is not requiring any resource registration. 
 
