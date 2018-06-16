@@ -1,6 +1,13 @@
 # From the user perspectives
 
-DODAS from the user perspectives is a service aiming at enabling an easy solution for the creation of a complex setup for a computational environment on any cloud based environment. The DODAS solution pretends to be as easy as it is today creating a virtual machine over any IaaS, to some extend.  
+DODAS from the user perspectives is a service aiming at enabling an easy solution for the creation of a complex setup for a computational environment on any cloud based environment. In other words the DODAS aim is to make te process of generating intricate setup as easy as it is today creating a virtual machine on any IaaS: one click solution.   
+The summary of the major added values of DODAS for a scientist is: 
+
+* To provide a complete abstraction of the underlying clouds
+* To automate the virtual hardware provisioning and configuration
+* To provide a cluster platform with a high level of self-healing 
+* To guarantee setup and service customisation to cope with specific requirements  
+
 More concretely a complex setup here means a **container orchestrator** \(e.g. Mesos\) on top of which there are currently two principal ready to use implementations     
  Regarding the complex setup, from the user point of view this must be a TOSCA description, which relies on a set of Ansible roles for any configuration and software installation. As container based service DODAS foreseen that any service the user wants to execute on the dynamic generated cluster has been previously containerised.   
 There are a set of already prepared TOSCA templates, one per supported use case \(see [this section](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LEDKwAyU8rRIV1lDMsb/getting-started) for further details\) but, of course, you can either extend any of them or create your own.    
