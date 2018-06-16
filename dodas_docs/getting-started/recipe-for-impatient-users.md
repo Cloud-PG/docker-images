@@ -54,13 +54,19 @@ A impatient user seeking to try a DODAS deployment need to address the following
         value: { get_attribute: [ simple_node, endpoint, credential, 0 ] }`
 
 4. If you will choose a specific template \(not just the test once\) you need to  properly configured it. Configuration parameters should be documented on each TOSCA template. Once configured, you can submit the TOSCA either to the PaaS Orchestrator or directly to IM.
+
    * Direct submission to IM can be done either via im-client or using the RESTful API. Find here the extended guide   
    * Submit a TOSCA template to the PaaS Orchestrator. There are two steps. 
      * Install the client called **orchent** following the [recipe here](https://indigo-dc.gitbooks.io/orchent/admin.html). Once installed...
-     * use the orchent client as described [here](https://indigo-dc.gitbooks.io/orchent/user.html) . Be careful, despite the possibility to use the oidc-client we suggest to the ORCHENT\_TOKEN based solution as described in the guide.
-     * set the ORCHENT\_URL env. variable using the endpoint as here below: 
+     * use the orchent client as described [here](https://indigo-dc.gitbooks.io/orchent/user.html) . Be careful to the following notes:
+       *  Despite the possibility to use the oidc-client we suggest to the ORCHENT\_TOKEN based solution as described in the guide.
+         * Set the ORCHENT\_URL env. variable using the endpoint as here below: 
 
-       `export ORCHENT_URL=https://orchestrator.cloud.cnaf.infn.it/orchestrator`
+           `export ORCHENT_URL=https://orchestrator.cloud.cnaf.infn.it/orchestrator`
+
+   As example, once the environment has been configured and the template is read
+
+
 
 You could now exploit DODAS to instantiate and run a HTCondor batch system. In such a case the step 1 to 3 remain the same, so you need only to checkout the proper template and submit it
 
