@@ -32,7 +32,7 @@ This assume you are now familiar with following steps:
 
 Once the cluster has been created you should be able to access the Marathon and Mesos GUIs for management, debugging etc.
 
- Once the cluster Mesos is up&running and all the application 
+ Once the cluster Mesos is up&running and all the application have been launched on Marathon, startd should be start joining the HTCondor global pool.. and thus if matching happens HTCondor start executing payloads. So most probably you would like to submit some jobs with proper configuration to allow the matching. Details on CRAB configuration are here.  
 
 Finally there is a basic Elastic Search monitoring system which can be used and extended to cope with user specific needs. This is detailed [here](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LF8TB8psnZUdINp-U4z/getting-started/cms-recipe) .
 
