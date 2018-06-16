@@ -15,5 +15,6 @@
   * [How to use a public IaaS with DODAS-PaaS](using-dodas-with-external-providers/how-to-use-a-public-cloud.md)
 * [Troubleshooting](troubleshooting.md)
 * [FAQ](faq.md)
+* [Known Issues](known-issues.md)
 * [Contact us](contacts.md)
 
