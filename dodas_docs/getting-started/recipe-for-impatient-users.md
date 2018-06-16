@@ -54,7 +54,7 @@ A impatient user seeking to try a DODAS deployment need to address the following
         value: { get_attribute: [ simple_node, endpoint, credential, 0 ] }`
 
 4. If you will choose a specific template \(not just the test once\) you need to  properly configured it. Once configured, you can submit the TOSCA either to the PaaS Orchestrator or directly to IM.
-   * Direct submission to IM can be done either via im-client or using the RESTful API. Find here the direct  
+   * Direct submission to IM can be done either via im-client or using the RESTful API. Find here the extended guide   
 
 
 
