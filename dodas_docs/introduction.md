@@ -5,7 +5,7 @@ Within the EOSC-hub project DODAS - Thematic Service is providing both the **Paa
 This guide provides not only an overview of the architecture and basic concepts behind DODAS, but also a comprehensive documentation for users willing to Instantiate currently supported services:
 
 * HTCondor batch system as a Service 
-* Big Data Cluster setup for a ML 
+* Big Data platform for ML as a Service 
 
 either using DODAS provided [Enabling Facility](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/primary/introduction) or a user provided public Cloud as well as a private Cloud \(Amazon, Microsoft Azure, Open Telekom Cloud etc etc\).  
   
