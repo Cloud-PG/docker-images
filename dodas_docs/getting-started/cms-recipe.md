@@ -5,6 +5,7 @@ The DODAS workflow implemented for CMS has been designed in order to generate a 
 1. There is **no Computing Element**. Worker nodes \(HTCondor startd processes\) startup as a docker container over Mesos cluster, and auto-join the HTCondor Global-Pool of CMS
 2. Data I/O is meant to rely on AAA xrootd read rule 
    1. although there is not technical limitation preventing the usage of local storages..
+3. stageout relies on a Tier site of CMS. e.g. INFN relies on TI\_IT\_CNAF. The result is something like this in the site local config `url="trivialcatalog_file:/cvmfs/cms.cern.ch/SITECONF/T1_IT_CNAF/PhEDEx/storage.xml?protocol=srmv2"/>`
 
 This imply to accomplish with the following pre-requisites: 
 
