@@ -2,8 +2,7 @@
 
 * [Dynamic On Demand Analysis Service: DODAS](README.md)
 * [Introduction](introduction.md)
-* [DODAS: How it is made](dodas-how-it-is-made/README.md)
-  * [From the user perspectives](dodas-how-it-is-made/from-the-user-perspectives.md)
+* [DODAS: How it is made](dodas-how-it-is-made.md)
 * [The Enabling Facility](the-enabling-facility.md)
 * [Getting Started](getting-started/README.md)
   * [Recipe for impatient users](getting-started/recipe-for-impatient-users.md)

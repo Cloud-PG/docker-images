@@ -8,7 +8,6 @@ This guide provides not only an overview of the architecture and basic concepts 
 * Big Data platform for ML as a Service 
 
 either using DODAS provided [Enabling Facility](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/primary/introduction) or a user provided public Cloud as well as a private Cloud \(Amazon, Microsoft Azure, Open Telekom Cloud etc etc\).  
-  
 Moreover this guide provide the reader guidelines on how to customise and extend the DODAS workflow.  However, if you feel you are a impatient user, [**this is the section**](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LEDKwAyU8rRIV1lDMsb/untitled) you are looking for.  
   
 DODAS has been integrated by the Submission Infrastructure of [Compact Muon Solenoid](https://home.cern/about/experiments/cms) \(CMS\), one of the two bigger and general purposes experiments at LHC of CERN, as well as by the [Alpha Magnetic Spectrometer](http://www.ams02.org/) \(AMS-02\) computing environment.
