@@ -99,23 +99,36 @@ Date: Wed, 30 May 2018 16:15:11 GMT Server: Cheroot/6.3.1`
 
 ### Submission to the PaaS Orchestrator
 
-**Submission to the PaaS Orchestrator**. There are two steps.
+The Submission to the PaaS Orchestrator as well can be done both through the client and through the REST APIS. Here in this guide only the client based solution is taken into account.   
+There are two steps: 
 
-* Install the client called **orchent** following the [recipe here](https://indigo-dc.gitbooks.io/orchent/admin.html). Once installed...
-* use the orchent client as described [here](https://indigo-dc.gitbooks.io/orchent/user.html) . Be careful to the following notes:
+* Installation the client called **orchent** following the [recipe here](https://indigo-dc.gitbooks.io/orchent/admin.html). Once installed...
+* Configuration and usage of the orchent client as described [here](https://indigo-dc.gitbooks.io/orchent/user.html) . Be careful to the following notes:
   *  Despite the possibility to use the oidc-client we suggest to the ORCHENT\_TOKEN based solution as described in the guide.
-  * Set the ORCHENT\_URL env. variable using the endpoint as here below: `export ORCHENT_URL=https://orchestrator.cloud.cnaf.infn.it/orchestrator` 
-* As example, once the environment has been configured and the template is ready, the submission would be the like the following  `orchent depcreate <Your-TOSCA>.yaml '{}'`  the parenthesis  '{}' can be used to pass the input parameter to the TOSCA. Although values can be filled in the template itself, the parenthesis must be left there otherwise you'll get an error.  The output of the deployment creation \(depcreate\) command will be something like the following  `Deployment [b8bdccf3-9be5-499f-aac2-664dc0726795]:   status: CREATE_IN_PROGRESS   creation time: 2018-06-16T15:58+0000   update time: 2018-06-16T15:58+0000   callback:    status reason:    task: NONE   CloudProviderName:    outputs:   {}    links:     self [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795]     resources [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795/resources]     template [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795/template]`
-
-You could now exploit DODAS to instantiate and run a HTCondor batch system. In such a case the step 1 to 3 remain the same, so you need only to checkout the proper template and submit it
-
-* TOSCA template for a batch system
-
-Once again, repeating 1 to 3 and checking out this: TOSCA per Spark, you can ask DODAS to deploy a Spark Cluster.. Possbily joining a Existing HDFS with your data.
-
-If you like to deploy your HDFS through DODAS here is the recipe:  
+  * Set the ORCHENT\_URL env. variable using the endpoint as here below:   
 
 
-All the above described recipes can run on the DODAS Enabling Facility \(see below\)  
+    ```text
+    export ORCHENT_URL=https://orchestrator.cloud.cnaf.infn.it/orchestrator
+    ```
 
+  * The submission command should look like the following   
+
+
+    ```text
+    orchent depcreate <Your-TOSCA>.yaml '{}'
+    ```
+
+{% hint style="info" %}
+the parenthesis  '{}' can be used to pass the input parameter to the TOSCA. Although values can be filled in the template itself, the parenthesis must be left there otherwise you'll get an error. 
+{% endhint %}
+
+* * The output of the deployment creation \(`depcreate`\) command will be something like the following   `Deployment [b8bdccf3-9be5-499f-aac2-664dc0726795]:   status: CREATE_IN_PROGRESS   creation time: 2018-06-16T15:58+0000   update time: 2018-06-16T15:58+0000   callback:    status reason:    task: NONE   CloudProviderName:    outputs:   {}    links:     self [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795]     resources [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795/resources]     template [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795/template]`
+
+The above steps 1 to 3 are valid irrespective of which TOSCA template will be used. Templates available are   
+HTCondor a batch system and Spark. Moreover there are Experiment specific customisation, in particular [CMS](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LFIXHRxcNpQzkRZsUnA/getting-started/recipe-for-impatient-users) and [AMS](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LFIXHRxcNpQzkRZsUnA/getting-started/ams-recipe) recipes.
+
+{% hint style="info" %}
+User can test all the recipes running on the freely accessible DODAS Enabling Facility
+{% endhint %}
 
