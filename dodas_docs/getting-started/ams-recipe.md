@@ -1,4 +1,4 @@
-# AMS Recipe
+# HTCondor AMS Recipe
 
 **Work In Progress**
 

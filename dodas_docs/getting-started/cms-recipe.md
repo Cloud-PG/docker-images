@@ -1,4 +1,4 @@
-# CMS Recipe
+# HTCondor CMS Recipe
 
 The DODAS workflow implemented for CMS has been designed in order to generate a ephemeral Tier\* WLCG compliant. 
 
