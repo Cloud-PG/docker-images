@@ -1,7 +1,6 @@
 # Getting Started
 
-\`\`\`test\`\`\`  
-
+\`\`\`  test \`\`\`
 
 DODAS provides two generic workflows already implemented ready to be used or extended. As example both CMS and AMS have been extended one of the two baseline implementations.   
 In practice:  DODAS provides TOSCA Templates \(plus Ansible\) for: 
