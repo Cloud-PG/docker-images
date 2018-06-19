@@ -12,7 +12,7 @@ Welcome to xcache's documentation!
 
    README
    CONF_CNAF
-
+   automated-grid
 
 Indices and tables
 ==================
