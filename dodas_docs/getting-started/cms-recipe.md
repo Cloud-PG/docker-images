@@ -44,6 +44,34 @@ This assume you are now familiar with following steps:
 2. how to submit a TOSCA template \(either with PaaS orchestrator or Infrastructure Manager\)
 {% endhint %}
 
+You can get the basic CMS TOSCA template from [here](https://github.com/indigo-dc/tosca-templates/blob/master/dodas/CMS-HTCondor-dodas.yaml) and submit it after a proper configuration. There input parameters to be set are explained below:   
+
+
+1.  **Marathon and Mesos related configuration parameters**
+   1.  marathon\_username:
+   2.  marathon\_password:
+   3.  mesos\_username:
+   4.  mesos\_password:
+   5. number\_of\_masters:
+   6. num\_cpus\_master: 
+   7. mem\_size\_master:
+   8. number\_of\_slaves:
+   9. num\_cpus\_slave:
+   10. mem\_size\_slave:
+   11. number\_of\_lbs:
+   12. num\_cpus\_lb: 
+   13. mem\_size\_lb:
+   14. server\_image: 
+2. **IAM related configurations to enable the OIDC to X.509 certificate translation**
+   1. iam\_token:
+   2. Iam\_client\_id:
+   3. iam\_client\_secret: 
+3. **CMS specific configurations** 
+   1. cms\_local\_site:
+   2. cms\_stageoutsite:
+   3. cms\_stageoutprotocol:
+   4. default: "srmv2"
+
 Once the cluster has been created you should be able to access the Marathon and Mesos GUIs for management, debugging etc.
 
 The very last step of the deployment is the start-up HTCondor startd process. If no errors are encountered the startds should be join the HTCondor global pool automagically, and thus if matching happens HTCondor start executing payloads.   
