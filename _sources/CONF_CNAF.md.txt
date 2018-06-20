@@ -3,7 +3,7 @@
 ## Requirements
 
 - OS: Centos7
-- Port: one open service port + 8443
+- Port: one open service port
 - Valid grid host certifate
 - Valid service certificate that is able to read from AAA (/etc/grid-security/xrd/xrdcert.pem, /etc/grid-security/xrd/xrdkey.pem)
 

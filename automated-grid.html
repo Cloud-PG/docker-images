@@ -81,7 +81,12 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="README.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONF_CNAF.html">GRID installation guide</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Install with Ansible</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Install with Ansible</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xcache-playbook">XCache playbook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ansible-variables">Ansible variables</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -148,10 +153,48 @@
             
   <div class="section" id="install-with-ansible">
 <span id="install-with-ansible"></span><h1>Install with Ansible<a class="headerlink" href="#install-with-ansible" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">ansible</span>
-<span class="n">ansible</span><span class="o">-</span><span class="n">galaxy</span> <span class="n">install</span> <span class="n">dciangot</span><span class="o">.</span><span class="n">xcache</span>
-<span class="n">ansible</span><span class="o">-</span><span class="n">playbook</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ansible</span><span class="o">/</span><span class="n">roles</span><span class="o">/</span><span class="n">dciangot</span><span class="o">.</span><span class="n">xcache</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="n">test</span><span class="o">.</span><span class="n">yml</span>
+<div class="section" id="requirements">
+<span id="requirements"></span><h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>OS: Centos7</li>
+<li>Port: one open service port</li>
+<li>Valid grid host certifate</li>
+<li>Valid service certificate that is able to read from AAA (/etc/grid-security/xrd/xrdcert.pem, /etc/grid-security/xrd/xrdkey.pem)</li>
+</ul>
+</div>
+<div class="section" id="xcache-playbook">
+<span id="xcache-playbook"></span><h2>XCache playbook<a class="headerlink" href="#xcache-playbook" title="Permalink to this headline">¶</a></h2>
+<p>Have ansible installed and download the xcache role.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo yum install ansible
+ansible-galaxy install dciangot.xcache
 </pre></div>
+</div>
+<p>Then run the playbook with the your preferred options. You can find the complete list of options <a class="reference external" href="#ansible-variables">here</a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ansible-playbook /etc/ansible/roles/dciangot.xcache/tests/test.yml --extra-vars <span class="s2">&quot;metric_sitename=MYSITE elastic_password=foo ETC...&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ansible-variables">
+<span id="ansible-variables"></span><h2>Ansible variables<a class="headerlink" href="#ansible-variables" title="Permalink to this headline">¶</a></h2>
+<p>Below you can find the available ansible configuration variables with the corresponding defualt value and description</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">BLOCK_SIZE</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">512k</span> <span class="c1"># size of the file block used by the cache</span>
+<span class="l l-Scalar l-Scalar-Plain">CACHE_LOG_LEVEL</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">info</span> <span class="c1"># server log level</span>
+<span class="l l-Scalar l-Scalar-Plain">CACHE_PATH</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">/data/xrd</span> <span class="c1"># folder for cached files</span>
+<span class="l l-Scalar l-Scalar-Plain">CACHE_RAM_GB</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">12</span> <span class="c1"># amount of RAM for caching in GB. Suggested ~50% of the total</span>
+<span class="l l-Scalar l-Scalar-Plain">HI_WM</span><span class="p p-Indicator">:</span> <span class="s">&quot;0.9&quot;</span> <span class="c1"># higher watermark of used fs space</span>
+<span class="l l-Scalar l-Scalar-Plain">LOW_WM</span><span class="p p-Indicator">:</span> <span class="s">&quot;0.8&quot;</span> <span class="c1"># lower watermark of used fs space</span>
+<span class="l l-Scalar l-Scalar-Plain">N_PREFETCH</span><span class="p p-Indicator">:</span> <span class="s">&quot;0&quot;</span> <span class="c1"># number of blocks to be prefetched</span>
+<span class="l l-Scalar l-Scalar-Plain">ORIGIN_HOST</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">origin</span> <span class="c1"># hostname or ip adrr of the origin server</span>
+<span class="l l-Scalar l-Scalar-Plain">ORIGIN_XRD_PORT</span><span class="p p-Indicator">:</span> <span class="s">&quot;1094&quot;</span> <span class="c1"># xrootd port to contact origin on</span>
+<span class="l l-Scalar l-Scalar-Plain">REDIR_HOST</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">xcache-service</span> <span class="c1"># hostname or ip adrr of the cache redirector</span>
+<span class="l l-Scalar l-Scalar-Plain">REDIR_CMSD_PORT</span><span class="p p-Indicator">:</span> <span class="s">&quot;31213&quot;</span> <span class="c1"># cmsd port of the cache redirector</span>
+<span class="l l-Scalar l-Scalar-Plain">metricbeat_polltime</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">60s</span> <span class="c1"># polling time of the metricbeat sensor</span>
+<span class="l l-Scalar l-Scalar-Plain">metric_sitename</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">changeme</span> <span class="c1"># sitename to be displayed for monitoring</span>
+<span class="l l-Scalar l-Scalar-Plain">elk_endpoint</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">localhost:9000</span> <span class="c1"># elasticsearch endpoint url</span>
+<span class="l l-Scalar l-Scalar-Plain">elastic_username</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">dodas</span> <span class="c1"># elasticsearch username</span>
+<span class="l l-Scalar l-Scalar-Plain">elastic_password</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">testpass</span> <span class="c1"># elasticsearch password</span>
+</pre></div>
+</div>
 </div>
 </div>
 
