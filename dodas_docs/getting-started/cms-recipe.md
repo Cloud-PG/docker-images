@@ -35,6 +35,8 @@ The CMS template deploy the following services and components:
 - cvmfs-check app    
 - CMS Trivial File Catalogue
 
+Docker image files are available here.
+
 ## Launching a DODAS instance of HTCondor for CMS
 
 {% hint style="info" %}
@@ -44,33 +46,34 @@ This assume you are now familiar with following steps:
 2. how to submit a TOSCA template \(either with PaaS orchestrator or Infrastructure Manager\)
 {% endhint %}
 
-You can get the basic CMS TOSCA template from [here](https://github.com/indigo-dc/tosca-templates/blob/master/dodas/CMS-HTCondor-dodas.yaml) and submit it after a proper configuration. There input parameters to be set are explained below:   
+You can get the basic CMS TOSCA template from [here](https://github.com/indigo-dc/tosca-templates/blob/master/dodas/CMS-HTCondor-dodas.yaml) and submit it after a proper configuration. There input parameters to be set are explained below. THere are 3 sections and these are the mandatory parameters. For advanced usage there is more to be configured.   
 
 
 1.  **Marathon and Mesos related configuration parameters**
-   1.  marathon\_username:
-   2.  marathon\_password:
-   3.  mesos\_username:
-   4.  mesos\_password:
-   5. number\_of\_masters:
-   6. num\_cpus\_master: 
-   7. mem\_size\_master:
-   8. number\_of\_slaves:
-   9. num\_cpus\_slave:
-   10. mem\_size\_slave:
-   11. number\_of\_lbs:
-   12. num\_cpus\_lb: 
-   13. mem\_size\_lb:
-   14. server\_image: 
+   1.  **marathon\_username**: Admin username for Marathon GUI
+   2.  **marathon\_password**: Admin password for for Marathon GUI
+   3.  **mesos\_username**: Admin username for Mesos GUI
+   4.  **mesos\_password**: Admin password for Mesos GUI
+   5. **number\_of\_masters**: 
+   6. **num\_cpus\_master**: 
+   7. **mem\_size\_master**:
+   8. **number\_of\_slaves**:
+   9. **num\_cpus\_slave**:
+   10. **mem\_size\_slave:**
+   11. **number\_of\_lbs**:
+   12. **num\_cpus\_lb**: 
+   13. **mem\_size\_lb**:
+   14. **server\_image**: Image for the Virtual Machine to be used. NOTE all the recipes are validated for Ubuntu Xenial.  
 2. **IAM related configurations to enable the OIDC to X.509 certificate translation**
-   1. iam\_token:
-   2. Iam\_client\_id:
-   3. iam\_client\_secret: 
+   1. **iam\_token**: The token string obtained as explained [here](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LFSxRR0_OriCmuC7ScW/getting-started/recipe-for-impatient-users#2-token-management)
+   2. **Iam\_client\_id**: This must be provided \(once\) by DODAS admins
+   3. **iam\_client\_secret**: This must be provided \(once\) by DODAS admins
+
+  
 3. **CMS specific configurations** 
-   1. cms\_local\_site:
-   2. cms\_stageoutsite:
-   3. cms\_stageoutprotocol:
-   4. default: "srmv2"
+   1. **cms\_local\_site**: This is a name of the format T3\_XX\_ZZ\_KK you decide this as explained [here](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LFSxRR0_OriCmuC7ScW/getting-started/cms-recipe#prerequisites)
+   2. **cms\_stageoutsite**: This must be either T1/2/3 already existing in CMS or a new site you will register in the CMS computing system.  
+   3. **cms\_stageoutprotocol**: this is the protocol you want to use, to be set accordingly with one of the options supported by the SITECONF related to the cms\_stageoutsite. 
 
 Once the cluster has been created you should be able to access the Marathon and Mesos GUIs for management, debugging etc.
 
