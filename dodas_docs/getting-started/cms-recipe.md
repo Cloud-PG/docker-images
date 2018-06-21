@@ -35,7 +35,7 @@ The CMS template deploy the following services and components:
 - cvmfs-check app    
 - CMS Trivial File Catalogue
 
-Docker image files are available here.
+Docker image files are available [here](https://github.com/DODAS-TS).
 
 ## Launching a DODAS instance of HTCondor for CMS
 
