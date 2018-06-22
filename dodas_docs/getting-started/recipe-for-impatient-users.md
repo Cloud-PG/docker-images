@@ -27,7 +27,7 @@ Once your registration has been approved you can get your first DODAS token by u
 
 ## 3\) Prepare your TOSCA template
 
-At that point you can checkout the already available TOSCA Templates here and pic-up the one you prefer. Otherwise just use the following simple TOSCA test to get a taste of the whole system:
+At that point you can checkout the already available TOSCA Templates [here](https://github.com/indigo-dc/tosca-templates/blob/master/dodas/) and pic-up the one you prefer. Otherwise just use the following simple TOSCA test to get a taste of the whole system:
 
 ```text
 imports:
