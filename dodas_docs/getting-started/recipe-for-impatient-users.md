@@ -76,7 +76,7 @@ Once configured, you can submit the TOSCA either to the PaaS Orchestrator or dir
 
 ### **Direct submission to IM** 
 
-The direct submission to IM can be done either via im-client or using the RESTful API. The [extended guide ](http://imdocs.readthedocs.io/en/devel/client.html#) provides all the recipes and information for installation and configuration of the CLI as well as the documentation of the REST APIs. However using the REST is highly suggested for the initial testing cause it guarantee a enormous flexibility, useful for a fast turnaround during tests. In any case the public endpoint is :
+The direct submission to IM can be done either via im-client or using the RESTful API. The [extended guide ](http://imdocs.readthedocs.io/en/devel/client.html#) provides all the recipes and information for installation and configuration of the CLI as well as the documentation of the REST APIs. However using the REST is highly suggested for the initial testing cause it guarantees a enormous flexibility, useful for a fast turnaround during tests. In any case the public endpoint is :
 
 ```text
 https://im.cloud.cnaf.infn.it:8800/infrastructures
