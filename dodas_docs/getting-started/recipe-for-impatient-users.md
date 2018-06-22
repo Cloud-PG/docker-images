@@ -13,7 +13,7 @@ Once your registration has been approved you can get your first DODAS token by u
 
 * For a **very impatient user:** just download and execute this [script](https://gist.github.com/andreaceccanti/5b69323b89ce08321e7b5236de503600). 
   * Please note 
-    * The script requires that you have a client \(authorized for Device-Flow\). You can either have your client \(self-service generated\) or use a provide client. In both cases before running the script you need to know the following information:  
+    * The script requires that you have a client \(authorized for Device-Flow\). You can either have your client \(self-service generated\) or use a client provided by DODAS team. In both cases before running the script you need to know the following information:  
 
 
       ```text
