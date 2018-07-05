@@ -1,0 +1,10 @@
+<storage-mapping>
+
+<lfn-to-pfn protocol="direct" path-match="(.*)" result="/CMSSW/$1"/>
+
+<pfn-to-lfn protocol="direct" path-match="(.*)" result="/CMSSW/$1"/>              
+
+
+</storage-mapping>
+
+
