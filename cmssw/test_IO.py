@@ -15,9 +15,14 @@ process.GlobalTag.globaltag = '94X_dataRun2_ReReco_EOY17_v2'
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1))
 process.MessageLogger = cms.Service("MessageLogger")
 
+process.Timing = cms.Service("Timing",
+  summaryOnly = cms.untracked.bool(False),
+  useJobReport = cms.untracked.bool(True)
+)
+
 
 process.source = cms.Source("PoolSource",
-  fileNames = cms.untracked.vstring('testme.root'
+  fileNames = cms.untracked.vstring('testme.root')
 )
 
 process.demo = cms.EDAnalyzer('IOTest')
