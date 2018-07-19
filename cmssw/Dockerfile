@@ -21,23 +21,23 @@ ENV SCRAM_ARCH=slc7_amd64_gcc630
 
 RUN sh -x $VO_CMS_SW_DIR/bootstrap.sh setup -path $VO_CMS_SW_DIR -arch $SCRAM_ARCH && \
  sh -x $VO_CMS_SW_DIR/common/cmspkg -a $SCRAM_ARCH update
-RUN echo "Y" | sh -x $VO_CMS_SW_DIR/common/cmspkg -a $SCRAM_ARCH install cms+cmssw+CMSSW_10_0_3
+RUN echo "Y" | sh -x $VO_CMS_SW_DIR/common/cmspkg -a $SCRAM_ARCH install cms+cmssw+CMSSW_9_4_0
 
-RUN /bin/bash -c "source cmsset_default.sh; scramv1 project CMSSW CMSSW_10_0_3 " 
+RUN /bin/bash -c "source cmsset_default.sh; scramv1 project CMSSW CMSSW_9_4_0 " 
 
 
 USER root
 
-ADD cache /CMSSW/CMSSW_10_0_3/src/cache
-ADD test_IO.py /CMSSW/CMSSW_10_0_3/src/test_IO.py
-ADD entrypoint.sh /CMSSW/CMSSW_10_0_3/src/entrypoint.sh
-RUN chown -R cmssw /CMSSW/CMSSW_10_0_3/src && chmod +x /CMSSW/CMSSW_10_0_3/src/entrypoint.sh
+ADD cache /CMSSW/CMSSW_9_4_0/src/cache
+ADD test_IO.py /CMSSW/CMSSW_9_4_0/src/test_IO.py
+ADD entrypoint.sh /CMSSW/CMSSW_9_4_0/src/entrypoint.sh
+RUN chown -R cmssw /CMSSW/CMSSW_9_4_0/src && chmod +x /CMSSW/CMSSW_9_4_0/src/entrypoint.sh
 
 ADD SITECONF /CMSSW/SITECONF
 RUN chown -R cmssw /CMSSW/SITECONF
 USER cmssw
-WORKDIR /CMSSW/CMSSW_10_0_3/src
+WORKDIR /CMSSW/CMSSW_9_4_0/src
 
 RUN /CMSSW/common/scram b -j4 
 
-ENTRYPOINT ["/bin/sh", "/CMSSW/CMSSW_10_0_3/src/entrypoint.sh"]
+ENTRYPOINT ["/bin/sh", "/CMSSW/CMSSW_9_4_0/src/entrypoint.sh"]
