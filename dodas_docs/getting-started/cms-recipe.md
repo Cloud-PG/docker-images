@@ -18,10 +18,10 @@ In the basic implementation has been built on the following assumptions
 
 This imply to accomplish with the following pre-requisites: 
 
-* Requires Submission Infrastructure \(SI\) L2s for authorization for Global-Pool access. In order to being authorised you must belong CMS Collaboration and provide DN an CMS Site Name. SI will use these info to define the proper mapping in the match-maker. 
+* Requires Submission Infrastructure \(SI\) L2s authorization for Global-Pool access. In order to being authorised you must belong CMS Collaboration and provide DN an CMS Site Name. SI will use these info to define the proper mapping in the match-maker. 
   * Get a DN from X.509 Certificate you can retrieve from the [Token Translation Service ](https://dodas-tts.cloud.cnaf.infn.it/).  1. Clic to request a x509.  2. A pop-up will allow you to download the certificate PEM file. At that point you should run  `openssl x509 -noout -in <certificate.pem> -subject` 3. and you will obtain something like  `subject= /C=IT/O=CLOUD@CNAF/CN=xxxxxxx@dodas-iam`
-  * Define a name for your ephemeral CMS Site: e.g.  `T3_XX_XY_KK`
-* If you like to be visible in the Dashboard \(this is ONLY true for the old-fashioned Dashboard\) you need to notify the dashboard support team informing that you need the following mapping among Site Name and SynCE  `Site Name == T3_XX_XY_KK  SyncCE == T3_XX_XY_KK`
+  * Define a name for your ephemeral CMS Site: e.g.  `T3_XX_Opportunistic_KK`
+* If you like to be visible in the Dashboard \(this is ONLY true for the old-fashioned Dashboard\) you need to notify the dashboard support team informing that you need the following mapping among Site Name and SynCE  `Site Name == T3_XX_Opportunistic_KK  SyncCE == T3_XX_Opportunistic_KK`
   * NOTE : This is needed because DODAS does not deploy a cluster which relies on a Computing Element. 
 
 ## Long Running Services 
@@ -71,7 +71,7 @@ You can get the basic CMS TOSCA template from [here](https://github.com/indigo-d
 
   
 3. **CMS specific configurations** 
-   1. **cms\_local\_site**: This is a name of the format T3\_XX\_ZZ\_KK you decide this as explained [here](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LFSxRR0_OriCmuC7ScW/getting-started/cms-recipe#prerequisites)
+   1. **cms\_local\_site**: This is a name of the format T3\_XX\_Opportunistic\_KK. You decide this as explained [here](cms-recipe.md#prerequisites).
    2. **cms\_stageoutsite**: This must be either T1/2/3 already existing in CMS or a new site you will register in the CMS computing system.  
    3. **cms\_stageoutprotocol**: this is the protocol you want to use, to be set accordingly with one of the options supported by the SITECONF related to the cms\_stageoutsite. 
 
