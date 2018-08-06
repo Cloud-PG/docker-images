@@ -1,6 +1,6 @@
 # Recipe for impatient users
 
-A impatient user seeking to try a DODAS deployment need to address the following 4 main steps: 
+An impatient user seeking to try a DODAS deployment need to address the following 4 main steps: 
 
 ## 1\) Registration
 
@@ -23,7 +23,9 @@ Once your registration has been approved you can get your first DODAS token by u
       IAM_TOKEN_ENDPOINT 
       ```
 
-    * There will be few steps to address.. the script will guide you.
+    * There will be a few steps to address.. the script will guide you.
+    * You can set IAM\_DEVICE\_CODE\_ENDPOINT="[https://dodas-iam.cloud.cnaf.infn.it/devicecode](https://dodas-iam.cloud.cnaf.infn.it/devicecode)" and IAM\_TOKEN\_ENDPOINT="[https://dodas-iam.cloud.cnaf.infn.it/token](https://dodas-iam.cloud.cnaf.infn.it/token)" in the script. Client ID and secret are given when you create the Device code flow client as explained [above](https://indigo-iam.github.io/docs/v/current/user-guide/getting-a-token.html).
+    * For the Device code flow client \(self-generated\), you need to set Access -&gt; grant\_types -&gt; token from the Client management[ dashboard](https://dodas-iam.cloud.cnaf.infn.it/manage/dev/dynreg).
 
 ## 3\) Prepare your TOSCA template
 
