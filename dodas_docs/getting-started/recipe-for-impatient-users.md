@@ -74,7 +74,7 @@ If you will choose a specific template \(not just the test once\) you need to  p
 
 ## 4\) Submit the TOSCA template
 
-Once configured, you can submit the TOSCA either to the PaaS Orchestrator or directly to IM.
+Once configured, you can submit the TOSCA either to the PaaS Orchestrator or directly to IM. As a start, and if no complicated cloud configurations are needed, we recommend to start with direct submission to IM.
 
 ### **Direct submission to IM** 
 
