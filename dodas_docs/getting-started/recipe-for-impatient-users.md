@@ -99,6 +99,8 @@ Infid: 9b044cce-6424-11e8-bad9-0242ac120003
 Date: Wed, 30 May 2018 16:15:11 GMT Server: Cheroot/6.3.1`  
 **`http://im.cloud.cnaf.infn.it:8800/infrastructures/9b044cce-6424-11e8-bad9-0242ac120003`**
 
+The above command is based on POST \(to create the infrastructure described in the TOSCA template\), but you can also use GET \(to list\) or DELETE commands to manage the infrastructure that you have created. Please refer to the documentation linked [here](http://imdocs.readthedocs.io/en/devel/REST.html). 
+
 ### Submission to the PaaS Orchestrator
 
 The Submission to the PaaS Orchestrator as well can be done both through the client and through the REST APIS. Here in this guide only the client based solution is taken into account.   
