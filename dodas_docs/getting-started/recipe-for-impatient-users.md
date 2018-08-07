@@ -9,7 +9,7 @@ The first registration will require the approval from the DODAS admins.
 
 ## 2\) Token Management
 
-Once your registration has been approved you can get your first DODAS token by using the recipe described and detailed [here](https://indigo-iam.github.io/docs/v/current/user-guide/getting-a-token.html). As you can see there are two options currently supported although we consider the password flow deprecated. We strongly suggest the Device code Flow for all the reasons detailed. 
+Once your registration has been approved you can get your first DODAS token by using the recipe described and detailed [here](https://indigo-iam.github.io/docs/v/current/user-guide/getting-a-token.html). As you can see there are two options currently supported although we consider the password flow deprecated. We strongly suggest the Device code Flow for all the reasons detailed. Note that for the Device code flow, you need to configure the following in the Client \(self-generated\) management[ dashboard](https://dodas-iam.cloud.cnaf.infn.it/manage/dev/dynreg): _Access -&gt; grant\_types -&gt; token_.
 
 * For a **very impatient user:** just download and execute this [script](https://gist.github.com/andreaceccanti/5b69323b89ce08321e7b5236de503600). 
   * Please note 
@@ -25,7 +25,6 @@ Once your registration has been approved you can get your first DODAS token by u
 
     * There will be a few steps to address. The script will guide you.
     * You can set IAM\_DEVICE\_CODE\_ENDPOINT="[https://dodas-iam.cloud.cnaf.infn.it/devicecode](https://dodas-iam.cloud.cnaf.infn.it/devicecode)" and IAM\_TOKEN\_ENDPOINT="[https://dodas-iam.cloud.cnaf.infn.it/token](https://dodas-iam.cloud.cnaf.infn.it/token)" in the script. Client ID and secret are given when you create the Device code flow client as explained [above](https://indigo-iam.github.io/docs/v/current/user-guide/getting-a-token.html).
-    * For the Device code flow client \(self-generated\), you need to set Access -&gt; grant\_types -&gt; token from the Client management[ dashboard](https://dodas-iam.cloud.cnaf.infn.it/manage/dev/dynreg).
     * There are two kinds of token: 
       * _access token_: short-lived. This is used in the steps below to obtain resources.
       * _refresh token_: long-lived. Used to refresh the access token without going through device authorization in browser. See for example this [script](https://github.com/andreaceccanti/indigo-aai-tutorial/blob/master/scripts/get-access-token.sh).
