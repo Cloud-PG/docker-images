@@ -23,9 +23,12 @@ Once your registration has been approved you can get your first DODAS token by u
       IAM_TOKEN_ENDPOINT 
       ```
 
-    * There will be a few steps to address.. the script will guide you.
+    * There will be a few steps to address. The script will guide you.
     * You can set IAM\_DEVICE\_CODE\_ENDPOINT="[https://dodas-iam.cloud.cnaf.infn.it/devicecode](https://dodas-iam.cloud.cnaf.infn.it/devicecode)" and IAM\_TOKEN\_ENDPOINT="[https://dodas-iam.cloud.cnaf.infn.it/token](https://dodas-iam.cloud.cnaf.infn.it/token)" in the script. Client ID and secret are given when you create the Device code flow client as explained [above](https://indigo-iam.github.io/docs/v/current/user-guide/getting-a-token.html).
     * For the Device code flow client \(self-generated\), you need to set Access -&gt; grant\_types -&gt; token from the Client management[ dashboard](https://dodas-iam.cloud.cnaf.infn.it/manage/dev/dynreg).
+    * There are two kinds of token: 
+      * _access token_: short-lived. This is used in the steps below to obtain resources.
+      * _refresh token_: long-lived. Used to refresh the access token without going through device authorization in browser. See for example this [script](https://github.com/andreaceccanti/indigo-aai-tutorial/blob/master/scripts/get-access-token.sh).
 
 ## 3\) Prepare your TOSCA template
 
