@@ -109,7 +109,7 @@ The Submission to the PaaS Orchestrator as well can be done both through the cli
 There are two steps: 
 
 * Installation the client called **orchent** following the [recipe here](https://indigo-dc.gitbooks.io/orchent/admin.html). Once installed...
-* Configuration and usage of the orchent client as described [here](https://indigo-dc.gitbooks.io/orchent/user.html) . Be careful to the following notes:
+* Configuration and usage of the orchent client as described [here](https://indigo-dc.gitbooks.io/orchent/user.html). Be careful to the following notes:
   *  Despite the possibility to use the oidc-client we suggest to the ORCHENT\_TOKEN based solution as described in the guide.
   * Set the ORCHENT\_URL env. variable using the endpoint as here below:   
 
@@ -131,8 +131,7 @@ the parenthesis  '{}' can be used to pass the input parameter to the TOSCA. Alth
 
 * * The output of the deployment creation \(`depcreate`\) command will be something like the following   `Deployment [b8bdccf3-9be5-499f-aac2-664dc0726795]:   status: CREATE_IN_PROGRESS   creation time: 2018-06-16T15:58+0000   update time: 2018-06-16T15:58+0000   callback:    status reason:    task: NONE   CloudProviderName:    outputs:   {}    links:     self [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795]     resources [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795/resources]     template [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795/template]`
 
-The above steps 1 to 3 are valid irrespective of which TOSCA template will be used. Templates available are   
-HTCondor a batch system and Spark. Moreover there are Experiment specific customisation, in particular [CMS](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LFIXHRxcNpQzkRZsUnA/getting-started/recipe-for-impatient-users) and [AMS](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LFIXHRxcNpQzkRZsUnA/getting-started/ams-recipe) recipes.
+The above steps 1 to 3 are valid irrespective of which TOSCA template will be used. Templates available are HTCondor as batch system and Spark. Moreover there are Experiment specific customisation, in particular [CMS](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LFIXHRxcNpQzkRZsUnA/getting-started/recipe-for-impatient-users) and [AMS](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LFIXHRxcNpQzkRZsUnA/getting-started/ams-recipe) recipes.
 
 {% hint style="info" %}
 User can test all the recipes running on the freely accessible DODAS Enabling Facility
