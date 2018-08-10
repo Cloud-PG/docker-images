@@ -101,13 +101,13 @@ Infid: 9b044cce-6424-11e8-bad9-0242ac120003
 Date: Wed, 30 May 2018 16:15:11 GMT Server: Cheroot/6.3.1`  
 **`http://im.cloud.cnaf.infn.it:8800/infrastructures/9b044cce-6424-11e8-bad9-0242ac120003`**
 
-The above command is based on POST \(to create the infrastructure described in the TOSCA template\), but you can also use GET \(to list\) or DELETE commands to manage the infrastructure that you have created. Please refer to the documentation linked [here](http://imdocs.readthedocs.io/en/devel/REST.html).
-
 To submit to BARI, please use the following curl:
 
 ```text
 curl -v -k -H 'Content-type: text/yaml' -H "Authorization: id = os; type = OpenStack; host = https://cloud.recas.ba.infn.it:5000/; username = indigo-dc; password = $IAM_ACCESS_TOKEN; tenant = oidc; auth_version = 3.x_oidc_access_token; service_region = recas-cloud;\nid = im; type = InfrastructureManager; token = $IAM_ACCESS_TOKEN" -i -X POST https://im.cloud.cnaf.infn.it:443/infrastructures --data-binary "@tosca-templates/dodas/CMS-HTCondor-dodas.yaml"
 ```
+
+The above commands are based on POST \(to create the infrastructure described in the TOSCA template\), but you can also use GET \(to list\) or DELETE commands to manage the infrastructure that you have created. Please refer to the documentation linked [here](http://imdocs.readthedocs.io/en/devel/REST.html).
 
 ### Submission to the PaaS Orchestrator
 
