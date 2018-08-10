@@ -31,7 +31,7 @@ Once your registration has been approved you can get your first DODAS token by u
 
 ## 3\) Prepare your TOSCA template
 
-At that point you can checkout the already available TOSCA Templates [here](https://github.com/indigo-dc/tosca-templates/blob/master/dodas/) and pick the one you prefer. Otherwise just use the following simple TOSCA test to get a taste of the whole system:
+At that point you can checkout the already available TOSCA Templates [here](https://github.com/indigo-dc/tosca-templates/blob/master/dodas/) and pick the one you prefer. Otherwise just use the following simple TOSCA test to get a taste of the whole system \(just replace os:properties:image: Ubuntu\_16.04 with an existing image\):
 
 ```text
 imports:
@@ -71,7 +71,7 @@ outputs:
 ```
 
 {% hint style="info" %}
-If you will choose a specific template \(not just the test once\) you need to  properly configured it. Configuration parameters should be documented on each TOSCA template. 
+If you will choose a specific template \(not just the test once\) you need to  properly configure it. Configuration parameters should be documented on each TOSCA template. 
 {% endhint %}
 
 ## 4\) Submit the TOSCA template
@@ -101,7 +101,13 @@ Infid: 9b044cce-6424-11e8-bad9-0242ac120003
 Date: Wed, 30 May 2018 16:15:11 GMT Server: Cheroot/6.3.1`  
 **`http://im.cloud.cnaf.infn.it:8800/infrastructures/9b044cce-6424-11e8-bad9-0242ac120003`**
 
-The above command is based on POST \(to create the infrastructure described in the TOSCA template\), but you can also use GET \(to list\) or DELETE commands to manage the infrastructure that you have created. Please refer to the documentation linked [here](http://imdocs.readthedocs.io/en/devel/REST.html). 
+The above command is based on POST \(to create the infrastructure described in the TOSCA template\), but you can also use GET \(to list\) or DELETE commands to manage the infrastructure that you have created. Please refer to the documentation linked [here](http://imdocs.readthedocs.io/en/devel/REST.html).
+
+To submit to BARI, please use the following curl:
+
+```text
+curl -v -k -H 'Content-type: text/yaml' -H "Authorization: id = os; type = OpenStack; host = https://cloud.recas.ba.infn.it:5000/; username = indigo-dc; password = $IAM_ACCESS_TOKEN; tenant = oidc; auth_version = 3.x_oidc_access_token; service_region = recas-cloud;\nid = im; type = InfrastructureManager; token = $IAM_ACCESS_TOKEN" -i -X POST https://im.cloud.cnaf.infn.it:443/infrastructures --data-binary "@tosca-templates/dodas/CMS-HTCondor-dodas.yaml"
+```
 
 ### Submission to the PaaS Orchestrator
 
@@ -131,9 +137,9 @@ the parenthesis  '{}' can be used to pass the input parameter to the TOSCA. Alth
 
 * * The output of the deployment creation \(`depcreate`\) command will be something like the following   `Deployment [b8bdccf3-9be5-499f-aac2-664dc0726795]:   status: CREATE_IN_PROGRESS   creation time: 2018-06-16T15:58+0000   update time: 2018-06-16T15:58+0000   callback:    status reason:    task: NONE   CloudProviderName:    outputs:   {}    links:     self [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795]     resources [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795/resources]     template [https://orchestrator.cloud.cnaf.infn.it/orchestrator/deployments/b8bdccf3-9be5-499f-aac2-664dc0726795/template]`
 
-The above steps 1 to 3 are valid irrespective of which TOSCA template will be used. Templates available are HTCondor as batch system and Spark. Moreover there are Experiment specific customisation, in particular [CMS](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LFIXHRxcNpQzkRZsUnA/getting-started/recipe-for-impatient-users) and [AMS](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LFIXHRxcNpQzkRZsUnA/getting-started/ams-recipe) recipes.
+The above steps 1 to 3 are valid irrespective of which TOSCA template will be used. Templates available are HTCondor as batch system and Spark. Moreover there are Experiment specific customization, in particular [CMS](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LFIXHRxcNpQzkRZsUnA/getting-started/recipe-for-impatient-users) and [AMS](https://dodas.gitbook.io/dynamic-on-demand-analysis-service/~/edit/drafts/-LFIXHRxcNpQzkRZsUnA/getting-started/ams-recipe) recipes.
 
 {% hint style="info" %}
-User can test all the recipes running on the freely accessible DODAS Enabling Facility
+User can test all the recipes running on the freely accessible DODAS [Enabling Facility](../the-enabling-facility.md).
 {% endhint %}
 
