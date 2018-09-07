@@ -96,62 +96,38 @@ if __name__ == "__main__":
 
     if not args.nogrid:
         logging.info("Intalling certificates...")
-        try:
-            subprocess.check_output("/opt/xrd_proxy/install_ca.sh", stderr=subprocess.STDOUT, shell=True)
-        except subprocess.CalledProcessError as ex:
-            logging.warn("WARNING: failed to install CAs: \n %s" % ex.output)
+        #try:
+        #    subprocess.check_output("/opt/xrd_proxy/install_ca.sh", stderr=subprocess.STDOUT, shell=True)
+        #except subprocess.CalledProcessError as ex:
+        #    logging.warn("WARNING: failed to install CAs: \n %s" % ex.output)
 
         logging.info("Intalling CAs... - DONE")
 
-    if args.config:
-        if args.config == 'default':
-            args.config = '/etc/xrootd/xrd_cache.conf'
-        logging.info("Using configuration file: %s" % args.config)
+    check_env()
+    if args.proxy:
+        DEFAULT_CONFIG = "/etc/xrootd/xrd_cache_env.conf"
+    if args.redirector:
+        DEFAULT_CONFIG = "/etc/xrootd/xrd_redirector_env.conf"
 
-        cmsd_command = "sudo -u xrootd /usr/bin/cmsd -l /var/log/xrootd/cmsd.log -c " + args.config
-        logging.debug("Starting cmsd daemon: \n %s", cmsd_command)
-        try:
-            cmsd_proc = subprocess.Popen(cmsd_command, shell=True)
-        except ValueError as ex:
-            logging.error("ERROR: when launching cmsd daemon: %s \n %s" % (ex.args, ex.message))
-            sys.exit(1)
-        logging.debug("cmsd daemon started!")
+    logging.info("Using configuration file: %s" % DEFAULT_CONFIG)
 
-        xrd_command = "sudo -u xrootd /usr/bin/xrootd -l /var/log/xrootd/xrd.log -c " + args.config
-        logging.debug("Starting xrootd daemon: \n %s", xrd_command)
-        try:
-            xrd_proc = subprocess.Popen(xrd_command, shell=True)
-        except ValueError as ex:
-            logging.error("ERROR: when launching xrootd daemon: %s \n %s" % (ex.args, ex.message))
-            sys.exit(1)
-        logging.debug("xrootd daemon started!")
+    cmsd_command = "sudo -E -u xrootd /usr/bin/cmsd -k 3 -l /var/log/xrootd/cmsd.log -c " + DEFAULT_CONFIG
+    logging.debug("Starting cmsd daemon: \n %s", cmsd_command)
+    try:
+        cmsd_proc = subprocess.Popen(cmsd_command, shell=True)
+    except ValueError as ex:
+        logging.error("ERROR: when launching cmsd daemon: %s \n %s" % (ex.args, ex.message))
+        sys.exit(1)
+    logging.debug("cmsd daemon started!")
 
-    else:
-        check_env()
-        if args.proxy:
-            DEFAULT_CONFIG = "/etc/xrootd/xrd_cache_env.conf"
-        if args.redirector:
-            DEFAULT_CONFIG = "/etc/xrootd/xrd_redirector_env.conf"
-
-        logging.info("Using configuration file: %s" % DEFAULT_CONFIG)
-
-        cmsd_command = "sudo -E -u xrootd /usr/bin/cmsd -k 3 -l /var/log/xrootd/cmsd.log -c " + DEFAULT_CONFIG
-        logging.debug("Starting cmsd daemon: \n %s", cmsd_command)
-        try:
-            cmsd_proc = subprocess.Popen(cmsd_command, shell=True)
-        except ValueError as ex:
-            logging.error("ERROR: when launching cmsd daemon: %s \n %s" % (ex.args, ex.message))
-            sys.exit(1)
-        logging.debug("cmsd daemon started!")
-
-        xrd_command = "sudo -E -u xrootd /usr/bin/xrootd -k 3 -l /var/log/xrootd/xrd.log -c " + DEFAULT_CONFIG
-        logging.debug("Starting xrootd daemon: \n %s", xrd_command)
-        try:
-            xrd_proc = subprocess.Popen(xrd_command, shell=True)
-        except ValueError as ex:
-            logging.error("ERROR: when launching xrootd daemon: %s \n %s" % (ex.args, ex.message))
-            sys.exit(1)
-        logging.debug("xrootd daemon started!")
+    xrd_command = "sudo -E -u xrootd /usr/bin/xrootd -k 3 -l /var/log/xrootd/xrd.log -c " + DEFAULT_CONFIG
+    logging.debug("Starting xrootd daemon: \n %s", xrd_command)
+    try:
+        xrd_proc = subprocess.Popen(xrd_command, shell=True)
+    except ValueError as ex:
+        logging.error("ERROR: when launching xrootd daemon: %s \n %s" % (ex.args, ex.message))
+        sys.exit(1)
+    logging.debug("xrootd daemon started!")
 
     APP.cmsd_proc = cmsd_proc
     APP.xrd_proc = xrd_proc
