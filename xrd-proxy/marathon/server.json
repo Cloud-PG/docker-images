@@ -1,5 +1,5 @@
 {
-    "id": "/xrootdproxy3",
+    "id": "/xrootdproxy",
     "cmd": null,
     "cpus": 12,
     "mem": 30000,
@@ -21,11 +21,6 @@
             "containerPath": "/data/xrd",
             "hostPath": "/data/xrd",
             "mode": "RW"
-        },
-        {
-            "containerPath": "/etc/grid-security/xrd",
-            "hostPath": "/tmp",
-            "mode": "RW"
         }
         ],
         "docker": {
@@ -39,11 +34,11 @@
     },
     "env": {
         "CACHE_LOG_LEVEL": "debug",
-        "REDIR_CMSD_PORT": "31376",
+        "REDIR_CMSD_PORT": "31213",
         "XrdSecGSISRVNAMES": "*",
         "REDIR_HOST": "10.0.0.117",
         "ORIGIN_HOST": "xrootd.ba.infn.it",
-        "ORIGIN_XRD_PORT": "1094",
+        "ORIGIN_XRD_PORT": "31094",
         "PROXY_CACHE": "10.0.0.236:8080"
     },
     "healthChecks": [
@@ -57,13 +52,6 @@
             "value": "curl -f -X GET http://localhost/check_health"
         },
         "protocol": "COMMAND"
-        }
-    ],
-    "portDefinitions": [
-        {
-        "port": 10003,
-        "protocol": "tcp",
-        "labels": {}
         }
     ],
     "args": [

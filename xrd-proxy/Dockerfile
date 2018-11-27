@@ -17,6 +17,7 @@ ADD bin /opt/xrd_proxy
 RUN chown -R xrootd:xrootd /opt/xrd_proxy 
 
 RUN chmod +x /opt/xrd_proxy/install_ca.sh
+RUN /opt/xrd_proxy/install_ca.sh
 RUN chmod +x /opt/xrd_proxy/refresh_cert.sh
 
 RUN mkdir -p /data/xrd
