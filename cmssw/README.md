@@ -1,12 +1,20 @@
 # DODAS CMSSW jobs emulator
 
-Emulate CMS MC production jobs to verify that the node is actually able to run real workflows as in DODAS environment.
+Emulate CMS MC production jobs to verify that the node is actually able to run real workflows as in DODAS HTCondor environment.
 
-The job start up the CMSSW runtime and exit with 0 in case of success.
+The job starts up the CMSSW runtime and exit with 0 in case of success.
 
 ## Usage
 
-```docker run -v $PWD/inputfile.root:/CMSSW/testme.root dciangot/cmssw:mc-test```
+```bash
+docker run --name cmssw_test -v $PWD/inputfile.root:/CMSSW/testme.root dciangot/cmssw:mc-test
+```
+
+Gathering logs:
+
+```bash
+docker logs cmssw_test
+```
 
 ## DODAS architecture
 
