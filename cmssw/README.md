@@ -7,7 +7,7 @@ The job starts up the CMSSW runtime and exit with 0 in case of success.
 ## Usage
 
 ```bash
-docker run --name cmssw_test -v $PWD/inputfile.root:/CMSSW/testme.root dciangot/cmssw:mc-test
+docker run --name cmssw_test cloudpg/cmssw:mc-test
 ```
 
 Gathering logs:
